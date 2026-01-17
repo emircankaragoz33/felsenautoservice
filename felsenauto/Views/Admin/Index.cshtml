@@ -1,0 +1,87 @@
+@model IEnumerable<felsenauto.Models.Blog>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_Layout"; // Using main layout is fine, or create a specific one
+}
+
+<div class="page-header" style="padding-top: 150px; padding-bottom: 50px; background: #111;">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1>Yönetim Paneli</h1>
+        <a asp-action="Logout" class="btn btn-outline-danger btn-sm">Çıkış Yap</a>
+    </div>
+</div>
+
+<section class="section-padding" style="background: #000;">
+    <div class="container">
+        
+        <!-- Tabs or Sections -->
+        <div class="row">
+            
+            <!-- Blogs Section -->
+            <div class="col-lg-8">
+                <div class="card-glass" style="padding: 20px;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Blog Yazıları</h3>
+                        <a asp-action="CreateBlog" class="btn-custom" style="padding: 5px 15px; font-size: 0.9rem;">+ Yeni Yazı</a>
+                    </div>
+
+                    <table class="table" style="color: #ccc; width: 100%;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid #333;">
+                                <th style="padding: 10px;">Başlık</th>
+                                <th style="padding: 10px;">Tarih</th>
+                                <th style="padding: 10px; text-align: right;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr style="border-bottom: 1px solid #222;">
+                                    <td style="padding: 15px 10px;">@item.Title</td>
+                                    <td style="padding: 15px 10px;">@item.CreatedDate.ToShortDateString()</td>
+                                    <td style="padding: 15px 10px; text-align: right;">
+                                        <a asp-action="EditBlog" asp-route-id="@item.Id" style="color: #4CAF50; margin-right: 10px;"><i class="fas fa-edit"></i></a>
+                                        <a asp-action="DeleteBlog" asp-route-id="@item.Id" style="color: #F44336;" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Appointments Section -->
+            <div class="col-lg-4">
+                <div class="card-glass" style="padding: 20px;">
+                    <h3 class="mb-4">Son Randevular</h3>
+                    
+                    @if (ViewBag.Appointments != null)
+                    {
+                        var appointments = (List<felsenauto.Models.Appointment>)ViewBag.Appointments;
+                        if (appointments.Count == 0)
+                        {
+                            <p style="color: #666;">Henüz randevu yok.</p>
+                        }
+                        else
+                        {
+                            <ul style="list-style: none; padding: 0;">
+                                @foreach (var appt in appointments)
+                                {
+                                    <li style="border-bottom: 1px solid #222; padding: 10px 0; font-size: 0.9rem;">
+                                        <div style="font-weight: bold; color: #fff;">@appt.CustomerName</div>
+                                        <div style="color: var(--primary);">@appt.ServiceType</div>
+                                        <div style="color: #888; font-size: 0.8rem;">
+                                            @appt.AppointmentDate.ToString("g") <br>
+                                            @appt.CustomerPhone
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

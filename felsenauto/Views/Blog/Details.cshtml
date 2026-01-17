@@ -1,0 +1,46 @@
+@model felsenauto.Models.Blog
+
+@{
+    ViewData["Title"] = Model.Title;
+    
+    // Generate a meta description from the first 160 characters of the content
+    string rawContent = System.Text.RegularExpressions.Regex.Replace(Model.Content ?? "", "<.*?>", String.Empty);
+    ViewData["Description"] = rawContent.Length > 160 ? rawContent.Substring(0, 157) + "..." : rawContent;
+    
+    // Generate keywords from the title
+    ViewData["Keywords"] = Model.Title.Replace(" ", ", ") + ", felsen auto blog, otomotiv bilgi";
+}
+
+<div class="page-header" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/hero-bg.png') center/cover; padding: 150px 0 80px; text-align: center;">
+    <div class="container">
+        <h1 class="reveal">@Model.Title</h1>
+        <p class="reveal" style="font-size: 1.2rem; color: #ccc;">
+            @if(!string.IsNullOrEmpty(Model.Author)) { <span class="text-primary">@Model.Author</span> <span>•</span> } 
+            @Model.CreatedDate.ToString("dd MMMM yyyy")
+        </p>
+    </div>
+</div>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card-glass reveal" style="padding: 40px;">
+                    
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="@Model.Title" style="width: 100%; height: auto; max-height: 500px; object-fit: cover; border-radius: 10px; margin-bottom: 30px;">
+                    }
+
+                    <div style="color: #ddd; font-size: 1.1rem; line-height: 1.8;">
+                        @Html.Raw(Model.Content.Replace("\n", "<br>"))
+                    </div>
+
+                    <div style="margin-top: 50px; text-align: center;">
+                        <a asp-action="Index" class="btn-custom btn-outline"><i class="fas fa-arrow-left"></i> Blog Listesine Dön</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

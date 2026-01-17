@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Felsen Oto Servis - İstanbul Maslak Premium Araç Bakım & Onarım";
+    ViewData["Description"] = "Felsen Oto Servis, İstanbul Maslak'ta BMW, Mercedes, Audi ve tüm premium araçlar için profesyonel bakım, onarım, motor yenileme ve 7/24 yol yardım hizmeti sunmaktadır.";
+    ViewData["Keywords"] = "felsen, felsen oto servis, felsen auto, maslak oto servis, premium araç bakımı, motor onarımı, bmw servisi istanbul, mercedes servisi maslak, audi servisi, oto tamir, periyodik bakım";
+}
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="hero-video-wrapper">
+        <video class="hero-video active" autoplay muted loop playsinline>
+            <source src="~/videos/felsen video 1.mp4" type="video/mp4">
+        </video>
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="~/videos/felsen video 3.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content reveal">
+        <h1 class="hero-title">Mükemmellik Standarttır <span class="text-gradient">Hoşgeldiniz</span></h1>
+        <p class="hero-subtitle">Felsen Oto Servis olarak, aracınız için üst düzey bakım ve güven sunuyoruz.</p>
+        <div class="hero-btns">
+            <a asp-controller="Iletisim" asp-action="Index" class="btn-custom">Randevu Al</a>
+            <a asp-controller="Hizmetlerimiz" asp-action="Index" class="btn-custom btn-outline" style="margin-left: 15px;">Hizmetleri İncele</a>
+        </div>
+    </div>
+</section>
+
+<!-- Features / Intro Section -->
+<section class="section-padding bg-darker">
+    <div class="container">
+        <div class="row" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center;">
+            <div class="col reveal" style="flex: 1; min-width: 300px;">
+                <h5 class="text-primary">NEDEN BİZ?</h5>
+                <h2>Teknoloji ve Uzmanlığın <br>Buluşma Noktası</h2>
+                <p style="color: #aaa; margin: 20px 0;">
+                    Aracınız, en değerli yatırımlarınızdan biridir. Biz, bu yatırımı korumak için en son teknoloji diyagnostik cihazlar ve sürekli eğitim alan uzman bir kadro ile çalışıyoruz. Şeffaf hizmet anlayışımızla, aracınıza yapılan her işlemi adım adım takip edebilirsiniz.
+                </p>
+                <ul style="list-style: none; margin-bottom: 30px;">
+                    <li style="margin-bottom: 10px;"><i class="fas fa-check-circle text-primary" style="margin-right: 10px;"></i> Orijinal Parça Garantisi</li>
+                    <li style="margin-bottom: 10px;"><i class="fas fa-check-circle text-primary" style="margin-right: 10px;"></i> Sertifikalı Teknisyenler</li>
+                    <li style="margin-bottom: 10px;"><i class="fas fa-check-circle text-primary" style="margin-right: 10px;"></i> 7/24 Yol Yardım Desteği</li>
+                </ul>
+                <a asp-controller="Hakkimizda" asp-action="Index" class="text-primary" style="font-weight: 600;">Hakkımızda Daha Fazla <i class="fas fa-arrow-right"></i></a>
+            </div>
+             <div class="col reveal" style="flex: 1; min-width: 300px;">
+                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                     <div class="card-glass" style="text-align: center; padding: 40px 20px;">
+                         <i class="fas fa-tools service-icon"></i>
+                         <h3>Tam Donanım</h3>
+                     </div>
+                     <div class="card-glass" style="text-align: center; padding: 40px 20px; margin-top: 30px;">
+                         <i class="fas fa-award service-icon"></i>
+                         <h3>Garantili İşçilik</h3>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="section-padding" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/service-repair.png') center/cover fixed;">
+    <div class="container text-center reveal">
+        <h2>Aracınızın Performansını Zirveye Taşıyın</h2>
+        <p style="font-size: 1.2rem; margin: 20px auto; max-width: 700px; color: #ddd;">
+            Motor bakımı, performans tuning ve daha fazlası için uzman ekibimiz sizi bekliyor. Hemen randevunuzu oluşturun.
+        </p>
+        <a asp-controller="Iletisim" asp-action="Index" class="btn-custom" style="font-size: 1.1rem; padding: 15px 40px;">Bize Ulaşın</a>
+    </div>
+</section>

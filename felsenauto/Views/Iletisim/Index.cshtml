@@ -1,0 +1,126 @@
+@{
+    ViewData["Title"] = "İletişim & Randevu";
+}
+
+<div class="page-header" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/hero-bg.png') center/cover; padding: 150px 0 80px; text-align: center;">
+    <div class="container">
+        <h1 class="reveal">Bize Ulaşın</h1>
+        <p class="reveal" style="font-size: 1.2rem; color: #ccc;">Sorularınız ve randevu talepleriniz için buradayız</p>
+    </div>
+</div>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row" style="display: flex; flex-wrap: wrap; gap: 50px;">
+            
+            <div class="col-12">
+            @if(TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+             @if(TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger" role="alert" style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col reveal" style="flex: 1; min-width: 300px;">
+                <h2 class="mb-4">İletişim Bilgileri</h2>
+                <div style="margin-bottom: 30px;">
+                    <div style="display: flex; align-items: start; margin-bottom: 20px;">
+                        <i class="fas fa-map-marker-alt text-primary" style="font-size: 1.5rem; margin-top: 5px; margin-right: 20px; width: 30px;"></i>
+                        <div>
+                            <h4 style="margin-bottom: 5px;">Adresimiz</h4>
+                            <p style="color: #aaa;">Sanayi Mahallesi, 123. Sokak No:5<br>34000, İstanbul, Türkiye</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <i class="fas fa-phone text-primary" style="font-size: 1.5rem; margin-right: 20px; width: 30px;"></i>
+                        <div>
+                            <h4 style="margin-bottom: 5px;">Telefon</h4>
+                            <p style="color: #aaa;">0850 308 4641 (Merkez)</p>
+                            <p style="color: #aaa;">0 554 341 4368 (Yol Yardım/Destek)</p>
+                            <p style="color: #aaa;">0 531 749 09 12 (Mobil)</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <i class="fas fa-envelope text-primary" style="font-size: 1.5rem; margin-right: 20px; width: 30px;"></i>
+                        <div>
+                            <h4 style="margin-bottom: 5px;">E-Posta</h4>
+                            <p style="color: #aaa;">info@felsen.com.tr</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholder Map -->
+                <div class="card-glass" style="height: 300px; padding: 0; overflow: hidden; position: relative; background: #222;">
+                     <!-- Normally Google Maps iframe goes here -->
+                     <img src="https://via.placeholder.com/600x300/222/555?text=Google+Maps+Placeholder" alt="Harita" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.5;">
+                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                         <i class="fas fa-map-marked-alt" style="font-size: 3rem; color: var(--primary);"></i>
+                         <p style="margin-top: 10px;">Harita Yükleniyor...</p>
+                     </div>
+                </div>
+            </div>
+
+            <!-- Appointment Form -->
+            <div class="col reveal" style="flex: 1; min-width: 300px;">
+                <div class="card-glass">
+                    <h3 class="mb-4">Randevu Talep Formu</h3>
+                    <form asp-controller="Iletisim" asp-action="CreateAppointment" method="post">
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 5px; color: #888;">Adınız Soyadınız</label>
+                                <input type="text" name="CustomerName" class="form-input" placeholder="Ad Soyad" required>
+                            </div>
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 5px; color: #888;">Telefon Numaranız</label>
+                                <input type="tel" name="CustomerPhone" class="form-input" placeholder="05XX XXX XX XX" required>
+                            </div>
+                        </div>
+
+                        <label style="display: block; margin-bottom: 5px; color: #888;">E-Posta Adresiniz</label>
+                        <input type="email" name="CustomerEmail" class="form-input" placeholder="ornek@email.com" required>
+
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                             <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 5px; color: #888;">Hizmet Türü</label>
+                                <select name="ServiceType" class="form-select">
+                                    <option value="Genel">Seçiniz...</option>
+                                    <option value="Periyodik Bakım">Periyodik Bakım</option>
+                                    <option value="Motor Onarım">Motor Onarım</option>
+                                    <option value="Elektrik/Elektronik">Elektrik/Elektronik</option>
+                                    <option value="Klima Servisi">Klima Servisi</option>
+                                    <option value="Kaporta Boya">Kaporta Boya</option>
+                                    <option value="Diğer">Diğer</option>
+                                </select>
+                             </div>
+                             <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 5px; color: #888;">Araç Marka/Model</label>
+                                <input type="text" name="CarModel" class="form-input" placeholder="Örn: BMW 320i">
+                             </div>
+                        </div>
+
+                        <label style="display: block; margin-bottom: 5px; color: #888;">Talep Edilen Tarih</label>
+                        <input type="datetime-local" name="AppointmentDate" class="form-input" required>
+
+                        <label style="display: block; margin-bottom: 5px; color: #888;">Mesajınız / Şikayetiniz</label>
+                        <textarea name="Notes" class="form-textarea" rows="4" placeholder="Aracınızdaki sorunu kısaca anlatınız..."></textarea>
+                        
+                        <button type="submit" class="btn-custom" style="width: 100%;">
+                            Randevu Oluştur <i class="fas fa-paper-plane" style="margin-left: 10px;"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

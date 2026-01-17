@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /Admin/
+Disallow: /Account/
+Allow: /
+Sitemap: https://www.felsenauto.com/sitemap.xml

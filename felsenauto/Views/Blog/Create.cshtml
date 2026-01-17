@@ -1,0 +1,58 @@
+@model felsenauto.Models.Blog
+
+@{
+    ViewData["Title"] = "Yeni Blog Yazısı";
+}
+
+<div class="page-header" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/hero-bg.png') center/cover; padding: 150px 0 80px; text-align: center;">
+    <div class="container">
+        <h1 class="reveal">Yeni Yazı Ekle</h1>
+    </div>
+</div>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card-glass reveal">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="Title" class="control-label" style="color: #ccc;">Başlık</label>
+                            <input asp-for="Title" class="form-input" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Author" class="control-label" style="color: #ccc;">Yazar</label>
+                            <input asp-for="Author" class="form-input" />
+                            <span asp-validation-for="Author" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="ImageUrl" class="control-label" style="color: #ccc;">Görsel URL (Opsiyonel)</label>
+                            <input asp-for="ImageUrl" class="form-input" placeholder="/images/..." />
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Content" class="control-label" style="color: #ccc;">İçerik</label>
+                            <textarea asp-for="Content" class="form-textarea" rows="10"></textarea>
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="submit" value="Yayınla" class="btn-custom" />
+                            <a asp-action="Index" class="btn-custom btn-outline" style="margin-left: 10px;">İptal</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,53 @@
+@model IEnumerable<felsenauto.Models.Blog>
+@{
+    ViewData["Title"] = "Blog";
+}
+
+<div class="page-header" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/hero-bg.png') center/cover; padding: 150px 0 80px; text-align: center;">
+    <div class="container">
+        <h1 class="reveal">Blog & Haberler</h1>
+        <p class="reveal" style="font-size: 1.2rem; color: #ccc;">Otomotiv dünyasından en güncel bilgiler</p>
+    </div>
+</div>
+
+<section class="section-padding">
+    <div class="container">
+        
+        <div class="row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+            
+            @if (!Model.Any())
+            {
+                <div class="col-12 text-center" style="color: #aaa;">
+                    <p>Henüz blog yazısı bulunmamaktadır.</p>
+                </div>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="card-glass reveal" style="padding: 0; overflow: hidden;">
+                        <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/images/default-blog.png" : item.ImageUrl)" alt="@item.Title" style="width: 100%; height: 200px; object-fit: cover;">
+                        <div style="padding: 25px;">
+                            <span class="text-primary" style="font-size: 0.8rem; font-weight: 600;">@item.CreatedDate.ToString("dd MMMM yyyy").ToUpper()</span>
+                            <h3 style="margin: 10px 0;">@item.Title</h3>
+                            <p style="color: #aaa; font-size: 0.95rem; margin-bottom: 20px;">
+                                @if (!string.IsNullOrEmpty(item.Content) && item.Content.Length > 100)
+                                {
+                                    @item.Content.Substring(0, 100)<text>...</text>
+                                }
+                                else
+                                {
+                                    @item.Content
+                                }
+                            </p>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="text-primary">Devamını Oku <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</section>
+    </div>
+</section>
