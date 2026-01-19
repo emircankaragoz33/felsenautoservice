@@ -80,10 +80,35 @@ namespace felsenauto.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateBlog(felsenauto.Models.Blog blog)
+        public async Task<IActionResult> CreateBlog(felsenauto.Models.Blog blog, IFormFile? imageFile)
         {
             if (ModelState.IsValid)
             {
+                // Handle image upload
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "blogs");
+                    
+                    // Create blogs folder if it doesn't exist
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    // Generate unique filename
+                    var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    // Save file
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(fileStream);
+                    }
+
+                    // Set ImageUrl
+                    blog.ImageUrl = "/images/blogs/" + uniqueFileName;
+                }
+
                 blog.CreatedDate = DateTime.Now;
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
@@ -102,10 +127,31 @@ namespace felsenauto.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> EditBlog(felsenauto.Models.Blog blog)
+        public async Task<IActionResult> EditBlog(felsenauto.Models.Blog blog, IFormFile? imageFile)
         {
             if (ModelState.IsValid)
             {
+                // Handle image upload
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "blogs");
+                    
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(fileStream);
+                    }
+
+                    blog.ImageUrl = "/images/blogs/" + uniqueFileName;
+                }
+
                 _context.Update(blog);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

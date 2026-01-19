@@ -4,12 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
     <!-- SEO Meta Tags -->
-    <title>@ViewData["Title"] | Felsen Oto Servis - İstanbul Maslak Premium Araç Bakımı</title>
+    <title>@ViewData["Title"] | Felsen Oto Servis - Kocaeli Çayırova Premium Araç Bakımı</title>
     <link rel="icon" type="image/png" href="~/images/logo.png" />
     <link rel="apple-touch-icon" href="~/images/logo.png" />
-    <meta name="description" content="@(ViewData["Description"] ?? "Felsen Oto Servis, İstanbul Maslak'ta premium araç bakımı, motor onarımı, kaporta boya ve 7/24 yol yardım hizmetleri sunar. BMW, Mercedes, Audi profesyonel servisi.")" />
-    <meta name="keywords" content="@(ViewData["Keywords"] ?? "felsen, felsen auto, felsen oto servis, oto servis maslak, araç bakımı, motor onarımı, bmw servisi, mercedes servisi, audi servisi, istanbul oto tamir, premium oto servis")" />
+    <meta name="description" content="@(ViewData["Description"] ?? "Felsen Oto Servis, Kocaeli Çayırova'da premium araç bakımı, motor onarımı, kaporta boya ve profesyonel servis hizmetleri sunar. BMW, Mercedes, Audi profesyonel servisi.")" />
+    <meta name="keywords" content="@(ViewData["Keywords"] ?? "felsen, felsen auto, felsen oto servis, oto servis çayırova, oto servis kocaeli, araç bakımı, motor onarımı, bmw servisi, mercedes servisi, audi servisi, kocaeli oto tamir, premium oto servis")" />
     <meta name="author" content="Felsen Auto" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://www.felsenauto.com@(ViewContext.HttpContext.Request.Path)" />
@@ -32,8 +41,8 @@
       "telephone": "+908503084641",
       "address": {
         "@@type": "PostalAddress",
-        "streetAddress": "Sanayi Mah. 123. Sok. No:5",
-        "addressLocality": "İstanbul",
+        "streetAddress": "Cumhuriyet mahallesi Turgut Özal caddesi No 5/A Akpınar Plaza Şekerpınar Çayırova",
+        "addressLocality": "Kocaeli",
         "addressCountry": "TR"
       },
       "geo": {
@@ -64,17 +73,15 @@
     <div class="top-ticker">
         <div class="ticker-track">
             <div class="ticker-content">
-                <span><i class="fas fa-map-marker-alt"></i> Sanayi Mah. 123. Sok. No:5, İstanbul</span>
+                <span><i class="fas fa-map-marker-alt"></i> Cumhuriyet mahallesi Turgut Özal caddesi No 5/A Akpınar Plaza Şekerpınar Çayırova Kocaeli</span>
                 <span><i class="fas fa-phone"></i> 0850 308 4641</span>
                 <span><i class="fas fa-clock"></i> Pzt - Cuma: 08:30 - 18:30</span>
-                <span><i class="fas fa-tools"></i> 7/24 Yol Yardım: 0 554 341 4368</span>
             </div>
             <!-- Duplicate content for seamless infinite scroll -->
              <div class="ticker-content">
-                <span><i class="fas fa-map-marker-alt"></i> Sanayi Mah. 123. Sok. No:5, İstanbul</span>
+                <span><i class="fas fa-map-marker-alt"></i> Cumhuriyet mahallesi Turgut Özal caddesi No 5/A Akpınar Plaza Şekerpınar Çayırova Kocaeli</span>
                 <span><i class="fas fa-phone"></i> 0850 308 4641</span>
                 <span><i class="fas fa-clock"></i> Pzt - Cuma: 08:30 - 18:30</span>
-                <span><i class="fas fa-tools"></i> 7/24 Yol Yardım: 0 554 341 4368</span>
              </div>
         </div>
     </div>
@@ -121,7 +128,7 @@
                 </div>
                 <div>
                     <h4>İletişim</h4>
-                    <p><i class="fas fa-map-marker-alt text-primary"></i> Sanayi Mah. 123. Sok. No:5</p>
+                    <p><i class="fas fa-map-marker-alt text-primary"></i> Cumhuriyet mahallesi Turgut Özal caddesi No 5/A Akpınar Plaza Şekerpınar Çayırova Kocaeli</p>
                     <p><i class="fas fa-phone text-primary"></i> 0850 308 4641</p>
                     <p><i class="fas fa-envelope text-primary"></i> info@felsen.com.tr</p>
                 </div>
