@@ -12,12 +12,17 @@ export const metadata: Metadata = {
   description: 'Felsen Oto Servis, Kocaeli Çayırova\'da premium araç bakımı, motor onarımı, kaporta boya ve profesyonel servis hizmetleri sunar. BMW, Mercedes, Audi profesyonel servisi.',
   keywords: "felsen, felsen auto, felsen oto servis, oto servis çayırova, oto servis kocaeli, araç bakımı, motor onarımı, bmw servisi, mercedes servisi, audi servisi, kocaeli oto tamir, premium oto servis",
   authors: [{ name: "Felsen Auto" }],
+  icons: {
+    icon: '/images/logo.png',
+    shortcut: '/images/logo.png',
+    apple: '/images/logo.png',
+  },
   openGraph: {
     type: 'website',
-    url: 'https://www.felsenauto.com',
+    url: 'https://felsen.com.tr',
     title: 'Felsen Oto Servis - Felsen Auto',
     description: 'Profesyonel kadromuz ve son teknoloji ekipmanlarımızla aracınızın tüm bakım ve onarım ihtiyaçları için yanınızdayız.',
-    images: ['https://www.felsenauto.com/images/logo.png'],
+    images: ['https://felsen.com.tr/images/logo.png'],
   },
 }
 
