@@ -152,19 +152,7 @@ export default function MutluAkuPage() {
                                 </li>
                             </ul>
                         </div>
-                        <div style={{ flex: '1', minWidth: '300px' }} className="reveal">
-                            <div className="card-glass" style={{ padding: '40px', textAlign: 'center', border: '1px solid var(--primary)' }}>
-                                <h3 style={{ fontSize: '2rem', marginBottom: '20px' }}>Akü Yol Yardım</h3>
-                                <p style={{ marginBottom: '30px', color: '#ccc' }}>
-                                    Yolda mı kaldınız? Akünüz mü bitti?
-                                    <br />
-                                    Bulunduğunuz yere gelip akünüzü değiştiriyoruz.
-                                </p>
-                                <Link href="tel:08503084641" className="btn-custom" style={{ width: '100%' }}>
-                                    <i className="fas fa-phone mr-2"></i> 0850 308 4641
-                                </Link>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </section>
