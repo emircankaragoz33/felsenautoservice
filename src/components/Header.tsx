@@ -59,6 +59,12 @@ export default function Header() {
                                 Sigorta & Kiralama
                             </Link>
                         </li>
+
+                        <li>
+                            <Link href="/mutlu-aku" className={isActive('/mutlu-aku') ? 'active-link' : ''}>
+                                Mutlu Akü
+                            </Link>
+                        </li>
                         <li>
                             <Link href="/hakkimizda" className={isActive('/hakkimizda') ? 'active-link' : ''}>
                                 Hakkımızda
