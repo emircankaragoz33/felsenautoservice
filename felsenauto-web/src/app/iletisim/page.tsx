@@ -104,9 +104,9 @@ export default function Contact() {
                                     <div>
                                         <h4 style={{ marginBottom: '5px' }}>Adresimiz</h4>
                                         <p style={{ color: '#aaa' }}>
-                                            Şekerpınar mahallesi Turgut Özal caddesi No 5/A Akpınar Plaza
+                                            Şekerpınar Mahallesi, Turgut Özdal Cad. No:5A
                                             <br />
-                                            Çayırova Kocaeli
+                                            Çayırova/KOCAELİ
                                         </p>
                                     </div>
                                 </div>

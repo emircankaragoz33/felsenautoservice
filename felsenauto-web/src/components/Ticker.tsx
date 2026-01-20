@@ -4,7 +4,7 @@ export default function Ticker() {
             <div className="ticker-track">
                 <div className="ticker-content">
                     <span>
-                        <i className="fas fa-map-marker-alt"></i> Şekerpınar mahallesi Turgut Özal caddesi No 5/A Akpınar Plaza Çayırova Kocaeli
+                        <i className="fas fa-map-marker-alt"></i> Şekerpınar Mahallesi, Turgut Özdal Cad. No:5A Çayırova/KOCAELİ
                     </span>
                     <span>
                         <i className="fas fa-phone"></i> <a href="tel:08503084641" style={{ color: 'inherit' }}>0850 308 4641</a>
