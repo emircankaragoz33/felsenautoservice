@@ -19,11 +19,6 @@ export const metadata: Metadata = {
     description: 'Profesyonel kadromuz ve son teknoloji ekipmanlarımızla aracınızın tüm bakım ve onarım ihtiyaçları için yanınızdayız.',
     images: ['https://felsen.com.tr/images/logo.png'],
   },
-  icons: {
-    icon: '/favicon.ico?v=2',
-    shortcut: '/favicon.ico?v=2',
-    apple: '/images/logo.png',
-  },
 }
 
 export default function RootLayout({
@@ -34,9 +29,6 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <head>
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.png" />
-        <link rel="apple-touch-icon" href="/images/logo.png" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       </head>
       <body className={outfit.className}>
