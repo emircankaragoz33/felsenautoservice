@@ -125,6 +125,11 @@ export default function Home() {
           <h2 className="text-center mb-5 reveal">Felsen Grup Hizmetleri</h2>
           <div className="row reveal" style={{ display: 'flex', justifyContent: 'center', gap: '50px', flexWrap: 'wrap' }}>
             <div style={{ textAlign: 'center', maxWidth: '400px' }}>
+              <img src="/images/logo.png" alt="Felsen Oto Servis" style={{ height: '100px', marginBottom: '20px', objectFit: 'contain' }} />
+              <h3 className="mb-3">Profesyonel Araç Servisi</h3>
+              <p style={{ color: '#aaa' }}>Tüm marka ve modeller için uzman kadromuzla garantili bakım, onarım ve yedek parça hizmeti.</p>
+            </div>
+            <div style={{ textAlign: 'center', maxWidth: '400px' }}>
               <img src="/images/felsen-sigorta.png" alt="Sigorta" style={{ height: '100px', marginBottom: '20px', objectFit: 'contain' }} />
               <h3 className="mb-3">Sigorta Hizmetleri</h3>
               <p style={{ color: '#aaa' }}>Aracınızı ve sizi güvence altına alıyoruz. En uygun kasko ve sigorta teklifleri.</p>
