@@ -583,6 +583,25 @@ ul {
     display: block;
   }
 
+  /* Mobile Navbar Sizing */
+  .navbar {
+    height: 70px;
+  }
+
+  .header-scrolled .navbar {
+    height: 70px;
+  }
+
+  .brand-logo img {
+    height: 60px;
+    margin-top: 0;
+  }
+
+  .header-scrolled .brand-logo img {
+    height: 60px;
+    margin-top: 0;
+  }
+
   /* Footer Mobile */
   .footer-cols {
     grid-template-columns: 1fr;

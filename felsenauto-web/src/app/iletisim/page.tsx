@@ -104,9 +104,9 @@ export default function Contact() {
                                     <div>
                                         <h4 style={{ marginBottom: '5px' }}>Adresimiz</h4>
                                         <p style={{ color: '#aaa' }}>
-                                            Cumhuriyet mahallesi Turgut Özal caddesi No 5/A Akpınar Plaza
+                                            Şekerpınar mahallesi Turgut Özal caddesi No 5/A Akpınar Plaza
                                             <br />
-                                            Şekerpınar Çayırova Kocaeli
+                                            Çayırova Kocaeli
                                         </p>
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@ export default function Contact() {
                                     ></i>
                                     <div>
                                         <h4 style={{ marginBottom: '5px' }}>Telefon</h4>
-                                        <p style={{ color: '#aaa' }}>0850 308 4641</p>
+                                        <p style={{ color: '#aaa' }}><a href="tel:08503084641" style={{ color: 'inherit', textDecoration: 'none' }}>0850 308 4641</a></p>
                                     </div>
                                 </div>
 
@@ -129,7 +129,7 @@ export default function Contact() {
                                     ></i>
                                     <div>
                                         <h4 style={{ marginBottom: '5px' }}>E-Posta</h4>
-                                        <p style={{ color: '#aaa' }}>info@felsen.com.tr</p>
+                                        <p style={{ color: '#aaa' }}><a href="mailto:info@felsen.com.tr" style={{ color: 'inherit', textDecoration: 'none' }}>info@felsen.com.tr</a></p>
                                     </div>
                                 </div>
                             </div>

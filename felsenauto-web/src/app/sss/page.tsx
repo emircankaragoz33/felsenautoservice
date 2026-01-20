@@ -32,7 +32,7 @@ export default function FAQ() {
         },
         {
             question: 'Pazar günleri açık mısınız?',
-            answer: 'Servisimiz Pazar günleri kapalıdır. Hafta içi 08:30 - 18:30, Cumartesi günleri ise 09:00 - 15:00 saatleri arasında hizmet vermekteyiz. Acil durumlar için özel yol yardım hattımızı arayabilirsiniz.',
+            answer: 'Servisimiz Pazar günleri kapalıdır. Hafta içi 08:30 - 18:00, Cumartesi günleri ise 08:30 - 14:00 saatleri arasında hizmet vermekteyiz. Acil durumlar için özel yol yardım hattımızı arayabilirsiniz.',
         },
     ]
 

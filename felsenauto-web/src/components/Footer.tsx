@@ -8,6 +8,11 @@ export default function Footer() {
                     <div>
                         <h4>Felsen Auto</h4>
                         <p>Felsen Oto Servis, aracınız için üst düzey bakım ve güven sunar.</p>
+                        <div style={{ marginTop: '15px' }}>
+                            <a href="https://instagram.com/felsen_atuto" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '1.5rem', transition: 'color 0.3s' }} className="social-link">
+                                <i className="fab fa-instagram"></i>
+                            </a>
+                        </div>
                     </div>
                     <div>
                         <h4>Hızlı Erişim</h4>
@@ -18,14 +23,14 @@ export default function Footer() {
                     <div>
                         <h4>İletişim</h4>
                         <p>
-                            <i className="fas fa-map-marker-alt text-primary"></i> Cumhuriyet mahallesi Turgut Özal
-                            caddesi No 5/A Akpınar Plaza Şekerpınar Çayırova Kocaeli
+                            <i className="fas fa-map-marker-alt text-primary"></i> Şekerpınar mahallesi Turgut Özal
+                            caddesi No 5/A Akpınar Plaza Çayırova Kocaeli
                         </p>
                         <p>
-                            <i className="fas fa-phone text-primary"></i> 0850 308 4641
+                            <i className="fas fa-phone text-primary"></i> <a href="tel:08503084641" style={{ color: 'inherit', textDecoration: 'none' }}>0850 308 4641</a>
                         </p>
                         <p>
-                            <i className="fas fa-envelope text-primary"></i> info@felsen.com.tr
+                            <i className="fas fa-envelope text-primary"></i> <a href="mailto:info@felsen.com.tr" style={{ color: 'inherit', textDecoration: 'none' }}>info@felsen.com.tr</a>
                         </p>
                     </div>
                 </div>
