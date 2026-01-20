@@ -83,17 +83,35 @@ export default function Home() {
               </Link>
             </div>
             <div className="col reveal" style={{ flex: 1, minWidth: '300px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                <div className="card-glass" style={{ textAlign: 'center', padding: '40px 20px' }}>
-                  <i className="fas fa-tools service-icon"></i>
-                  <h3>Tam Donanım</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
+                <div className="card-glass" style={{ textAlign: 'left', padding: '30px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
+                    <i className="fas fa-box-open service-icon" style={{ fontSize: '2rem', marginBottom: 0 }}></i>
+                    <h3 style={{ fontSize: '1.3rem', margin: 0 }}>Yedek Parça Garantisi</h3>
+                  </div>
+                  <p style={{ fontSize: '0.9rem', color: '#ccc' }}>
+                    Kullanılan tüm yedek parçalar üretici standartlarında olup garanti kapsamındadır.
+                  </p>
+                  <ul style={{ fontSize: '0.85rem', color: '#aaa', marginTop: '10px' }}>
+                    <li>• 2 Yıl Üretici Parça Garantisi</li>
+                    <li>• Orijinal / OEM Parça Sertifikası</li>
+                    <li>• Hatalı üretimde birebir değişim</li>
+                  </ul>
                 </div>
-                <div
-                  className="card-glass"
-                  style={{ textAlign: 'center', padding: '40px 20px', marginTop: '30px' }}
-                >
-                  <i className="fas fa-award service-icon"></i>
-                  <h3>Garantili İşçilik</h3>
+
+                <div className="card-glass" style={{ textAlign: 'left', padding: '30px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
+                    <i className="fas fa-certificate service-icon" style={{ fontSize: '2rem', marginBottom: 0 }}></i>
+                    <h3 style={{ fontSize: '1.3rem', margin: 0 }}>İşçilik Garantisi</h3>
+                  </div>
+                  <p style={{ fontSize: '0.9rem', color: '#ccc' }}>
+                    Uzman kadromuz tarafından yapılan tüm işlemler servisimiz güvencesi altındadır.
+                  </p>
+                  <ul style={{ fontSize: '0.85rem', color: '#aaa', marginTop: '10px' }}>
+                    <li>• 1 Yıl / 10.000 KM Servis Garantisi</li>
+                    <li>• Yapılan işlemlerin resmi faturası</li>
+                    <li>• Bakım sonrası ücretsiz kontrol seansı</li>
+                  </ul>
                 </div>
               </div>
             </div>

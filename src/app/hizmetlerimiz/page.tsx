@@ -194,7 +194,7 @@ export default function Services() {
                                     <i className="fas fa-check text-primary"></i> Şarj Dinamosu Kontrolü
                                 </li>
                                 <li>
-                                    <i className="fas fa-check text-primary"></i> Mutlu/Varta/İnci Akü Değişimi
+                                    <i className="fas fa-check text-primary"></i> Akü Değişimi
                                 </li>
                             </ul>
                         </div>
@@ -216,7 +216,7 @@ export default function Services() {
                                     <i className="fas fa-check text-primary"></i> Lastik Tamiri
                                 </li>
                                 <li>
-                                    <i className="fas fa-check text-primary"></i> Lastik Oteli & Saklama
+                                    <i className="fas fa-check text-primary"></i> Lastik Balans Ayarı
                                 </li>
                             </ul>
                         </div>

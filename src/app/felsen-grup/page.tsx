@@ -36,6 +36,7 @@ export default function FelsenGrup() {
                                     <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Genişletilmiş Kasko</li>
                                     <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Konut ve İşyeri Sigortası</li>
                                     <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> DASK ve Sağlık Sigortası</li>
+                                    <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Tamamlayıcı Sağlık Sigortası</li>
                                 </ul>
                                 <a href="tel:08503084641" className="btn-custom">
                                     <i className="fas fa-phone-alt me-2"></i> Teklif Al: 0850 308 4641
@@ -51,8 +52,8 @@ export default function FelsenGrup() {
                                     Yolculuklarınız keyfe dönüşsün. Geniş araç filomuz, esnek kiralama seçeneklerimiz ve bakımlı araçlarımızla Felsen Rent A Car her zaman yanınızda.
                                 </p>
                                 <ul style={{ marginBottom: '30px', color: '#aaa' }}>
-                                    <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Günlük, Haftalık, Aylık Kiralama</li>
-                                    <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Son Model Lüks ve Ekonomik Araçlar</li>
+                                    <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Alman Grubu (Polo, Golf, A4, BMW vb.)</li>
+                                    <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Yeni Kasa Clio, Egea ve Ekonomik Araçlar</li>
                                     <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Kurumsal Filo Kiralama</li>
                                     <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> 7/24 Yol Yardım Desteği</li>
                                 </ul>
@@ -113,6 +114,22 @@ export default function FelsenGrup() {
                                     />
                                 </div>
                             ))}
+                        </div>
+                    </div>
+
+                    {/* Grup Hizmetleri Navigasyon */}
+                    <div className="reveal" style={{ marginTop: '100px', padding: '40px', background: 'var(--darker)', borderRadius: '20px', textAlign: 'center' }}>
+                        <h3 className="mb-4 text-gradient">Felsen Grup Dünyası</h3>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '30px' }}>
+                            <a href="/hizmetlerimiz" className="btn-custom btn-outline" style={{ minWidth: '200px' }}>
+                                <i className="fas fa-tools me-2"></i> Felsen Servis
+                            </a>
+                            <a href="#" className="btn-custom btn-outline" style={{ minWidth: '200px' }}>
+                                <i className="fas fa-shield-alt me-2"></i> Felsen Sigorta
+                            </a>
+                            <a href="#" className="btn-custom btn-outline" style={{ minWidth: '200px' }}>
+                                <i className="fas fa-car me-2"></i> Felsen Rent A Car
+                            </a>
                         </div>
                     </div>
                 </div>
