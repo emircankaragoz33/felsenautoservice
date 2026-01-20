@@ -55,6 +55,11 @@ export default function Header() {
                             </Link>
                         </li>
                         <li>
+                            <Link href="/felsen-grup" className={isActive('/felsen-grup') ? 'active-link' : ''}>
+                                Sigorta & Kiralama
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/hakkimizda" className={isActive('/hakkimizda') ? 'active-link' : ''}>
                                 Hakkımızda
                             </Link>

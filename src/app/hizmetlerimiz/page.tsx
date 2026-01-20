@@ -222,38 +222,6 @@ export default function Services() {
                         </div>
                     </div>
 
-                    {/* NEW SECTION: Felsen Group Services */}
-                    <div className="reveal" style={{ marginTop: '100px', marginBottom: '50px', borderTop: '1px solid var(--glass-border)', paddingTop: '50px' }}>
-                        <h2 className="text-center mb-5">Diğer Felsen Hizmetleri</h2>
-                        <div className="row" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '40px' }}>
-                            {/* Sigorta */}
-                            <div className="card-glass" style={{ flex: '1', minWidth: '300px', maxWidth: '500px', textAlign: 'center' }}>
-                                <img src="/images/felsen-sigorta.png" alt="Felsen Sigorta" style={{ height: '120px', marginBottom: '20px', objectFit: 'contain' }} />
-                                <h3>Felsen Sigorta</h3>
-                                <p style={{ color: '#aaa', margin: '15px 0' }}>
-                                    Kasko, trafik sigortası ve diğer tüm sigorta ihtiyaçlarınız için en uygun teklifleri sunuyoruz.
-                                    Güvenceniz Felsen kalitesiyle emin ellerde.
-                                </p>
-                                <a href="tel:08503084641" className="btn-custom btn-outline" style={{ marginTop: '10px' }}>
-                                    <i className="fas fa-phone"></i> Hemen Arayın: 0850 308 4641
-                                </a>
-                            </div>
-
-                            {/* Rent A Car */}
-                            <div className="card-glass" style={{ flex: '1', minWidth: '300px', maxWidth: '500px', textAlign: 'center' }}>
-                                <img src="/images/felsen-rentacar.png" alt="Felsen Rent A Car" style={{ height: '120px', marginBottom: '20px', objectFit: 'contain' }} />
-                                <h3>Felsen Rent A Car</h3>
-                                <p style={{ color: '#aaa', margin: '15px 0' }}>
-                                    Son model, bakımlı ve konforlu araç filomuzla hizmetinizdeyiz.
-                                    Günlük, haftalık veya aylık kiralama seçenekleri.
-                                </p>
-                                <a href="tel:08503084641" className="btn-custom btn-outline" style={{ marginTop: '10px' }}>
-                                    <i className="fas fa-phone"></i> Rezervasyon: 0850 308 4641
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
                     <div className="text-center mt-5 reveal">
                         <p style={{ fontSize: '1.1rem', color: '#ccc', marginBottom: '20px' }}>
                             Özel bir sorununuz mu var? Bize danışın, çözüm üretelim.

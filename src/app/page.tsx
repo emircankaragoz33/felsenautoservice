@@ -118,7 +118,7 @@ export default function Home() {
             </div>
           </div>
           <div className="text-center mt-5 reveal">
-            <Link href="/hizmetlerimiz" className="btn-custom btn-outline">
+            <Link href="/felsen-grup" className="btn-custom btn-outline">
               Detaylı Bilgi
             </Link>
           </div>
