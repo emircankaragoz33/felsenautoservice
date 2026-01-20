@@ -35,7 +35,6 @@ export default function RootLayout({
     <html lang="tr">
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-        <link rel="icon" type="image/png" href="/images/logo.png" />
       </head>
       <body className={outfit.className}>
         <Ticker />
