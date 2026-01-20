@@ -62,7 +62,20 @@ export default function FelsenGrup() {
                                 </a>
                             </div>
                             <div style={{ flex: 1, minWidth: '250px', textAlign: 'center' }}>
-                                <img src="/images/felsen-rentacar.png" alt="Felsen Rent A Car Araç Kiralama" style={{ width: '100%', maxWidth: '400px', objectFit: 'contain' }} />
+                                <img src="/images/felsen-rentacar.png" alt="Felsen Rent A Car Araç Kiralama" style={{ width: '100%', maxWidth: '400px', objectFit: 'contain', marginBottom: '20px' }} />
+                                {/* Araç Galerisi */}
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr',
+                                    gap: '10px',
+                                    marginTop: '20px'
+                                }}>
+                                    {['polo.png', 'egea.png', 'audi_a4.png', 'bmw_coupe.png'].map((car, i) => (
+                                        <div key={i} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '8px', padding: '5px', overflow: 'hidden' }}>
+                                            <img src={`/images/rentacar/${car}`} alt="Kiralık Araç" style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '5px' }} />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
