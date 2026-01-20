@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     description: 'Profesyonel kadromuz ve son teknoloji ekipmanlarımızla aracınızın tüm bakım ve onarım ihtiyaçları için yanınızdayız.',
     images: ['https://felsen.com.tr/images/logo.png'],
   },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/images/logo.png',
+  },
 }
 
 export default function RootLayout({
