@@ -101,6 +101,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Group Services Teaser */}
+      <section className="section-padding" style={{ background: 'var(--darker)' }}>
+        <div className="container">
+          <h2 className="text-center mb-5 reveal">Felsen Grup Hizmetleri</h2>
+          <div className="row reveal" style={{ display: 'flex', justifyContent: 'center', gap: '50px', flexWrap: 'wrap' }}>
+            <div style={{ textAlign: 'center', maxWidth: '400px' }}>
+              <img src="/images/felsen-sigorta.png" alt="Sigorta" style={{ height: '100px', marginBottom: '20px', objectFit: 'contain' }} />
+              <h3 className="mb-3">Sigorta Hizmetleri</h3>
+              <p style={{ color: '#aaa' }}>Aracınızı ve sizi güvence altına alıyoruz. En uygun kasko ve sigorta teklifleri.</p>
+            </div>
+            <div style={{ textAlign: 'center', maxWidth: '400px' }}>
+              <img src="/images/felsen-rentacar.png" alt="Rent A Car" style={{ height: '100px', marginBottom: '20px', objectFit: 'contain' }} />
+              <h3 className="mb-3">Araç Kiralama</h3>
+              <p style={{ color: '#aaa' }}>Geniş araç filomuzla, güvenli ve konforlu araç kiralama hizmeti.</p>
+            </div>
+          </div>
+          <div className="text-center mt-5 reveal">
+            <Link href="/hizmetlerimiz" className="btn-custom btn-outline">
+              Detaylı Bilgi
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action */}
       <section
         className="section-padding"
