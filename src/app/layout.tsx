@@ -34,6 +34,9 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <head>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.png" />
+        <link rel="apple-touch-icon" href="/images/logo.png" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       </head>
       <body className={outfit.className}>
