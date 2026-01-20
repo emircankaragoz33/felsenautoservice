@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     images: ['https://felsen.com.tr/images/logo.png'],
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
+    icon: '/favicon.ico?v=2',
+    shortcut: '/favicon.ico?v=2',
     apple: '/images/logo.png',
   },
 }
