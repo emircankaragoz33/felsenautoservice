@@ -565,7 +565,8 @@ ul {
   .nav-links {
     display: none;
     position: absolute;
-    top: calc(var(--nav-height) + 40px);
+    top: 100%;
+    /* Position directly below the header */
     left: 0;
     width: 100%;
     background: var(--dark);
@@ -652,4 +653,13 @@ ul {
 .founder-text {
   flex: 1;
   min-width: 300px;
+}
+
+@media (max-width: 480px) {
+
+  .founder-img,
+  .founder-text {
+    min-width: 100%;
+    gap: 30px;
+  }
 }

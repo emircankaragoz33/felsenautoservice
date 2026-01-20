@@ -22,11 +22,11 @@ export default function FelsenGrup() {
                     <div className="row" style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
 
                         {/* Sigorta Bölümü */}
-                        <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '40px', background: 'rgba(255,255,255,0.02)', padding: '40px', borderRadius: '15px', border: '1px solid var(--glass-border)' }}>
-                            <div style={{ flex: 1, minWidth: '300px', textAlign: 'center' }}>
+                        <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '40px', background: 'rgba(255,255,255,0.02)', padding: '20px', borderRadius: '15px', border: '1px solid var(--glass-border)' }}>
+                            <div style={{ flex: 1, minWidth: '250px', textAlign: 'center' }}>
                                 <img src="/images/felsen-sigorta.png" alt="Felsen Sigorta Hizmetleri" style={{ width: '100%', maxWidth: '400px', objectFit: 'contain' }} />
                             </div>
-                            <div style={{ flex: 1.5, minWidth: '300px' }}>
+                            <div style={{ flex: 1.5, minWidth: '250px' }}>
                                 <h2 className="mb-4 text-gradient">Felsen Sigorta</h2>
                                 <p style={{ fontSize: '1.1rem', color: '#bbb', marginBottom: '20px' }}>
                                     Değer verdiklerinizi koruma altına alıyoruz. Felsen Sigorta olarak, Türkiye'nin önde gelen sigorta şirketleriyle çalışarak size en kapsamlı ve en uygun fiyatlı poliçeleri sunuyoruz.
@@ -44,8 +44,8 @@ export default function FelsenGrup() {
                         </div>
 
                         {/* Rent A Car Bölümü */}
-                        <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap-reverse', alignItems: 'center', gap: '40px', background: 'rgba(255,255,255,0.02)', padding: '40px', borderRadius: '15px', border: '1px solid var(--glass-border)' }}>
-                            <div style={{ flex: 1.5, minWidth: '300px' }}>
+                        <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap-reverse', alignItems: 'center', gap: '40px', background: 'rgba(255,255,255,0.02)', padding: '20px', borderRadius: '15px', border: '1px solid var(--glass-border)' }}>
+                            <div style={{ flex: 1.5, minWidth: '250px' }}>
                                 <h2 className="mb-4 text-gradient">Felsen Rent A Car</h2>
                                 <p style={{ fontSize: '1.1rem', color: '#bbb', marginBottom: '20px' }}>
                                     Yolculuklarınız keyfe dönüşsün. Geniş araç filomuz, esnek kiralama seçeneklerimiz ve bakımlı araçlarımızla Felsen Rent A Car her zaman yanınızda.
@@ -60,11 +60,60 @@ export default function FelsenGrup() {
                                     <i className="fas fa-car me-2"></i> Rezervasyon Yap: 0850 308 4641
                                 </a>
                             </div>
-                            <div style={{ flex: 1, minWidth: '300px', textAlign: 'center' }}>
+                            <div style={{ flex: 1, minWidth: '250px', textAlign: 'center' }}>
                                 <img src="/images/felsen-rentacar.png" alt="Felsen Rent A Car Araç Kiralama" style={{ width: '100%', maxWidth: '400px', objectFit: 'contain' }} />
                             </div>
                         </div>
 
+
+                    </div>
+
+                    {/* Anlaşmalı Kurumlar Bölümü */}
+                    <div className="reveal" style={{ marginTop: '80px', textAlign: 'center' }}>
+                        <h2 className="mb-4 text-gradient">Anlaşmalı Olduğumuz Sigorta Şirketleri</h2>
+                        <p style={{ fontSize: '1.1rem', color: '#bbb', marginBottom: '40px' }}>
+                            Türkiye'nin en güvenilir sigorta şirketleri ile çözüm ortağıyız.
+                        </p>
+
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+                            gap: '30px',
+                            alignItems: 'center',
+                            justifyItems: 'center',
+                            background: 'rgba(255,255,255,0.02)',
+                            padding: '40px',
+                            borderRadius: '15px',
+                            border: '1px solid var(--glass-border)'
+                        }}>
+                            {[
+                                '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png',
+                                '11.png', '12.png', '13.png', '14.png', '15.png', '16.png', '17.png', '18.png', '19.png', '20.png', 'Yeni-Proje-57.webp'
+                            ].map((logo, index) => (
+                                <div key={index} style={{
+                                    width: '100%',
+                                    height: '80px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    background: '#fff',
+                                    borderRadius: '10px',
+                                    padding: '10px'
+                                }}>
+                                    <img
+                                        src={`/images/sigorta/${logo}`}
+                                        alt={`Sigorta Şirketi ${index + 1}`}
+                                        style={{
+                                            maxWidth: '100%',
+                                            maxHeight: '100%',
+                                            objectFit: 'contain',
+                                            filter: 'grayscale(0%)',
+                                            transition: 'filter 0.3s'
+                                        }}
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>

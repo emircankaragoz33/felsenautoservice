@@ -45,43 +45,43 @@ export default function Header() {
 
                     <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`} id="navLinks">
                         <li>
-                            <Link href="/" className={isActive('/') ? 'active-link' : ''}>
+                            <Link href="/" className={isActive('/') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
                                 Ana Sayfa
                             </Link>
                         </li>
                         <li>
-                            <Link href="/hizmetlerimiz" className={isActive('/hizmetlerimiz') ? 'active-link' : ''}>
+                            <Link href="/hizmetlerimiz" className={isActive('/hizmetlerimiz') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
                                 Hizmetlerimiz
                             </Link>
                         </li>
                         <li>
-                            <Link href="/felsen-grup" className={isActive('/felsen-grup') ? 'active-link' : ''}>
+                            <Link href="/felsen-grup" className={isActive('/felsen-grup') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
                                 Sigorta & Kiralama
                             </Link>
                         </li>
 
                         <li>
-                            <Link href="/mutlu-aku" className={isActive('/mutlu-aku') ? 'active-link' : ''}>
+                            <Link href="/mutlu-aku" className={isActive('/mutlu-aku') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
                                 Mutlu Akü
                             </Link>
                         </li>
                         <li>
-                            <Link href="/hakkimizda" className={isActive('/hakkimizda') ? 'active-link' : ''}>
+                            <Link href="/hakkimizda" className={isActive('/hakkimizda') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
                                 Hakkımızda
                             </Link>
                         </li>
                         <li>
-                            <Link href="/blog" className={isActive('/blog') ? 'active-link' : ''}>
+                            <Link href="/blog" className={isActive('/blog') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
                                 Blog
                             </Link>
                         </li>
                         <li>
-                            <Link href="/sss" className={isActive('/sss') ? 'active-link' : ''}>
+                            <Link href="/sss" className={isActive('/sss') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
                                 S.S.S
                             </Link>
                         </li>
                         <li>
-                            <Link href="/iletisim" className={isActive('/iletisim') ? 'active-link' : ''}>
+                            <Link href="/iletisim" className={isActive('/iletisim') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
                                 İletişim
                             </Link>
                         </li>
