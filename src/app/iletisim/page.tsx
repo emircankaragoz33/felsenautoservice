@@ -46,7 +46,11 @@ export default function Contact() {
                     Notes: '',
                 })
             } else {
-                setMessage({ type: 'error', text: data?.message || 'Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.' })
+                let errorMessage = data?.message || 'Bir hata oluştu.';
+                if (data?.error) {
+                    errorMessage += ' Detay: ' + (typeof data.error === 'object' ? JSON.stringify(data.error) : data.error);
+                }
+                setMessage({ type: 'error', text: errorMessage })
             }
         } catch (error) {
             setMessage({ type: 'error', text: 'Sunucu bağlantı hatası. Lütfen internet bağlantınızı kontrol ediniz.' })
