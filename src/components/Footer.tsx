@@ -6,8 +6,8 @@ export default function Footer() {
             <div className="container">
                 <div className="footer-cols">
                     <div>
-                        <h4>Felsen Auto</h4>
-                        <p>Felsen Oto Servis, aracınız için üst düzey bakım ve güven sunar.</p>
+                        <h4>Felsen Servis</h4>
+                        <p>Felsen Servis, aracınız için üst düzey bakım ve güven sunar.</p>
                         <div style={{ marginTop: '15px' }}>
                             <a href="https://instagram.com/felsen_auto" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '1.5rem', transition: 'color 0.3s' }} className="social-link">
                                 <i className="fab fa-instagram"></i>
@@ -42,7 +42,7 @@ export default function Footer() {
                         color: '#666',
                     }}
                 >
-                    &copy; 2024 Felsen Auto. Tüm Hakları Saklıdır.
+                    &copy; 2024 Felsen Servis. Tüm Hakları Saklıdır.
                 </div>
             </div>
         </footer>

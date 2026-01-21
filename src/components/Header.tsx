@@ -36,7 +36,7 @@ export default function Header() {
             <div className="container">
                 <nav className="navbar">
                     <Link href="/" className="brand-logo">
-                        <img src="/images/logo.png" alt="Felsen Auto Logo" />
+                        <img src="/images/logo.png" alt="Felsen Servis Logo" />
                     </Link>
 
                     <div className="mobile-nav-toggle" id="navToggle" onClick={toggleMobileMenu}>

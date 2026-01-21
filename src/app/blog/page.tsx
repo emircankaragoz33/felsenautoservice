@@ -1,85 +1,11 @@
 import Link from 'next/link'
+import { blogs } from '@/data/blogs'
+import { Metadata } from 'next'
 
-interface BlogPost {
-    id: number
-    title: string
-    content: string
-    imageUrl?: string
-    createdDate: string
+export const metadata: Metadata = {
+    title: 'Blog & Haberler - Felsen Servis',
+    description: 'Otomotiv dünyasından en güncel haberler, bakım ipuçları ve Felsen Servis duyuruları.',
 }
-
-const blogs: BlogPost[] = [
-    {
-        id: 1,
-        title: 'Kış Aylarında Araç Bakımının Önemi',
-        content: 'Kışın zorlu hava koşullarına girmeden önce aracınızın fren, lastik ve antifriz kontrollerini yaptırarak güvenli bir sürüş deneyimi yaşayın. Felsen Oto Servis olarak kış bakımlarınızı titizlikle gerçekleştiriyoruz.',
-        imageUrl: '/images/service-maintenance.png',
-        createdDate: '2025-11-10',
-    },
-    {
-        id: 2,
-        title: 'Motor Yağı Ne Zaman Değiştirilmeli?',
-        content: 'Motorunuzun ömrünü uzatmak için periyodik yağ değişimi hayati önem taşır. Genellikle 10.000 - 15.000 km arasında veya yılda bir kez değişim önerilmektedir. Kaliteli yağ kullanımı performansı artırır.',
-        imageUrl: '/images/service_engine.png',
-        createdDate: '2025-11-25',
-    },
-    {
-        id: 3,
-        title: 'Fren Sistemi Arızaları ve Çözümleri',
-        content: 'Frenlerden gelen sesler, pedalda yumuşama veya titreme gibi belirtiler ciddiye alınmalıdır. Fren balata ve disklerinizin durumunu Felsen Oto Servis uzmanlarına ücretsiz kontrol ettirebilirsiniz.',
-        imageUrl: '/images/service_brakes.png',
-        createdDate: '2025-12-05',
-    },
-    {
-        id: 4,
-        title: 'Akü Ömrünü Uzatmanın Püf Noktaları',
-        content: 'Soğuk havalarda akünüzün performans düşüklüğü yaşamaması için neler yapmalısınız? Akü bakımı, şarj durumu kontrolü ve doğru kullanım teknikleri hakkında bilmeniz gerekenler.',
-        imageUrl: '/images/service_battery.png',
-        createdDate: '2025-12-15',
-    },
-    {
-        id: 5,
-        title: 'Lastik Basıncı ve Yakıt Tasarrufu',
-        content: 'Doğru lastik basıncı hem güvenliğinizi sağlar hem de yakıt tüketimini ideal seviyede tutar. Düşük basınç lastiklerinizi yıpratırken cebinize de zarar verir.',
-        imageUrl: '/images/service_tires.png',
-        createdDate: '2025-12-28',
-    },
-    {
-        id: 6,
-        title: 'Periyodik Bakımda Neler Yapılır?',
-        content: 'Felsen Oto Servis periyodik bakım paketlerinde yağ filtresi, hava filtresi, polen filtresi değişimi ve 42 nokta kontrolü standarttır. Aracınızın sağlığı için ihmal etmeyin.',
-        imageUrl: '/images/service_diagnostics.png',
-        createdDate: '2026-01-05',
-    },
-    {
-        id: 7,
-        title: 'Triger Kayışı Ne İşe Yarar?',
-        content: 'Motorun senkronizasyonunu sağlayan triger kayışı koptuğunda motorda büyük hasarlar oluşabilir. Belirli kilometre aralıklarında (60.000 - 90.000 km) mutlaka değiştirilmelidir.',
-        imageUrl: '/images/service_alignment.png',
-        createdDate: '2026-01-08',
-    },
-    {
-        id: 8,
-        title: 'Egzoz Emisyonu ve Çevre Duyarlılığı',
-        content: 'Aracınızın egzoz sistemindeki arızalar hem performansı düşürür hem de çevreye zarar verir. Muayene öncesi egzoz emisyon ölçümlerinizi yaptırmayı unutmayın.',
-        imageUrl: '/images/service_inspection.png',
-        createdDate: '2026-01-12',
-    },
-    {
-        id: 9,
-        title: 'Pasta Cila ve Boya Koruma',
-        content: 'Aracınızın ilk günkü parlaklığına kavuşması için profesyonel pasta cila ve seramik kaplama uygulamalarımızı keşfedin. Güneş yanıkları ve çiziklere karşı tam koruma.',
-        imageUrl: '/images/hero-bg.png',
-        createdDate: '2026-01-15',
-    },
-    {
-        id: 10,
-        title: 'Oto Klima Bakımı ve Gaz Dolumu',
-        content: 'Klimanızın verimli çalışması ve kötü kokuların giderilmesi için yıllık klima temizliği ve gaz kontrolü şarttır. Yaz sıcağında konforunuzdan ödün vermeyin.',
-        imageUrl: '/images/service_ac.png',
-        createdDate: '2026-01-18',
-    },
-]
 
 export default function Blog() {
     return (

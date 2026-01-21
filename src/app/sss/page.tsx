@@ -16,7 +16,7 @@ export default function FAQ() {
         },
         {
             question: 'Orijinal yedek parça kullanıyor musunuz?',
-            answer: 'Evet, Felsen Auto olarak önceliğimiz aracınızın performansını ve güvenliğini korumaktır. Bu nedenle üretici onaylı (OEM) veya eşdeğer kalitede, garantili yedek parçalar kullanıyoruz. Talebiniz doğrultusunda farklı marka alternatifleri de sunabiliriz.',
+            answer: 'Evet, Felsen Servis olarak önceliğimiz aracınızın performansını ve güvenliğini korumaktır. Bu nedenle üretici onaylı (OEM) veya eşdeğer kalitede, garantili yedek parçalar kullanıyoruz. Talebiniz doğrultusunda farklı marka alternatifleri de sunabiliriz.',
         },
         {
             question: 'Arza tespiti (Diagnostic) ücretli mi?',

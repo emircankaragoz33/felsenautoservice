@@ -8,14 +8,14 @@ import Ticker from '@/components/Ticker'
 const outfit = Outfit({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Felsen Oto Servis - Kocaeli Çayırova Profesyonel Araç Bakımı ve Kiralama',
-  description: 'Felsen Oto Servis; Kocaeli Çayırova bölgesinde BMW, Mercedes, Audi gibi premium markalara mekanik bakım, onarım, yedek parça, sigorta ve rent a car hizmeti sunan profesyonel tek adres.',
-  keywords: "felsen, felsen auto, felsen oto servis, kocaeli oto servis, çayırova oto servis, gebze oto servis, oto tamir kocaeli, bmw servisi kocaeli, mercedes servisi kocaeli, audi servisi kocaeli, felsen rent a car, felsen sigorta, araç kiralama kocaeli",
-  authors: [{ name: "Felsen Auto" }],
+  title: 'Felsen Servis - Profesyonel Araç Bakımı ve Kiralama',
+  description: 'Felsen Servis; Kocaeli Çayırova bölgesinde BMW, Mercedes, Audi gibi premium markalara mekanik bakım, onarım, yedek parça, sigorta ve rent a car hizmeti sunan profesyonel tek adres.',
+  keywords: "felsen servis, felsen, felsen oto, felsen auto, kocaeli oto servis, çayırova oto servis, gebze oto servis, oto tamir kocaeli, bmw servisi kocaeli, mercedes servisi kocaeli, audi servisi kocaeli, felsen rent a car, felsen sigorta, araç kiralama kocaeli",
+  authors: [{ name: "Felsen Servis" }],
   openGraph: {
     type: 'website',
     url: 'https://felsen.com.tr',
-    title: 'Felsen Oto Servis - Felsen Auto',
+    title: 'Felsen Servis - Profesyonel Araç Bakımı',
     description: 'Profesyonel kadromuz ve son teknoloji ekipmanlarımızla aracınızın tüm bakım ve onarım ihtiyaçları için yanınızdayız.',
     images: ['https://felsen.com.tr/images/logo.png'],
   },

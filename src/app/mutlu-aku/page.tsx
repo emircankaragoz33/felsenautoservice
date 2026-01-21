@@ -29,7 +29,7 @@ export default function MutluAkuPage() {
                             <span className="text-primary">Mutlu Akü</span> Yetkili Bayii
                         </h1>
                         <p className="hero-subtitle">
-                            Aracınızın kalbi emin ellerde. Yeni nesil Mutlu Akü ürünleri ve profesyonel montaj hizmeti Felsen Auto'da.
+                            Aracınızın kalbi emin ellerde. Yeni nesil Mutlu Akü ürünleri ve profesyonel montaj hizmeti Felsen Servis'te.
                         </p>
                         <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
                             <Link href="#contact" className="btn-custom">
@@ -50,7 +50,7 @@ export default function MutluAkuPage() {
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <h2 className="reveal"><span className="text-primary">Güçlü</span> Başlangıçlar İçin</h2>
                         <p className="reveal" style={{ maxWidth: '700px', margin: '0 auto', color: '#ccc' }}>
-                            Felsen Auto güvencesiyle, Türkiye'nin lider akü markası Mutlu Akü'nün üstün performanslı ürünlerine ulaşın.
+                            Felsen Servis güvencesiyle, Türkiye'nin lider akü markası Mutlu Akü'nün üstün performanslı ürünlerine ulaşın.
                             Yerinde değişim, ücretsiz test ve garantili satış hizmetimizle yanınızdayız.
                         </p>
                     </div>
@@ -162,7 +162,7 @@ export default function MutluAkuPage() {
                 <div className="container" style={{ textAlign: 'center' }}>
                     <h2 className="reveal">Bize Ulaşın</h2>
                     <p className="reveal" style={{ color: '#ccc', marginBottom: '40px' }}>
-                        Felsen Auto Mutlu Akü Yetkili Satış Noktası
+                        Felsen Servis Mutlu Akü Yetkili Satış Noktası
                     </p>
 
                     <div className="card-glass reveal" style={{ maxWidth: '600px', margin: '0 auto' }}>

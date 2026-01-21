@@ -40,7 +40,7 @@ export default function Home() {
             Mükemmellik Standarttır <span className="text-gradient">Hoşgeldiniz</span>
           </h1>
           <p className="hero-subtitle">
-            Felsen Oto Servis olarak, aracınız için üst düzey bakım ve güven sunuyoruz.
+            Felsen Servis olarak, aracınız için üst düzey bakım ve güven sunuyoruz.
           </p>
           <div className="hero-btns">
             {/* 
