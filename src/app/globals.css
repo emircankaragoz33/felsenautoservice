@@ -568,6 +568,15 @@ ul {
   cursor: pointer;
 }
 
+.eurorepar-logo-hero {
+  position: absolute;
+  top: -180px;
+  left: 40%;
+  transform: translateX(-50%);
+  width: 250px;
+  z-index: 5;
+}
+
 @media (max-width: 768px) {
   .nav-links {
     display: none;
@@ -646,6 +655,12 @@ ul {
   .hero-subtitle {
     font-size: 1rem;
     max-width: 100%;
+  }
+
+  .eurorepar-logo-hero {
+    left: 50%;
+    width: 220px;
+    top: -150px;
   }
 
   /* Reset default stack for hero buttons in mobile if needed, but flex gap handles it */
