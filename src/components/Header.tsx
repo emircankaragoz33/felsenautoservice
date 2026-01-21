@@ -35,9 +35,16 @@ export default function Header() {
         <header className={`header-main ${scrolled ? 'header-scrolled' : ''}`} id="header">
             <div className="container">
                 <nav className="navbar">
-                    <Link href="/" className="brand-logo">
-                        <img src="/images/logo.png" alt="Felsen Servis Logo" />
-                    </Link>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '25px' }}>
+                        <Link href="/" className="brand-logo">
+                            <img src="/images/logo.png" alt="Felsen Servis Logo" />
+                        </Link>
+                        <img
+                            src="/images/eurorepar-logo.png"
+                            alt="Eurorepar"
+                            style={{ height: '55px', width: 'auto', filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.3))' }}
+                        />
+                    </div>
 
                     <div className="mobile-nav-toggle" id="navToggle" onClick={toggleMobileMenu}>
                         <i className="fas fa-bars"></i>
