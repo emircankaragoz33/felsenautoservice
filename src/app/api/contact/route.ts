@@ -16,15 +16,19 @@ export async function POST(request: Request) {
         // 1. Configure the Transporter
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
-            port: Number(process.env.SMTP_PORT) || 587,
-            secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
+            port: 465, // Force 465
+            secure: true, // Force SSL
             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS,
             },
             tls: {
-                rejectUnauthorized: false
+                // Do not fail on invalid certs
+                rejectUnauthorized: false,
+                minVersion: 'TLSv1'
             },
+            connectionTimeout: 10000, // 10 seconds
+            greetingTimeout: 10000,
             logger: true,
             debug: true
         })
