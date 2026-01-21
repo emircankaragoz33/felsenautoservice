@@ -87,7 +87,7 @@ export default function Home() {
                 <div className="card-glass" style={{ textAlign: 'left', padding: '30px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
                     <i className="fas fa-box-open service-icon" style={{ fontSize: '2rem', marginBottom: 0 }}></i>
-                    <h3 style={{ fontSize: '1.3rem', margin: 0 }}>Orijinal Yedek Parça</h3>
+                    <h3 style={{ fontSize: '1.3rem', margin: 0 }}>Orijinal Yedek Parça Garantisi</h3>
                   </div>
                   <p style={{ fontSize: '0.9rem', color: '#ccc' }}>
                     Kullanılan tüm yedek parçalar üretici standartlarında olup garanti kapsamındadır.
