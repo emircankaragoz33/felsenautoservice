@@ -85,6 +85,11 @@ export default function Header() {
                                 İletişim
                             </Link>
                         </li>
+                        <li>
+                            <Link href="/iletisim" className="btn-custom" style={{ padding: '8px 20px', fontSize: '0.85rem' }} onClick={() => setMobileMenuOpen(false)}>
+                                Randevu Al
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
             </div>

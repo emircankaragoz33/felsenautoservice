@@ -43,11 +43,9 @@ export default function Home() {
             Felsen Servis olarak, aracınız için üst düzey bakım ve güven sunuyoruz.
           </p>
           <div className="hero-btns">
-            {/* 
             <Link href="/iletisim" className="btn-custom">
               Randevu Al
-            </Link> 
-            */}
+            </Link>
             <Link href="/hizmetlerimiz" className="btn-custom btn-outline" style={{ marginLeft: '0px' }}>
               Hizmetleri İncele
             </Link>
