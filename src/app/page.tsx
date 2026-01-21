@@ -36,11 +36,11 @@ export default function Home() {
           ))}
         </div>
         <div className="hero-content reveal">
-          <div className="reveal" style={{ display: 'inline-block', padding: '10px 20px', background: 'rgba(255,255,255,0.9)', borderRadius: '50px', marginBottom: '20px', boxShadow: '0 0 15px rgba(230, 81, 0, 0.5)' }}>
+          <div className="reveal" style={{ marginBottom: '30px' }}>
             <img
               src="/images/eurorepar-logo.png"
               alt="Eurorepar Car Service"
-              style={{ height: '60px', width: 'auto', display: 'block' }}
+              style={{ height: '140px', width: 'auto', display: 'inline-block', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.5))' }}
             />
           </div>
           <h1 className="hero-title">
