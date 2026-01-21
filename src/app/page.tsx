@@ -36,6 +36,13 @@ export default function Home() {
           ))}
         </div>
         <div className="hero-content reveal">
+          <div className="reveal" style={{ position: 'absolute', top: '-150px', left: '50%', transform: 'translateX(-50%)', width: '280px', zIndex: 5 }}>
+            <img
+              src="/images/eurorepar-logo.png"
+              alt="Eurorepar Car Service"
+              style={{ width: '100%', height: 'auto', display: 'block', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.5))' }}
+            />
+          </div>
           <h1 className="hero-title">
             Mükemmellik Standarttır <span className="text-gradient">Hoşgeldiniz</span>
           </h1>
