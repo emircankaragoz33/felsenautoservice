@@ -40,7 +40,7 @@ export default function Home() {
             <img
               src="/images/eurorepar-logo.png"
               alt="Eurorepar Car Service"
-              style={{ width: '100%', maxWidth: '300px', height: 'auto', display: 'inline-block', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.5))' }}
+              style={{ width: '100%', maxWidth: '250px', height: 'auto', display: 'inline-block', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.5))' }}
             />
           </div>
           <h1 className="hero-title">
