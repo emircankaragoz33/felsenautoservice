@@ -133,8 +133,6 @@ export default function Contact() {
                             </div>
                         </div>
 
-                        {/* Appointment Form */}
-                        {/* 
                         <div className="col reveal" style={{ flex: 1, minWidth: '300px' }}>
                             <div className="card-glass">
                                 <h3 className="mb-4">Randevu Talep Formu</h3>
@@ -248,21 +246,19 @@ export default function Contact() {
                                 </form>
                             </div>
                         </div>
-                        */}
+                        {/* Google Map Embed */}
+                        <div style={{ marginTop: '50px', borderRadius: '15px', overflow: 'hidden' }} className="reveal">
+                            <iframe
+                                src="https://maps.google.com/maps?width=100%25&height=600&hl=tr&q=Felsen%20Servis%20%C5%9Eekerp%C4%B1nar%20Mahallesi%20Turgut%20%C3%96zal%20Caddesi%20No%205/A%20Akp%C4%B1nar%20Plaza%20%C5%9Eekerp%C4%B1nar%20%C3%87ay%C4%B1rova%20Kocaeli&t=&z=16&ie=UTF8&iwloc=B&output=embed"
+                                width="100%"
+                                height="450"
+                                style={{ border: 0 }}
+                                allowFullScreen={true}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            ></iframe>
+                        </div>
                     </div>
-                    {/* Google Map Embed */}
-                    <div style={{ marginTop: '50px', borderRadius: '15px', overflow: 'hidden' }} className="reveal">
-                        <iframe
-                            src="https://maps.google.com/maps?width=100%25&height=600&hl=tr&q=Felsen%20Servis%20%C5%9Eekerp%C4%B1nar%20Mahallesi%20Turgut%20%C3%96zal%20Caddesi%20No%205/A%20Akp%C4%B1nar%20Plaza%20%C5%9Eekerp%C4%B1nar%20%C3%87ay%C4%B1rova%20Kocaeli&t=&z=16&ie=UTF8&iwloc=B&output=embed"
-                            width="100%"
-                            height="450"
-                            style={{ border: 0 }}
-                            allowFullScreen={true}
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                        ></iframe>
-                    </div>
-                </div>
             </section >
         </>
     )
