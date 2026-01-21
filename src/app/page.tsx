@@ -50,15 +50,14 @@ export default function Home() {
               Hizmetleri İncele
             </Link>
           </div>
-        </div>
 
-        {/* Eurorepar Logo Bottom Right */}
-        <div style={{ position: 'absolute', bottom: '30px', right: '30px', zIndex: 10, maxWidth: '250px' }}>
-          <img
-            src="/images/eurorepar-logo.png"
-            alt="Eurorepar Car Service"
-            style={{ width: '100%', height: 'auto', display: 'block', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.5))' }}
-          />
+          <div className="reveal" style={{ marginTop: '40px' }}>
+            <img
+              src="/images/eurorepar-logo.png"
+              alt="Eurorepar Car Service"
+              style={{ height: '80px', width: 'auto', display: 'inline-block', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.5))' }}
+            />
+          </div>
         </div>
       </section>
 
