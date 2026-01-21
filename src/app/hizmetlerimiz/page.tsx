@@ -29,34 +29,8 @@ export default function Services() {
                             gap: '40px',
                         }}
                     >
-                        {/* Service Item 1: Motor Mekanik Bakım ve Onarımı */}
+                        {/* Service Item: Arıza Teşhis ve Onarımı */}
                         <div className="card-glass reveal">
-                            <img
-                                src="/images/service_engine.png"
-                                alt="Motor Mekanik Bakım ve Onarımı"
-                                className="service-img"
-                            />
-                            <h3>Motor Mekanik Bakım ve Onarımı</h3>
-                            <p style={{ color: '#aaa', margin: '15px 0' }}>
-                                Aracınızın kalbi olan motorunuz için rektifiye, triger seti değişimi ve genel mekanik bakım işlemlerini
-                                uzman ekibimizle garantili olarak gerçekleştiriyoruz.
-                            </p>
-                            <h4 className="text-primary mt-3">Kapsam:</h4>
-                            <ul style={{ color: '#bbb', fontSize: '0.9rem', marginTop: '10px', lineHeight: '1.8' }}>
-                                <li>
-                                    <i className="fas fa-check text-primary"></i> Motor Yenileme & Rektifiye
-                                </li>
-                                <li>
-                                    <i className="fas fa-check text-primary"></i> Şanzıman Onarımı
-                                </li>
-                                <li>
-                                    <i className="fas fa-check text-primary"></i> Periyodik Bakım
-                                </li>
-                            </ul>
-                        </div>
-
-                        {/* Service Item 2: Arıza Teşhis ve Onarımı */}
-                        <div className="card-glass reveal" style={{ animationDelay: '0.1s' }}>
                             <img
                                 src="/images/service_diagnostics.png"
                                 alt="Arıza Teşhis ve Onarımı"
@@ -81,17 +55,43 @@ export default function Services() {
                             </ul>
                         </div>
 
-                        {/* Service Item 3: Ön Takım Ve Fren Onarımı */}
+                        {/* Service Item: Ön Takım ve Süspansiyon */}
+                        <div className="card-glass reveal" style={{ animationDelay: '0.1s' }}>
+                            <img
+                                src="/images/service-repair.png"
+                                alt="Ön Takım ve Süspansiyon"
+                                className="service-img"
+                            />
+                            <h3>Ön Takım ve Süspansiyon</h3>
+                            <p style={{ color: '#aaa', margin: '15px 0' }}>
+                                Aracınızın yol tutuşunu ve sürüş konforunu etkileyen alt takım, amortisör ve diğer süspansiyon parçalarının
+                                bakımını uzmanlıkla yapıyoruz.
+                            </p>
+                            <h4 className="text-primary mt-3">Kapsam:</h4>
+                            <ul style={{ color: '#bbb', fontSize: '0.9rem', marginTop: '10px', lineHeight: '1.8' }}>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Alt Takım Kontrolü
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Amortisör & Yay Değişimi
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Salıncak & Rotil Kontrolü
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Service Item: Fren Sistemleri Bakım ve Onarımı */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.2s' }}>
                             <img
                                 src="/images/service_brakes.png"
-                                alt="Ön Takım Ve Fren Onarımı"
+                                alt="Fren Sistemleri Bakım ve Onarımı"
                                 className="service-img"
                             />
-                            <h3>Ön Takım Ve Fren Onarımı</h3>
+                            <h3>Fren Sistemleri Bakım ve Onarımı</h3>
                             <p style={{ color: '#aaa', margin: '15px 0' }}>
-                                Sürüş güvenliğiniz için ön takım, süspansiyon ve fren sistemlerinizin bakımını orijinal yedek parçalarla
-                                titizlikle yapıyoruz.
+                                Sürüş güvenliğiniz için fren balata, disk ve hidrolik sistemlerinin kontrolünü ve değişimini
+                                orijinal parçalarla yapıyoruz.
                             </p>
                             <h4 className="text-primary mt-3">Kapsam:</h4>
                             <ul style={{ color: '#bbb', fontSize: '0.9rem', marginTop: '10px', lineHeight: '1.8' }}>
@@ -99,15 +99,15 @@ export default function Services() {
                                     <i className="fas fa-check text-primary"></i> Fren Balata & Disk Değişimi
                                 </li>
                                 <li>
-                                    <i className="fas fa-check text-primary"></i> Amortisör & Yay Kontrolü
+                                    <i className="fas fa-check text-primary"></i> ABS Sistem Kontrolü
                                 </li>
                                 <li>
-                                    <i className="fas fa-check text-primary"></i> Alt Takım Bakımı
+                                    <i className="fas fa-check text-primary"></i> Fren Hidroliği Testi
                                 </li>
                             </ul>
                         </div>
 
-                        {/* Service Item 4: Klima Bakım ve Onarım */}
+                        {/* Service Item: Klima Bakım ve Onarım */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.3s' }}>
                             <img src="/images/service_ac.png" alt="Klima Bakım ve Onarım" className="service-img" />
                             <h3>Klima Bakım ve Onarım</h3>
@@ -129,7 +129,7 @@ export default function Services() {
                             </ul>
                         </div>
 
-                        {/* Service Item 5: Fenni Muayene Öncesi Hazırlık */}
+                        {/* Service Item: Fenni Muayene Öncesi Hazırlık */}
                         <div className="card-glass reveal">
                             <img
                                 src="/images/service_inspection.png"
@@ -155,7 +155,7 @@ export default function Services() {
                             </ul>
                         </div>
 
-                        {/* Service Item 6: Rot Balans */}
+                        {/* Service Item: Rot Balans */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.1s' }}>
                             <img src="/images/service_alignment.png" alt="Rot Balans" className="service-img" />
                             <h3>Rot Balans</h3>
@@ -177,7 +177,7 @@ export default function Services() {
                             </ul>
                         </div>
 
-                        {/* Service Item 7: Akü */}
+                        {/* Service Item: Akü */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.2s' }}>
                             <img src="/images/service_battery.png" alt="Akü" className="service-img" />
                             <h3>Akü</h3>
@@ -199,7 +199,7 @@ export default function Services() {
                             </ul>
                         </div>
 
-                        {/* Service Item 8: Lastik */}
+                        {/* Service Item: Lastik */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.3s' }}>
                             <img src="/images/service_tires.png" alt="Lastik" className="service-img" />
                             <h3>Lastik</h3>

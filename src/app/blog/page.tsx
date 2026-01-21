@@ -1,13 +1,11 @@
-import Link from 'next/link'
-import { blogs } from '@/data/blogs'
-import { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-    title: 'Blog & Haberler - Felsen Servis',
-    description: 'Otomotiv dünyasından en güncel haberler, bakım ipuçları ve Felsen Servis duyuruları.',
-}
+import { useState } from 'react'
+import { blogs, BlogPost } from '@/data/blogs'
 
 export default function Blog() {
+    const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null)
+
     return (
         <>
             <div
@@ -42,23 +40,37 @@ export default function Blog() {
                             </div>
                         ) : (
                             blogs.map((item) => (
-                                <div key={item.id} className="card-glass reveal" style={{ padding: 0, overflow: 'hidden' }}>
+                                <div key={item.id} className="card-glass reveal" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                                     <img
                                         src={item.imageUrl || '/images/default-blog.png'}
                                         alt={item.title}
                                         style={{ width: '100%', height: '200px', objectFit: 'cover' }}
                                     />
-                                    <div style={{ padding: '25px' }}>
+                                    <div style={{ padding: '25px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                                         <span className="text-primary" style={{ fontSize: '0.8rem', fontWeight: 600 }}>
                                             {new Date(item.createdDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase()}
                                         </span>
                                         <h3 style={{ margin: '10px 0' }}>{item.title}</h3>
-                                        <p style={{ color: '#aaa', fontSize: '0.95rem', marginBottom: '20px' }}>
+                                        <p style={{ color: '#aaa', fontSize: '0.95rem', marginBottom: '20px', flex: 1 }}>
                                             {item.content.length > 100 ? `${item.content.substring(0, 100)}...` : item.content}
                                         </p>
-                                        <Link href={`/blog/${item.id}`} className="text-primary">
+                                        <button
+                                            onClick={() => setSelectedBlog(item)}
+                                            className="text-primary"
+                                            style={{
+                                                background: 'none',
+                                                border: 'none',
+                                                padding: 0,
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '5px',
+                                                fontSize: '1rem',
+                                                textAlign: 'left'
+                                            }}
+                                        >
                                             Devamını Oku <i className="fas fa-arrow-right"></i>
-                                        </Link>
+                                        </button>
                                     </div>
                                 </div>
                             ))
@@ -66,6 +78,73 @@ export default function Blog() {
                     </div>
                 </div>
             </section>
+
+            {/* Modal */}
+            {selectedBlog && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(0,0,0,0.9)',
+                        zIndex: 9999,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '20px'
+                    }}
+                    onClick={() => setSelectedBlog(null)}
+                >
+                    <div
+                        className="modal-content card-glass"
+                        style={{
+                            maxWidth: '800px',
+                            width: '100%',
+                            maxHeight: '90vh',
+                            overflowY: 'auto',
+                            position: 'relative',
+                            padding: '30px',
+                            borderRadius: '15px'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={() => setSelectedBlog(null)}
+                            style={{
+                                position: 'absolute',
+                                top: '15px',
+                                right: '15px',
+                                background: 'transparent',
+                                border: 'none',
+                                color: '#fff',
+                                fontSize: '1.5rem',
+                                cursor: 'pointer',
+                                zIndex: 10
+                            }}
+                        >
+                            <i className="fas fa-times"></i>
+                        </button>
+
+                        <img
+                            src={selectedBlog.imageUrl || '/images/default-blog.png'}
+                            alt={selectedBlog.title}
+                            style={{ width: '100%', maxHeight: '300px', objectFit: 'cover', borderRadius: '10px', marginBottom: '20px' }}
+                        />
+
+                        <span className="text-primary" style={{ fontSize: '0.9rem', fontWeight: 600 }}>
+                            {new Date(selectedBlog.createdDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase()}
+                        </span>
+
+                        <h2 style={{ margin: '15px 0' }}>{selectedBlog.title}</h2>
+
+                        <div style={{ color: '#ddd', fontSize: '1rem', lineHeight: '1.6' }}>
+                            {selectedBlog.content}
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

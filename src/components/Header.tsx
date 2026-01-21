@@ -71,8 +71,8 @@ export default function Header() {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/blog" className={isActive('/blog') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
-                                Blog
+                            <Link href="/kariyer" className={isActive('/kariyer') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
+                                Kariyer
                             </Link>
                         </li>
                         <li>
