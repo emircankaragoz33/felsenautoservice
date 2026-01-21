@@ -7,7 +7,7 @@ export default function Contact() {
         CustomerName: '',
         CustomerPhone: '',
         CustomerEmail: '',
-        ServiceType: 'Servis Randevusu',
+        ServiceType: 'Genel',
         CarModel: '',
         AppointmentDate: '',
         Notes: '',
@@ -40,7 +40,7 @@ export default function Contact() {
                     CustomerName: '',
                     CustomerPhone: '',
                     CustomerEmail: '',
-                    ServiceType: 'Servis Randevusu',
+                    ServiceType: 'Genel',
                     CarModel: '',
                     AppointmentDate: '',
                     Notes: '',
@@ -190,14 +190,20 @@ export default function Contact() {
                                             <label style={{ display: 'block', marginBottom: '5px', color: '#888' }}>
                                                 Hizmet Türü
                                             </label>
-                                            <input
-                                                type="text"
+                                            <select
                                                 name="ServiceType"
-                                                className="form-input"
-                                                value="Servis Randevusu"
-                                                readOnly
-                                                style={{ cursor: 'not-allowed', opacity: 0.7 }}
-                                            />
+                                                className="form-select"
+                                                value={formData.ServiceType}
+                                                onChange={handleChange}
+                                            >
+                                                <option value="Genel">Seçiniz...</option>
+                                                <option value="Periyodik Bakım">Periyodik Bakım</option>
+                                                <option value="Motor Onarım">Motor Onarım</option>
+                                                <option value="Elektrik/Elektronik">Elektrik/Elektronik</option>
+                                                <option value="Klima Servisi">Klima Servisi</option>
+                                                <option value="Kaporta Boya">Kaporta Boya</option>
+                                                <option value="Diğer">Diğer</option>
+                                            </select>
                                         </div>
                                         <div style={{ flex: 1, minWidth: '200px' }}>
                                             <label style={{ display: 'block', marginBottom: '5px', color: '#888' }}>
@@ -227,7 +233,7 @@ export default function Contact() {
                                     />
 
                                     <label style={{ display: 'block', marginBottom: '5px', color: '#888' }}>
-                                        Mesajınız / Şikayetiniz
+                                        Mesajınız / Şikayetiniz (Opsiyonel)
                                     </label>
                                     <textarea
                                         name="Notes"
