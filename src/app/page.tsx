@@ -35,14 +35,7 @@ export default function Home() {
             </video>
           ))}
         </div>
-        <div className="hero-content reveal" style={{ marginTop: '-80px' }}>
-          <div className="reveal eurorepar-logo-hero">
-            <img
-              src="/images/eurorepar-logo.png"
-              alt="Eurorepar Car Service"
-              style={{ width: '100%', height: 'auto', display: 'block', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.5))' }}
-            />
-          </div>
+        <div className="hero-content reveal">
           <h1 className="hero-title">
             Mükemmellik Standarttır <span className="text-gradient">Hoşgeldiniz</span>
           </h1>
