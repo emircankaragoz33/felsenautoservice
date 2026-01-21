@@ -35,8 +35,8 @@ export default function Home() {
             </video>
           ))}
         </div>
-        <div className="hero-content reveal">
-          <div className="reveal" style={{ position: 'absolute', top: '-110px', left: '50%', transform: 'translateX(-50%)', width: '280px', zIndex: 5 }}>
+        <div className="hero-content reveal" style={{ marginTop: '-80px' }}>
+          <div className="reveal" style={{ position: 'absolute', top: '-240px', left: '50%', transform: 'translateX(-50%)', width: '250px', zIndex: 5 }}>
             <img
               src="/images/eurorepar-logo.png"
               alt="Eurorepar Car Service"
