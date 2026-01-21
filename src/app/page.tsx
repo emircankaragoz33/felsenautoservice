@@ -36,6 +36,13 @@ export default function Home() {
           ))}
         </div>
         <div className="hero-content reveal">
+          <div className="reveal" style={{ display: 'inline-block', padding: '10px 20px', background: 'rgba(255,255,255,0.9)', borderRadius: '50px', marginBottom: '20px', boxShadow: '0 0 15px rgba(230, 81, 0, 0.5)' }}>
+            <img
+              src="/images/eurorepar-logo.png"
+              alt="Eurorepar Car Service"
+              style={{ height: '60px', width: 'auto', display: 'block' }}
+            />
+          </div>
           <h1 className="hero-title">
             Mükemmellik Standarttır <span className="text-gradient">Hoşgeldiniz</span>
           </h1>
@@ -125,7 +132,7 @@ export default function Home() {
               <img
                 src="/images/eurorepar-logo.png"
                 alt="Eurorepar Car Service"
-                style={{ maxWidth: '100%', maxHeight: '150px', objectFit: 'contain' }}
+                style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }}
               />
             </div>
             <div className="col" style={{ flex: 1, minWidth: '300px' }}>
