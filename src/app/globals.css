@@ -643,12 +643,20 @@ ul {
     max-width: 100%;
   }
 
-  .hero-btns {
-    justify-content: center;
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+  .hero-subtitle {
+    font-size: 1rem;
+    max-width: 100%;
   }
+
+  /* Reset default stack for hero buttons in mobile if needed, but flex gap handles it */
+}
+
+.hero-btns {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
 }
 
 /* Founder */

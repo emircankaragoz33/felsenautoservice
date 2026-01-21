@@ -46,7 +46,7 @@ export default function Home() {
             <Link href="/iletisim" className="btn-custom">
               Randevu Al
             </Link>
-            <Link href="/hizmetlerimiz" className="btn-custom btn-outline" style={{ marginLeft: '0px' }}>
+            <Link href="/hizmetlerimiz" className="btn-custom btn-outline">
               Hizmetleri İncele
             </Link>
           </div>

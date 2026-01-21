@@ -41,12 +41,27 @@ export async function POST(request: Request) {
       `,
         }
 
+        // Verify connection configuration
+        try {
+            await transporter.verify();
+            console.log("Server is ready to take our messages");
+        } catch (verifyError) {
+            console.error("SMTP Connection Error:", verifyError);
+            return NextResponse.json({ success: false, message: 'SMTP Connection Failed', error: verifyError }, { status: 500 });
+        }
+
         // 3. Send Email
-        await transporter.sendMail(mailOptions)
+        const info = await transporter.sendMail(mailOptions)
+        console.log("Message sent: %s", info.messageId);
 
         return NextResponse.json({ success: true, message: 'Email sent successfully' })
-    } catch (error) {
-        console.error('Email error:', error)
-        return NextResponse.json({ success: false, message: 'Failed to send email' }, { status: 500 })
+    } catch (error: any) {
+        console.error('Email error details:', {
+            message: error.message,
+            stack: error.stack,
+            code: error.code,
+            response: error.response
+        });
+        return NextResponse.json({ success: false, message: 'Failed to send email', error: error.message }, { status: 500 })
     }
 }
