@@ -62,8 +62,8 @@ export async function POST(request: Request) {
             <body>
                 <div class="container">
                     <div class="header">
-                        <!-- Logo URL assumed valid based on domain -->
-                        <img src="https://felsen.com.tr/images/logo.png" alt="Felsen Servis" style="max-height: 80px; width: auto; margin-bottom: 10px;">
+                        <!-- Embedded Base64 Logo -->
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAACgCAYAAAC8B91UAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAsYSURBVHhe7d0xbFtXHcfxz7Vj53Ucx04cO46d1HHS2I0dO3FSp3XSxE0aO3XSuI0dO3ZS53UcJ3XsxI7jOI6d1E7tOHZex3Ecx07f3/f/P+fh2yBIo6Qoivh9P9jA4/P4PaSUH9773XOvX79+/QcAAACA/xepM0QYTCb7PgAAAABJRU5ErkJggg==" alt="Felsen Servis" style="max-height: 80px; width: auto; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
                         <h1 style="color: #fff; margin-top: 10px;">Yeni Randevu</h1>
                     </div>
                     <div class="content">
