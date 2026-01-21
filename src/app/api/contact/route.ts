@@ -6,6 +6,13 @@ export async function POST(request: Request) {
         const body = await request.json()
         const { CustomerName, CustomerPhone, CustomerEmail, ServiceType, CarModel, AppointmentDate, Notes } = body
 
+        console.log("SMTP Config:", {
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT,
+            user: process.env.SMTP_USER,
+            secure: Number(process.env.SMTP_PORT) === 465
+        });
+
         // 1. Configure the Transporter
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -17,7 +24,9 @@ export async function POST(request: Request) {
             },
             tls: {
                 rejectUnauthorized: false
-            }
+            },
+            logger: true,
+            debug: true
         })
 
         // 2. Define Email Data
