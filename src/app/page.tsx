@@ -36,6 +36,13 @@ export default function Home() {
           ))}
         </div>
         <div className="hero-content reveal">
+          <div className="reveal" style={{ marginBottom: '20px' }}>
+            <img
+              src="/images/eurorepar-logo.png"
+              alt="Eurorepar Car Service"
+              style={{ height: '80px', width: 'auto', display: 'inline-block', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.5))' }}
+            />
+          </div>
           <h1 className="hero-title">
             Mükemmellik Standarttır <span className="text-gradient">Hoşgeldiniz</span>
           </h1>
@@ -49,14 +56,6 @@ export default function Home() {
             <Link href="/hizmetlerimiz" className="btn-custom btn-outline">
               Hizmetleri İncele
             </Link>
-          </div>
-
-          <div className="reveal" style={{ marginTop: '40px' }}>
-            <img
-              src="/images/eurorepar-logo.png"
-              alt="Eurorepar Car Service"
-              style={{ height: '80px', width: 'auto', display: 'inline-block', filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.5))' }}
-            />
           </div>
         </div>
       </section>
