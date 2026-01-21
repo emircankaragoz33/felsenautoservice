@@ -36,7 +36,7 @@ export default function Home() {
           ))}
         </div>
         <div className="hero-content reveal">
-          <div className="reveal" style={{ position: 'absolute', top: '-150px', left: '50%', transform: 'translateX(-50%)', width: '280px', zIndex: 5 }}>
+          <div className="reveal" style={{ position: 'absolute', top: '-110px', left: '50%', transform: 'translateX(-50%)', width: '280px', zIndex: 5 }}>
             <img
               src="/images/eurorepar-logo.png"
               alt="Eurorepar Car Service"
