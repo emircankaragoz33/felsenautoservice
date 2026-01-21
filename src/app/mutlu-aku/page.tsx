@@ -62,13 +62,13 @@ export default function MutluAkuPage() {
                     }}>
                         {/* Card 1: Shop */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.1s' }}>
-                            <div style={{ height: '300px', overflow: 'hidden', borderRadius: '8px', marginBottom: '20px' }}>
+                            <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderRadius: '8px', marginBottom: '20px', background: 'rgba(255,255,255,0.05)' }}>
                                 <Image
-                                    src="/images/mutlu-shop.png"
-                                    alt="Mutlu Akü Bayisi"
+                                    src="/images/mutlu-aku-logo.png"
+                                    alt="Mutlu Akü Yetkili Satış Noktası"
                                     width={400}
                                     height={300}
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
+                                    style={{ width: '90%', height: 'auto', objectFit: 'contain' }}
                                     className="hover-zoom"
                                 />
                             </div>
