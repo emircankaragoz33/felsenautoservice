@@ -168,7 +168,7 @@ export default function MutluAkuPage() {
                     <div className="card-glass reveal" style={{ maxWidth: '600px', margin: '0 auto' }}>
                         <p style={{ fontSize: '1.2rem', marginBottom: '20px' }}>
                             <i className="fas fa-map-marker-alt text-primary" style={{ marginRight: '10px' }}></i>
-                            Şekerpınar Mahallesi, Turgut Özdal Cad. No:5A Çayırova/KOCAELİ
+                            Şekerpınar Mahallesi Turgut Özal Caddesi No 5/A Akpınar Plaza Şekerpınar Çayırova Kocaeli. (Yapıteknik Yanı)
                         </p>
                         <p style={{ fontSize: '1.2rem' }}>
                             <i className="fas fa-phone text-primary" style={{ marginRight: '10px' }}></i>

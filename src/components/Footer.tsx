@@ -23,7 +23,7 @@ export default function Footer() {
                     <div>
                         <h4>İletişim</h4>
                         <p>
-                            <i className="fas fa-map-marker-alt text-primary"></i> Şekerpınar Mahallesi, Turgut Özdal Cad. No:5A Çayırova/KOCAELİ
+                            <i className="fas fa-map-marker-alt text-primary"></i> Şekerpınar Mahallesi Turgut Özal Caddesi No 5/A Akpınar Plaza Şekerpınar Çayırova Kocaeli. (Yapıteknik Yanı)
                         </p>
                         <p>
                             <i className="fas fa-phone text-primary"></i> <a href="tel:08503084641" style={{ color: 'inherit', textDecoration: 'none' }}>0850 308 4641</a>

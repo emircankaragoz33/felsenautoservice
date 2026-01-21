@@ -104,9 +104,7 @@ export default function Contact() {
                                     <div>
                                         <h4 style={{ marginBottom: '5px' }}>Adresimiz</h4>
                                         <p style={{ color: '#aaa' }}>
-                                            Şekerpınar Mahallesi, Turgut Özdal Cad. No:5A
-                                            <br />
-                                            Çayırova/KOCAELİ
+                                            Şekerpınar Mahallesi Turgut Özal Caddesi No 5/A Akpınar Plaza Şekerpınar Çayırova Kocaeli. (Yapıteknik Yanı)
                                         </p>
                                     </div>
                                 </div>
@@ -251,6 +249,18 @@ export default function Contact() {
                             </div>
                         </div>
                         */}
+                    </div>
+                    {/* Google Map Embed */}
+                    <div style={{ marginTop: '50px', borderRadius: '15px', overflow: 'hidden' }} className="reveal">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1506.6083595561578!2d29.390772658197175!3d40.8528766465451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cad1005ca79e8d%3A0xe74e64f26049a46f!2sFelsen%20Servis%20Hizmetleri%20Limited%20%C5%9Eirketi!5e0!3m2!1str!2str!4v1705663673739!5m2!1str!2str"
+                            width="100%"
+                            height="450"
+                            style={{ border: 0 }}
+                            allowFullScreen={true}
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
                     </div>
                 </div>
             </section >
