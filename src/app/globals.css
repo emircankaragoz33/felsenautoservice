@@ -347,7 +347,8 @@ ul {
 
 .nav-links {
   display: flex;
-  gap: 30px;
+  gap: 20px;
+  align-items: center;
 }
 
 .nav-links a {
@@ -378,6 +379,12 @@ ul {
 .nav-links a:hover {
   opacity: 1;
   color: var(--primary);
+}
+
+.nav-btn {
+  padding: 8px 20px !important;
+  font-size: 0.85rem !important;
+  white-space: nowrap;
 }
 
 /* Hero */
@@ -582,6 +589,18 @@ ul {
 
   .mobile-nav-toggle {
     display: block;
+  }
+
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .nav-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
   }
 
   /* Mobile Navbar Sizing */

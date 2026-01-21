@@ -86,7 +86,7 @@ export default function Header() {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/iletisim" className="btn-custom" style={{ padding: '8px 20px', fontSize: '0.85rem' }} onClick={() => setMobileMenuOpen(false)}>
+                            <Link href="/iletisim" className="btn-custom nav-btn" onClick={() => setMobileMenuOpen(false)}>
                                 Randevu Al
                             </Link>
                         </li>
