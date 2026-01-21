@@ -253,7 +253,7 @@ export default function Contact() {
                     {/* Google Map Embed */}
                     <div style={{ marginTop: '50px', borderRadius: '15px', overflow: 'hidden' }} className="reveal">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1506.6083595561578!2d29.390772658197175!3d40.8528766465451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cad1005ca79e8d%3A0xe74e64f26049a46f!2sFelsen%20Servis%20Hizmetleri%20Limited%20%C5%9Eirketi!5e0!3m2!1str!2str!4v1705663673739!5m2!1str!2str"
+                            src="https://maps.google.com/maps?width=100%25&height=600&hl=tr&q=Felsen%20Servis%20%C5%9Eekerp%C4%B1nar%20Mahallesi%20Turgut%20%C3%96zal%20Caddesi%20No%205/A%20Akp%C4%B1nar%20Plaza%20%C5%9Eekerp%C4%B1nar%20%C3%87ay%C4%B1rova%20Kocaeli&t=&z=16&ie=UTF8&iwloc=B&output=embed"
                             width="100%"
                             height="450"
                             style={{ border: 0 }}
