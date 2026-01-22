@@ -57,13 +57,15 @@ export default function Career() {
                             <p style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '20px' }}>
                                 CV'nizi bize iletin:
                             </p>
-                            <a
-                                href="mailto:ik@felsen.com.tr"
-                                className="btn-custom"
-                                style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontSize: '1.2rem' }}
-                            >
-                                <i className="fas fa-envelope"></i> ik@felsen.com.tr
-                            </a>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
+                                <a
+                                    href="mailto:info@felsen.com.tr"
+                                    className="btn-custom"
+                                    style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontSize: '1.2rem' }}
+                                >
+                                    <i className="fas fa-envelope"></i> info@felsen.com.tr
+                                </a>
+                            </div>
                             <p style={{ marginTop: '20px', fontSize: '0.9rem', color: '#888' }}>
                                 *Başvurunuz İnsan Kaynakları departmanımız tarafından titizlikle incelenecektir.
                             </p>

@@ -58,7 +58,7 @@ export default function Services() {
                         {/* Service Item: Ön Takım ve Süspansiyon */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.1s' }}>
                             <img
-                                src="/images/service-repair.png"
+                                src="/images/service_suspension.png"
                                 alt="Ön Takım ve Süspansiyon"
                                 className="service-img"
                             />
