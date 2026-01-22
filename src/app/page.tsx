@@ -118,14 +118,14 @@ export default function Home() {
       </section>
 
       {/* Eurorepar Section */}
-      <section className="section-padding bg-darker">
+      <section className="section-padding bg-darker" >
         <div className="container">
           <div className="row reveal" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '40px' }}>
             <div className="col" style={{ flex: 1, minWidth: '300px', display: 'flex', justifyContent: 'center' }}>
               <img
                 src="/images/eurorepar-logo.png"
                 alt="Eurorepar Car Service"
-                style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }}
+                style={{ maxWidth: '200%', maxHeight: '600px', objectFit: 'contain' }}
               />
             </div>
             <div className="col" style={{ flex: 1, minWidth: '300px' }}>
