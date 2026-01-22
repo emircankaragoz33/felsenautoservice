@@ -125,7 +125,7 @@ export default function Home() {
               <img
                 src="/images/eurorepar-logo.png"
                 alt="Eurorepar Car Service"
-                style={{ maxWidth: '200%', maxHeight: '600px', objectFit: 'contain' }}
+                style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }}
               />
             </div>
             <div className="col" style={{ flex: 1, minWidth: '300px' }}>
