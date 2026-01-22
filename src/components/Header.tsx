@@ -39,64 +39,58 @@ export default function Header() {
                         <img src="/images/logo.png" alt="Felsen Servis Logo" />
                     </Link>
 
-                    <div className="navbar-center">
-                        <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`} id="navLinks">
-                            <li>
-                                <Link href="/" className={isActive('/') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
-                                    Ana Sayfa
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/hizmetlerimiz" className={isActive('/hizmetlerimiz') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
-                                    Hizmetlerimiz
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/felsen-grup" className={isActive('/felsen-grup') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
-                                    Sigorta & Kiralama
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link href="/mutlu-aku" className={isActive('/mutlu-aku') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
-                                    Mutlu Akü
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/hakkimizda" className={isActive('/hakkimizda') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
-                                    Hakkımızda
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/kariyer" className={isActive('/kariyer') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
-                                    Kariyer
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/sss" className={isActive('/sss') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
-                                    S.S.S
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/iletisim" className={isActive('/iletisim') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
-                                    İletişim
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/iletisim" className="btn-custom nav-btn" onClick={() => setMobileMenuOpen(false)}>
-                                    Randevu Al
-                                </Link>
-                            </li>
-                        </ul>
-
-                        <div className="mobile-nav-toggle" id="navToggle" onClick={toggleMobileMenu}>
-                            <i className="fas fa-bars"></i>
-                        </div>
+                    <div className="mobile-nav-toggle" id="navToggle" onClick={toggleMobileMenu}>
+                        <i className="fas fa-bars"></i>
                     </div>
 
-                    <div className="eurorepar-logo" aria-label="Eurorepar Car Service">
-                        <img src="/images/eurorepar-logo.png" alt="Eurorepar Car Service" />
-                    </div>
+                    <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`} id="navLinks">
+                        <li>
+                            <Link href="/" className={isActive('/') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
+                                Ana Sayfa
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/hizmetlerimiz" className={isActive('/hizmetlerimiz') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
+                                Hizmetlerimiz
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/felsen-grup" className={isActive('/felsen-grup') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
+                                Sigorta & Kiralama
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link href="/mutlu-aku" className={isActive('/mutlu-aku') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
+                                Mutlu Akü
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/hakkimizda" className={isActive('/hakkimizda') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
+                                Hakkımızda
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/kariyer" className={isActive('/kariyer') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
+                                Kariyer
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/sss" className={isActive('/sss') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
+                                S.S.S
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/iletisim" className={isActive('/iletisim') ? 'active-link' : ''} onClick={() => setMobileMenuOpen(false)}>
+                                İletişim
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/iletisim" className="btn-custom nav-btn" onClick={() => setMobileMenuOpen(false)}>
+                                Randevu Al
+                            </Link>
+                        </li>
+                    </ul>
                 </nav>
             </div>
         </header>

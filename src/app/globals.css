@@ -96,7 +96,6 @@ ul {
 
 .text-gradient {
   background: linear-gradient(to right, #fff, #999);
-  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -307,36 +306,6 @@ ul {
   align-items: center;
   height: var(--nav-height);
   transition: height 0.4s ease;
-}
-
-.navbar-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-}
-
-.nav-links {
-  margin: 0 auto;
-}
-
-.mobile-nav-toggle {
-  display: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin: 0 auto;
-}
-
-.eurorepar-logo {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
-.eurorepar-logo img {
-  height: 60px;
-  width: auto;
-  object-fit: contain;
 }
 
 /* Shrink navbar slightly on scroll - User requested FIXED size */
@@ -593,6 +562,12 @@ ul {
   color: var(--primary);
 }
 
+.mobile-nav-toggle {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .nav-links {
     display: none;
@@ -614,15 +589,6 @@ ul {
 
   .mobile-nav-toggle {
     display: block;
-    margin: 0 auto;
-  }
-
-  .navbar-center {
-    flex: 1;
-  }
-
-  .eurorepar-logo img {
-    height: 40px;
   }
 
   .nav-links li {
