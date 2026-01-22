@@ -118,7 +118,7 @@ export default function Home() {
       </section>
 
       {/* Eurorepar Section */}
-      <section className="section-padding" style={{ backgroundColor: '#fff', color: '#111' }}>
+      <section className="section-padding bg-darker">
         <div className="container">
           <div className="row reveal" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '40px' }}>
             <div className="col" style={{ flex: 1, minWidth: '300px', display: 'flex', justifyContent: 'center' }}>
@@ -131,11 +131,11 @@ export default function Home() {
             <div className="col" style={{ flex: 1, minWidth: '300px' }}>
               <h2 style={{ color: '#D35400', marginBottom: '20px' }}>Küresel Güç: Eurorepar Car Service</h2>
               <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', fontWeight: 600 }}>Avrupa'nın Güvenilir Servis Ağı Artık Felsen'de!</h3>
-              <p style={{ color: '#333', lineHeight: '1.8', fontSize: '1.1rem' }}>
+              <p style={{ color: '#ccc', lineHeight: '1.8', fontSize: '1.1rem' }}>
                 Şirketimiz, uluslararası standartlarda hizmet veren <strong>Eurorepar Car Service</strong> ailesine katıldı!
                 Bu iş birliği sayesinde Felsen Servis, Eurorepar'ın küresel uzmanlığına, güçlü lojistik desteğine ve her marka araç için sunduğu geniş yedek parça ürün gamına erişim sağlıyor.
               </p>
-              <p style={{ color: '#555', marginTop: '15px', lineHeight: '1.6' }}>
+              <p style={{ color: '#aaa', marginTop: '15px', lineHeight: '1.6' }}>
                 <i className="fas fa-check-circle" style={{ color: '#D35400', marginRight: '5px' }}></i> <strong>2 Yıl Parça ve İşçilik Garantisi</strong><br />
                 <i className="fas fa-check-circle" style={{ color: '#D35400', marginRight: '5px' }}></i> <strong>Her Marka ve Model İçin Uyumlu Parçalar</strong><br />
                 <i className="fas fa-check-circle" style={{ color: '#D35400', marginRight: '5px' }}></i> <strong>Uluslararası Hizmet Standartları</strong>
