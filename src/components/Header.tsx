@@ -39,6 +39,14 @@ export default function Header() {
                         <img src="/images/logo.png" alt="Felsen Servis Logo" />
                     </Link>
 
+                    {/* Eurorepar Logo - Mobile (between brand and menu toggle) */}
+                    <img
+                        src="/images/eurorepar-navbar.png"
+                        alt="Eurorepar Car Service"
+                        className="eurorepar-logo-mobile"
+                        style={{ height: '35px', objectFit: 'contain' }}
+                    />
+
                     <div className="mobile-nav-toggle" id="navToggle" onClick={toggleMobileMenu}>
                         <i className="fas fa-bars"></i>
                     </div>
@@ -89,6 +97,14 @@ export default function Header() {
                             <Link href="/iletisim" className="btn-custom nav-btn" onClick={() => setMobileMenuOpen(false)}>
                                 Randevu Al
                             </Link>
+                        </li>
+                        {/* Eurorepar Logo - Desktop (next to Randevu Al) */}
+                        <li className="eurorepar-logo-desktop">
+                            <img
+                                src="/images/eurorepar-navbar.png"
+                                alt="Eurorepar Car Service"
+                                style={{ height: '40px', objectFit: 'contain' }}
+                            />
                         </li>
                     </ul>
                 </nav>

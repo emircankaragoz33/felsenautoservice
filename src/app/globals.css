@@ -568,6 +568,24 @@ ul {
   cursor: pointer;
 }
 
+/* Eurorepar Logo Styles */
+.eurorepar-logo-mobile {
+  display: none;
+}
+
+.eurorepar-logo-desktop {
+  display: flex;
+  align-items: center;
+}
+
+.eurorepar-logo-desktop img {
+  transition: transform 0.3s ease;
+}
+
+.eurorepar-logo-desktop img:hover {
+  transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
   .nav-links {
     display: none;
@@ -601,6 +619,15 @@ ul {
     display: block;
     width: 100%;
     text-align: center;
+  }
+
+  /* Eurorepar Logo Mobile/Desktop Toggle */
+  .eurorepar-logo-mobile {
+    display: block !important;
+  }
+
+  .eurorepar-logo-desktop {
+    display: none !important;
   }
 
   /* Mobile Navbar Sizing */
