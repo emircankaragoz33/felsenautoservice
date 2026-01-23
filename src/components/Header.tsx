@@ -44,7 +44,6 @@ export default function Header() {
                         src="/images/eurorepar-navbar.png"
                         alt="Eurorepar Car Service"
                         className="eurorepar-logo-mobile"
-                        style={{ height: '35px', objectFit: 'contain' }}
                     />
 
                     <div className="mobile-nav-toggle" id="navToggle" onClick={toggleMobileMenu}>
@@ -103,7 +102,6 @@ export default function Header() {
                             <img
                                 src="/images/eurorepar-navbar.png"
                                 alt="Eurorepar Car Service"
-                                style={{ height: '40px', objectFit: 'contain' }}
                             />
                         </li>
                     </ul>
