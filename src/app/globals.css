@@ -321,6 +321,7 @@ ul {
   padding: 5px 0;
   position: relative;
   z-index: 1002;
+  margin-left: -20px;
 }
 
 .brand-logo img {
@@ -571,17 +572,18 @@ ul {
 /* Eurorepar Logo Styles */
 .eurorepar-logo-mobile {
   display: none;
-  height: 60px;
+  height: 80px;
   object-fit: contain;
 }
 
 .eurorepar-logo-desktop {
   display: flex;
   align-items: center;
+  margin-left: 15px;
 }
 
 .eurorepar-logo-desktop img {
-  height: 80px;
+  height: 140px;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
