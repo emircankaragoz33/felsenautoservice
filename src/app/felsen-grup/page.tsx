@@ -70,7 +70,7 @@ export default function FelsenGrup() {
                                     gap: '10px',
                                     marginTop: '20px'
                                 }}>
-                                    {['polo.png', 'egea.png', 'audi_a4.png', 'bmw_coupe.png'].map((car, i) => (
+                                    {['fiat_tipo.jpg', 'bmw_5.jpg', 'audi_q8.jpg', 'opel_mokka.jpg'].map((car, i) => (
                                         <div key={i} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '8px', padding: '5px', overflow: 'hidden' }}>
                                             <img src={`/images/rentacar/${car}`} alt="Kiralık Araç" style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '5px' }} />
                                         </div>
