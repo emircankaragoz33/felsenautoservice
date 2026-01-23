@@ -321,7 +321,7 @@ ul {
   padding: 5px 0;
   position: relative;
   z-index: 1002;
-  margin-left: -20px;
+  margin-left: -40px;
 }
 
 .brand-logo img {
@@ -648,7 +648,7 @@ ul {
   .brand-logo img {
     height: 100px;
     margin-top: 0;
-    margin-left: 10px;
+    margin-left: 20px;
   }
 
   .header-scrolled .brand-logo img {
