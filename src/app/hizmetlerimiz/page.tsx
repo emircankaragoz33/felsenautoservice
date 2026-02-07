@@ -222,7 +222,7 @@ export default function Services() {
                         </div>
                         {/* Service Item: Cam Filmi */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.1s' }}>
-                            <img src="/images/service_window_film.png" alt="Cam Filmi" className="service-img" />
+                            <img src="/images/cam filmi.png" alt="Cam Filmi" className="service-img" />
                             <h3>Cam Filmi Uygulamaları</h3>
                             <p style={{ color: '#aaa', margin: '15px 0' }}>
                                 Güneşin zararlı UV ışınlarından korunun, araç içi ısıyı kontrol altına alın ve estetik bir görünüm kazanın.
@@ -244,7 +244,7 @@ export default function Services() {
 
                         {/* Service Item: Folyo Kaplama & PPF */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.2s' }}>
-                            <img src="/images/service_ppf.png" alt="Folyo Kaplama & PPF" className="service-img" />
+                            <img src="/images/folyo.png" alt="Folyo Kaplama & PPF" className="service-img" />
                             <h3>Folyo Kaplama & PPF</h3>
                             <p style={{ color: '#aaa', margin: '15px 0' }}>
                                 Aracınızın boyasını taş vuruklarına ve çiziklere karşı koruyun (PPF) veya rengini değiştirerek
@@ -266,7 +266,7 @@ export default function Services() {
 
                         {/* Service Item: Seramik Kaplama */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.3s' }}>
-                            <img src="/images/service_ceramic.png" alt="Seramik Kaplama" className="service-img" />
+                            <img src="/images/seramik.png" alt="Seramik Kaplama" className="service-img" />
                             <h3>Seramik Kaplama</h3>
                             <p style={{ color: '#aaa', margin: '15px 0' }}>
                                 Aracınıza derin bir parlaklık kazandırın, su itici özellik ekleyin ve dış etkenlere karşı
@@ -288,7 +288,7 @@ export default function Services() {
 
                         {/* Service Item: Detaylı İç Temizlik (Kuaför) */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.4s' }}>
-                            <img src="/images/service_interior.png" alt="Detaylı İç Temizlik" className="service-img" />
+                            <img src="/images/ictemizlik.png" alt="Detaylı İç Temizlik" className="service-img" />
                             <h3>Detaylı İç Temizlik & Kuaför</h3>
                             <p style={{ color: '#aaa', margin: '15px 0' }}>
                                 Koltuklardan tavana, taban halısından bagaja kadar aracınızın içini ilk günkü temizliğine
@@ -310,7 +310,7 @@ export default function Services() {
 
                         {/* Service Item: Motor Temizliği */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.5s' }}>
-                            <img src="/images/service_engine.png" alt="Motor Temizliği" className="service-img" />
+                            <img src="/images/motortemizlik.png" alt="Motor Temizliği" className="service-img" />
                             <h3>Motor Temizliği ve Koruma</h3>
                             <p style={{ color: '#aaa', margin: '15px 0' }}>
                                 Motor bloğunda biriken yağ ve kirleri özel solüsyonlarla temizliyor, plastik aksamları parlatıp
@@ -332,7 +332,7 @@ export default function Services() {
 
                         {/* Service Item: Klima Temizliği */}
                         <div className="card-glass reveal" style={{ animationDelay: '0.6s' }}>
-                            <img src="/images/service_ac_cleaning.png" alt="Klima Temizliği" className="service-img" />
+                            <img src="/images/klima_kanal.png" alt="Klima Temizliği" className="service-img" />
                             <h3>Klima Kanal Temizliği</h3>
                             <p style={{ color: '#aaa', margin: '15px 0' }}>
                                 Kötü kokuları ve bakterileri yok ederek aracınızda ferah bir nefes almanızı sağlıyoruz.
