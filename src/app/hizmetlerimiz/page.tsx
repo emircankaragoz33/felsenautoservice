@@ -220,6 +220,137 @@ export default function Services() {
                                 </li>
                             </ul>
                         </div>
+                        {/* Service Item: Cam Filmi */}
+                        <div className="card-glass reveal" style={{ animationDelay: '0.1s' }}>
+                            <img src="/images/service_window_film.png" alt="Cam Filmi" className="service-img" />
+                            <h3>Cam Filmi Uygulamaları</h3>
+                            <p style={{ color: '#aaa', margin: '15px 0' }}>
+                                Güneşin zararlı UV ışınlarından korunun, araç içi ısıyı kontrol altına alın ve estetik bir görünüm kazanın.
+                                Yüksek kaliteli filmlerimizle konforunuzu artırın.
+                            </p>
+                            <h4 className="text-primary mt-3">Kapsam:</h4>
+                            <ul style={{ color: '#bbb', fontSize: '0.9rem', marginTop: '10px', lineHeight: '1.8' }}>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> UV Korumalı Cam Filmleri
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Isı Kontrolü & Gizlilik
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Çizilmez Yüzey Garantisi
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Service Item: Folyo Kaplama & PPF */}
+                        <div className="card-glass reveal" style={{ animationDelay: '0.2s' }}>
+                            <img src="/images/service_ppf.png" alt="Folyo Kaplama & PPF" className="service-img" />
+                            <h3>Folyo Kaplama & PPF</h3>
+                            <p style={{ color: '#aaa', margin: '15px 0' }}>
+                                Aracınızın boyasını taş vuruklarına ve çiziklere karşı koruyun (PPF) veya rengini değiştirerek
+                                tarzınızı yansıtın. Profesyonel işçilikle kusursuz kaplama.
+                            </p>
+                            <h4 className="text-primary mt-3">Kapsam:</h4>
+                            <ul style={{ color: '#bbb', fontSize: '0.9rem', marginTop: '10px', lineHeight: '1.8' }}>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Şeffaf Boya Koruma Filmi (PPF)
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Renk Değişim Folyoları
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Lokal Kaplama Çözümleri
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Service Item: Seramik Kaplama */}
+                        <div className="card-glass reveal" style={{ animationDelay: '0.3s' }}>
+                            <img src="/images/service_ceramic.png" alt="Seramik Kaplama" className="service-img" />
+                            <h3>Seramik Kaplama</h3>
+                            <p style={{ color: '#aaa', margin: '15px 0' }}>
+                                Aracınıza derin bir parlaklık kazandırın, su itici özellik ekleyin ve dış etkenlere karşı
+                                uzun süreli koruma sağlayın. Showroom parlaklığını koruyun.
+                            </p>
+                            <h4 className="text-primary mt-3">Kapsam:</h4>
+                            <ul style={{ color: '#bbb', fontSize: '0.9rem', marginTop: '10px', lineHeight: '1.8' }}>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Çizik Giderme & Polisaj
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Hidrofobik Yüzey
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Uzun Ömürlü Parlaklık
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Service Item: Detaylı İç Temizlik (Kuaför) */}
+                        <div className="card-glass reveal" style={{ animationDelay: '0.4s' }}>
+                            <img src="/images/service_interior.png" alt="Detaylı İç Temizlik" className="service-img" />
+                            <h3>Detaylı İç Temizlik & Kuaför</h3>
+                            <p style={{ color: '#aaa', margin: '15px 0' }}>
+                                Koltuklardan tavana, taban halısından bagaja kadar aracınızın içini ilk günkü temizliğine
+                                kavuşturuyoruz. Hijyenik ve ferah bir iç mekan.
+                            </p>
+                            <h4 className="text-primary mt-3">Kapsam:</h4>
+                            <ul style={{ color: '#bbb', fontSize: '0.9rem', marginTop: '10px', lineHeight: '1.8' }}>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Detaylı Koltuk Yıkama
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Leke Çıkarma İşlemleri
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Antibakteriyel Dezenfeksiyon
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Service Item: Motor Temizliği */}
+                        <div className="card-glass reveal" style={{ animationDelay: '0.5s' }}>
+                            <img src="/images/service_engine.png" alt="Motor Temizliği" className="service-img" />
+                            <h3>Motor Temizliği ve Koruma</h3>
+                            <p style={{ color: '#aaa', margin: '15px 0' }}>
+                                Motor bloğunda biriken yağ ve kirleri özel solüsyonlarla temizliyor, plastik aksamları parlatıp
+                                koruma altına alıyoruz. Temiz bir motor, mutlu bir araçtır.
+                            </p>
+                            <h4 className="text-primary mt-3">Kapsam:</h4>
+                            <ul style={{ color: '#bbb', fontSize: '0.9rem', marginTop: '10px', lineHeight: '1.8' }}>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Özel Solüsyonlu Temizlik
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Plastik Aksam Koruma
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Kir ve Yağ Arındırma
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Service Item: Klima Temizliği */}
+                        <div className="card-glass reveal" style={{ animationDelay: '0.6s' }}>
+                            <img src="/images/service_ac_cleaning.png" alt="Klima Temizliği" className="service-img" />
+                            <h3>Klima Kanal Temizliği</h3>
+                            <p style={{ color: '#aaa', margin: '15px 0' }}>
+                                Kötü kokuları ve bakterileri yok ederek aracınızda ferah bir nefes almanızı sağlıyoruz.
+                                Mevsim geçişlerinde mutlaka önerilir.
+                            </p>
+                            <h4 className="text-primary mt-3">Kapsam:</h4>
+                            <ul style={{ color: '#bbb', fontSize: '0.9rem', marginTop: '10px', lineHeight: '1.8' }}>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Ozonla Dezenfeksiyon
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Evaporatör Temizliği
+                                </li>
+                                <li>
+                                    <i className="fas fa-check text-primary"></i> Koku Giderme
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div className="text-center mt-5 reveal">
