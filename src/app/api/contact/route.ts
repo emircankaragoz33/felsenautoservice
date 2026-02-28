@@ -1,144 +1,140 @@
-import { NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { NextResponse } from "next/server";
+
+type ContactPayload = {
+  CustomerName?: string;
+  CustomerPhone?: string;
+  CustomerEmail?: string;
+  ServiceType?: string;
+  CarModel?: string;
+  AppointmentDate?: string;
+  Notes?: string;
+};
 
 export async function POST(request: Request) {
-    try {
-        const body = await request.json()
-        const { CustomerName, CustomerPhone, CustomerEmail, ServiceType, CarModel, AppointmentDate, Notes } = body
+  try {
+    const body = (await request.json()) as ContactPayload;
+    const customerName = (body.CustomerName ?? "").trim();
+    const customerPhone = (body.CustomerPhone ?? "").trim();
+    const customerEmail = (body.CustomerEmail ?? "").trim();
+    const serviceType = (body.ServiceType ?? "").trim();
+    const carModel = (body.CarModel ?? "").trim();
+    const appointmentDate = body.AppointmentDate ?? "";
+    const notes = (body.Notes ?? "").trim();
 
-        console.log("SMTP Config:", {
-            host: process.env.SMTP_HOST,
-            port: process.env.SMTP_PORT,
-            user: process.env.SMTP_USER,
-            secure: Number(process.env.SMTP_PORT) === 465
-        });
-
-        // 1. Configure the Transporter
-        const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: 587,
-            secure: false, // true for 465, false for other ports
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-            tls: {
-                rejectUnauthorized: false
-            },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            logger: true,
-            debug: true
-        })
-
-        // 2. Define Email Data
-        const mailOptions = {
-            from: `"${CustomerName}" <${process.env.SMTP_FROM}>`, // Sender address
-            to: process.env.SMTP_TO, // List of receivers
-            replyTo: CustomerEmail,
-            subject: `Yeni Randevu Talebi: ${CustomerName} - ${ServiceType}`,
-            html: `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Yeni Randevu Talebi</title>
-                <style>
-                    body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f4f4f4; }
-                    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-                    .header { background-color: #1a1a1a; padding: 40px 20px; text-align: center; border-bottom: 4px solid #ff3e3e; }
-                    .header h1 { color: #ffffff; margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
-                    .content { padding: 40px 30px; }
-                    .title { color: #333; font-size: 20px; font-weight: bold; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-                    .info-row { margin-bottom: 15px; display: flex; align-items: flex-start; }
-                    .label { font-weight: bold; color: #555; width: 140px; min-width: 140px; }
-                    .value { color: #333; flex: 1; }
-                    .notes-box { background-color: #f9f9f9; padding: 15px; border-radius: 5px; border-left: 4px solid #ff3e3e; margin-top: 20px; }
-                    .footer { background-color: #1a1a1a; padding: 20px; text-align: center; color: #888; font-size: 12px; }
-                    .btn-link { display: inline-block; background-color: #ff3e3e; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 4px; margin-top: 20px; font-weight: bold; }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="header">
-                        <!-- Embedded Base64 Logo -->
-                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAACgCAYAAAC8B91UAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAsYSURBVHhe7d0xbFtXHcfxz7Vj53Ucx04cO46d1HHS2I0dO3FSp3XSxE0aO3XSuI0dO3ZS53UcJ3XsxI7jOI6d1E7tOHZex3Ecx07f3/f/P+fh2yBIo6Qoivh9P9jA4/P4PaSUH9773XOvX79+/QcAAACA/xepM0QYTCb7PgAAAABJRU5ErkJggg==" alt="Felsen Servis" style="max-height: 80px; width: auto; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
-                        <h1 style="color: #fff; margin-top: 10px;">Yeni Randevu</h1>
-                    </div>
-                    <div class="content">
-                        <div class="title">Randevu Detayları</div>
-                        
-                        <div class="info-row">
-                            <div class="label">Müşteri Adı:</div>
-                            <div class="value">${CustomerName}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="label">Telefon:</div>
-                            <div class="value" style="font-weight: bold; color: #1a1a1a;">${CustomerPhone}</div>
-                        </div>
-                         <div class="info-row">
-                            <div class="label">E-Posta:</div>
-                            <div class="value"><a href="mailto:${CustomerEmail}" style="color: #ff3e3e; text-decoration: none;">${CustomerEmail}</a></div>
-                        </div>
-                        
-                        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
-                        <div class="info-row">
-                            <div class="label">Hizmet Türü:</div>
-                            <div class="value" style="color: #ff3e3e; font-weight: bold;">${ServiceType}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="label">Araç Bilgisi:</div>
-                            <div class="value">${CarModel}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="label">Talep Tarihi:</div>
-                            <div class="value">${new Date(AppointmentDate).toLocaleString('tr-TR', { dateStyle: 'long', timeStyle: 'short' })}</div>
-                        </div>
-
-                        ${Notes ? `
-                        <div class="notes-box">
-                            <div style="font-weight: bold; margin-bottom: 5px; color: #333;">Müşteri Notu:</div>
-                            <div style="color: #555; line-height: 1.5;">${Notes}</div>
-                        </div>
-                        ` : ''}
-                        
-                         <div style="text-align: center; margin-top: 30px;">
-                            <a href="mailto:${CustomerEmail}" class="btn-link" style="color: #ffffff;">Müşteriye Yanıtla</a>
-                        </div>
-                    </div>
-                    <div class="footer">
-                        &copy; ${new Date().getFullYear()} Felsen Servis. Tüm Hakları Saklıdır.<br>
-                        Bu e-posta otomatik olarak web sitenizden gönderilmiştir.
-                    </div>
-                </div>
-            </body>
-            </html>
-            `,
-        }
-
-        // Verify connection configuration
-        try {
-            await transporter.verify();
-            console.log("Server is ready to take our messages");
-        } catch (verifyError) {
-            console.error("SMTP Connection Error:", verifyError);
-            return NextResponse.json({ success: false, message: 'SMTP Connection Failed', error: verifyError }, { status: 500 });
-        }
-
-        // 3. Send Email
-        const info = await transporter.sendMail(mailOptions)
-        console.log("Message sent: %s", info.messageId);
-
-        return NextResponse.json({ success: true, message: 'Email sent successfully' })
-    } catch (error: any) {
-        console.error('Email error details:', {
-            message: error.message,
-            stack: error.stack,
-            code: error.code,
-            response: error.response
-        });
-        return NextResponse.json({ success: false, message: 'Failed to send email', error: error.message }, { status: 500 })
+    if (!customerName || !customerPhone || !customerEmail || !serviceType) {
+      return NextResponse.json({ success: false, message: "Eksik form alanları var." }, { status: 400 });
     }
+
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
+      return NextResponse.json({ success: false, message: "RESEND_API_KEY tanımlı değil." }, { status: 500 });
+    }
+
+    const fromAddress = process.env.RESEND_FROM ?? "Felsen Servis <servis@felsen.com.tr>";
+    const targetAddress = process.env.RESEND_CONTACT_TO ?? "servis@felsen.com.tr";
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL ?? "https://felsen.com.tr";
+    const logoUrl = process.env.EMAIL_LOGO_URL ?? `${siteUrl.replace(/\/$/, "")}/images/logo.png`;
+
+    const parsedDate = appointmentDate ? new Date(appointmentDate) : null;
+    const appointmentDateText = parsedDate && !Number.isNaN(parsedDate.getTime())
+      ? parsedDate.toLocaleString("tr-TR", { dateStyle: "long", timeStyle: "short" })
+      : "Belirtilmedi";
+
+    const html = `
+      <!DOCTYPE html>
+      <html lang="tr">
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Yeni Randevu Talebi</title>
+        </head>
+        <body style="margin:0;padding:0;background:#05070d;font-family:Arial,sans-serif;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="padding:28px 0;background:radial-gradient(circle at 10% 0%, #131726 0, #05070d 58%);">
+            <tr>
+              <td align="center">
+                <table width="640" cellpadding="0" cellspacing="0" style="max-width:95%;background:#0c111d;border-radius:16px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.12);">
+                  <tr>
+                    <td style="background:linear-gradient(135deg,#121827,#3b0b0f);padding:26px 30px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08);">
+                      <img src="${logoUrl}" alt="Felsen Servis" style="max-height:44px;width:auto;display:block;margin:0 auto 12px;" />
+                      <p style="margin:0;color:#ffffff;font-size:24px;font-weight:700;">Felsen Servis</p>
+                      <p style="margin:8px 0 0;color:#dbe2f1;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;">Yeni Randevu Talebi</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:28px 30px;">
+                      <p style="margin:0 0 12px;color:#f8fafc;font-size:18px;">Randevu talebi detayları</p>
+                      <p style="margin:0 0 18px;color:#cbd5e1;font-size:14px;line-height:1.7;">
+                        Aşağıdaki bilgilerle yeni bir iletişim/randevu talebi alınmıştır.
+                      </p>
+
+                      <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(255,255,255,0.14);border-radius:12px;overflow:hidden;background:rgba(255,255,255,0.02);">
+                        <tr>
+                          <td style="padding:12px 14px;background:rgba(255,255,255,0.04);color:#94a3b8;width:42%;font-size:13px;">Müşteri Adı</td>
+                          <td style="padding:12px 14px;color:#f8fafc;font-size:14px;">${customerName}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding:12px 14px;background:rgba(255,255,255,0.04);color:#94a3b8;font-size:13px;">Telefon</td>
+                          <td style="padding:12px 14px;color:#f8fafc;font-size:14px;">${customerPhone}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding:12px 14px;background:rgba(255,255,255,0.04);color:#94a3b8;font-size:13px;">E-posta</td>
+                          <td style="padding:12px 14px;color:#f8fafc;font-size:14px;"><a href="mailto:${customerEmail}" style="color:#fca5a5;text-decoration:none;">${customerEmail}</a></td>
+                        </tr>
+                        <tr>
+                          <td style="padding:12px 14px;background:rgba(255,255,255,0.04);color:#94a3b8;font-size:13px;">Hizmet Türü</td>
+                          <td style="padding:12px 14px;color:#f8fafc;font-size:14px;">${serviceType}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding:12px 14px;background:rgba(255,255,255,0.04);color:#94a3b8;font-size:13px;">Araç Bilgisi</td>
+                          <td style="padding:12px 14px;color:#f8fafc;font-size:14px;">${carModel || "Belirtilmedi"}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding:12px 14px;background:rgba(255,255,255,0.04);color:#94a3b8;font-size:13px;">Talep Tarihi</td>
+                          <td style="padding:12px 14px;color:#f8fafc;font-size:14px;">${appointmentDateText}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding:12px 14px;background:rgba(255,255,255,0.04);color:#94a3b8;font-size:13px;vertical-align:top;">Müşteri Notu</td>
+                          <td style="padding:12px 14px;color:#f8fafc;font-size:14px;">${notes || "Belirtilmedi"}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:16px 30px;background:#0a0f19;border-top:1px solid rgba(255,255,255,0.08);color:#94a3b8;font-size:12px;text-align:center;">
+                      Felsen Servis • Profesyonel Oto Servis Çözümleri
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+    `;
+
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: fromAddress,
+        to: [targetAddress],
+        reply_to: customerEmail,
+        subject: `Yeni Randevu Talebi: ${customerName} - ${serviceType}`,
+        html,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      return NextResponse.json({ success: false, message: "Resend gönderimi başarısız.", error: errorText }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, message: "E-posta başarıyla gönderildi." });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Bilinmeyen hata";
+    return NextResponse.json({ success: false, message: "E-posta gönderilemedi.", error: message }, { status: 500 });
+  }
 }

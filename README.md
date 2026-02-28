@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Felsen Auto - Randevu ve Yonetim Sistemi
 
-## Getting Started
+Next.js App Router tabanli, tek uygulamada (backend ayrica yok) calisan oto servis randevu + admin yonetim sistemidir.
 
-First, run the development server:
+## Teknoloji
+
+- Next.js 16 (App Router)
+- Route Handlers (`app/api`)
+- Prisma ORM
+- Supabase Postgres
+- TailwindCSS (v4)
+- NextAuth Credentials (admin auth)
+- Resend (e-posta)
+- Gemini API (chatbot)
+
+## Ozellikler
+
+### Randevu Sistemi
+- Slot bazli randevu (`/iletisim`)
+- Kurallar:
+  - Gecmis tarih secilemez
+  - Pazar secilemez
+  - Saat 13:00 sonrasi ayni gun randevu kapali
+  - Ayni `date + time` icin sadece 1 kayit (DB unique)
+- Slot renklendirme:
+  - Dolu: kirmizi
+  - Bos: yesil
+
+### Mail Gonderimi
+- `info@felsen.com.tr` gonderici kimligiyle kullaniciya onay maili
+- Kurumsal HTML template
+- Randevuya 6 saat kala otomatik hatirlatma e-postasi
+
+### Admin Panel
+- `/admin/login` ile giris (env'deki admin email/sifre)
+- Middleware ile `/admin` korumasi
+- `/admin` panelde:
+  - Gune gore filtreli liste
+  - Durum guncelleme (`pending`, `approved`, `cancelled`)
+  - Kayit silme
+  - Saat/kisi/arac bilgisi goruntuleme
+
+### Chatbot
+- Sag altta floating chat widget
+- `/api/chatbot` route'u ile Gemini istekleri server-side yapilir
+- API key frontend'e acilmaz
+
+## Environment Variables
+
+`.env.example` dosyasini `.env.local` olarak kopyalayin ve doldurun:
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DB_NAME?schema=public"
+RESEND_API_KEY="re_xxx"
+RESEND_FROM="Felsen Servis <servis@felsen.com.tr>"
+APPOINTMENT_REMINDER_SECRET="replace-with-random-secret"
+ADMIN_EMAIL="admin@felsen.com.tr"
+ADMIN_PASSWORD="replace-with-strong-password"
+AUTH_SECRET="replace-with-long-random-secret"
+GEMINI_API_KEY="your-gemini-api-key"
+```
+
+## Kurulum
+
+```bash
+npm install
+```
+
+## Prisma / Veritabani
+
+1. Supabase projesi olusturun ve Postgres connection string alin.
+2. `DATABASE_URL` degiskenine ekleyin.
+3. Migration olusturun ve calistirin:
+
+```bash
+npx prisma migrate dev --name add-reminder-sent-at
+npm run prisma:generate
+```
+
+Production'da:
+
+```bash
+npm run prisma:migrate
+```
+
+## Gelistirme
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Vercel Deploy
 
-## Learn More
+Vercel proje ayarlarina tum env degiskenlerini ekleyin.
 
-To learn more about Next.js, take a look at the following resources:
+`vercel.json` icinde saatlik cron tanimlidir:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```json
+{
+  "crons": [
+    {
+      "path": "/api/appointments/reminders",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Bu endpoint `Authorization: Bearer <APPOINTMENT_REMINDER_SECRET>` ile korunur.
+Vercel cron kullanacaksaniz `CRON_SECRET` de ayni degerde tanimlanabilir.
 
-## Deploy on Vercel
+Ek olarak Build Command sonrasi Prisma migration icin istege bagli komut:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run prisma:migrate && npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> Not: Var olan sayfalarda eski lint hatalari bulunabilir; yeni randevu/admin/chatbot akislarinin build'i basarili sekilde calismaktadir.

@@ -93,7 +93,7 @@ export default function Header() {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/iletisim" className="btn-custom nav-btn" onClick={() => setMobileMenuOpen(false)}>
+                            <Link href="/randevu" className="btn-custom nav-btn" onClick={() => setMobileMenuOpen(false)}>
                                 Randevu Al
                             </Link>
                         </li>

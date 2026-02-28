@@ -1,46 +1,33 @@
 'use client'
 
-import Link from 'next/link'
+import { useEffect, useMemo, useState } from 'react'
+import { APPOINTMENT_SERVICE_TYPES } from '@/lib/appointment-service-types'
 
-export default function Contact() {
-  return (
-    <section className="section-padding" style={{ paddingTop: '180px', paddingBottom: '120px' }}>
-      <div className="container" style={{ maxWidth: '1100px' }}>
-        <div className="card-glass" style={{ padding: '28px', marginBottom: '16px' }}>
-          <p style={{ fontSize: '2.3rem', lineHeight: 1.1, fontWeight: 700, color: '#fff' }}>Iletisim</p>
-          <p style={{ marginTop: '10px', color: '#cbd5e1', maxWidth: '760px' }}>
-            Sorulariniz ve destek talepleriniz icin bize ulasabilirsiniz. Randevu almak icin ayri randevu ekranini kullanabilirsiniz.
-          </p>
-          <div style={{ marginTop: '18px' }}>
-            <Link href="/randevu" className="btn-custom">Randevu Sayfasina Git</Link>
-          </div>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-          <div className="card-glass" style={{ padding: '22px' }}>
-            <p style={{ color: '#fff', fontSize: '1.2rem', fontWeight: 700, marginBottom: '10px' }}>Adres</p>
-            <p style={{ color: '#d1d5db' }}>Sekerpinar Mahallesi Turgut Ozal Caddesi No 5/A Akpinar Plaza Cayirova / Kocaeli</p>
-            <p style={{ color: '#d1d5db', marginTop: '10px' }}>
-              <a href="tel:08503084641">0850 308 4641</a>
-            </p>
-            <p style={{ color: '#d1d5db' }}>
-              <a href="mailto:info@felsen.com.tr">info@felsen.com.tr</a>
-            </p>
-          </div>
-
-          <div className="card-glass" style={{ padding: '22px' }}>
-            <p style={{ color: '#fff', fontSize: '1.2rem', fontWeight: 700, marginBottom: '10px' }}>Calisma Saatleri</p>
-            <p style={{ color: '#d1d5db' }}>Hafta ici: 08:30 - 18:00</p>
-            <p style={{ color: '#d1d5db' }}>Cumartesi: 08:30 - 14:00</p>
-            <p style={{ color: '#d1d5db' }}>Pazar: Kapali</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
+type Slot = {
+  time: string
+  state: 'available' | 'full'
 }
 
-/*
+type FormState = {
+  name: string
+  phone: string
+  email: string
+  plate: string
+  carModel: string
+  serviceType: string
+  date: string
+  time: string
+}
+
+function getTodayDateString() {
+  return new Date().toISOString().slice(0, 10)
+}
+
+function isSundayDate(dateString: string) {
+  return new Date(`${dateString}T12:00:00.000Z`).getUTCDay() === 0
+}
+
+export default function Contact() {
   const [step, setStep] = useState<1 | 2 | 3>(1)
   const [formData, setFormData] = useState<FormState>({
     name: '',
@@ -48,17 +35,19 @@ export default function Contact() {
     email: '',
     plate: '',
     carModel: '',
+    serviceType: '',
     date: '',
     time: '',
   })
   const [slots, setSlots] = useState<Slot[]>([])
   const [loadingSlots, setLoadingSlots] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [finalApproval, setFinalApproval] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   const minDate = useMemo(() => getTodayDateString(), [])
   const step1Valid = Boolean(formData.name.trim() && formData.phone.trim() && formData.email.trim())
-  const step2Valid = Boolean(formData.plate.trim() && formData.carModel.trim() && formData.date && formData.time)
+  const step2Valid = Boolean(formData.plate.trim() && formData.carModel.trim() && formData.serviceType && formData.date && formData.time)
 
   useEffect(() => {
     const date = formData.date
@@ -76,7 +65,7 @@ export default function Contact() {
       .then(async (response) => {
         const data = await response.json()
         if (!response.ok) {
-          throw new Error(data?.message || 'Slot bilgileri alinamadi.')
+          throw new Error(data?.message || 'Slot bilgileri alınamadı.')
         }
 
         if (!active) return
@@ -89,7 +78,7 @@ export default function Contact() {
       })
       .catch((error: unknown) => {
         if (!active) return
-        const messageText = error instanceof Error ? error.message : 'Slotlar yuklenemedi.'
+        const messageText = error instanceof Error ? error.message : 'Slotlar yüklenemedi.'
         setSlots([])
         setMessage({ type: 'error', text: messageText })
       })
@@ -105,6 +94,17 @@ export default function Contact() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    if (step !== 3) {
+      setMessage({ type: 'error', text: 'Randevuyu tamamlamak için önce onay adımına geçin.' })
+      return
+    }
+
+    if (!finalApproval) {
+      setMessage({ type: 'error', text: 'Lütfen randevu bilgilerini onayladığınızı işaretleyin.' })
+      return
+    }
+
     setMessage(null)
     setSubmitting(true)
 
@@ -120,26 +120,28 @@ export default function Contact() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data?.message || 'Randevu olusturulamadi.')
+        throw new Error(data?.message || 'Randevu oluşturulamadı.')
       }
 
       setMessage({
         type: 'success',
-        text: 'Randevunuz alindi. E-posta adresinize bilgilendirme gonderildi.',
+        text: typeof data?.message === 'string' ? data.message : 'Randevunuz başarıyla alındı.',
       })
       setStep(1)
+      setFinalApproval(false)
       setFormData({
         name: '',
         phone: '',
         email: '',
         plate: '',
         carModel: '',
+        serviceType: '',
         date: '',
         time: '',
       })
       setSlots([])
     } catch (error: unknown) {
-      const messageText = error instanceof Error ? error.message : 'Randevu olusturulamadi.'
+      const messageText = error instanceof Error ? error.message : 'Randevu oluşturulamadı.'
       setMessage({ type: 'error', text: messageText })
     } finally {
       setSubmitting(false)
@@ -149,7 +151,7 @@ export default function Contact() {
   const handleNext = () => {
     if (step === 1) {
       if (!step1Valid) {
-        setMessage({ type: 'error', text: 'Adim 1 icin ad, telefon ve e-posta alanlarini doldurun.' })
+        setMessage({ type: 'error', text: 'Adım 1 için ad, telefon ve e-posta alanlarını doldurun.' })
         return
       }
       setMessage(null)
@@ -159,10 +161,11 @@ export default function Contact() {
 
     if (step === 2) {
       if (!step2Valid) {
-        setMessage({ type: 'error', text: 'Adim 2 icin arac, tarih ve saat secimi tamamlanmali.' })
+        setMessage({ type: 'error', text: 'Adım 2 için hizmet, araç, tarih ve saat seçimi tamamlanmalı.' })
         return
       }
       setMessage(null)
+      setFinalApproval(false)
       setStep(3)
     }
   }
@@ -173,9 +176,9 @@ export default function Contact() {
   }
 
   const progressSteps = [
-    { id: 1 as const, title: 'Iletisim', subtitle: 'Kisisel bilgiler' },
-    { id: 2 as const, title: 'Randevu', subtitle: 'Arac ve saat secimi' },
-    { id: 3 as const, title: 'Onay', subtitle: 'Kontrol ve gonderim' },
+    { id: 1 as const, title: 'İletişim', subtitle: 'Kişisel bilgiler' },
+    { id: 2 as const, title: 'Randevu', subtitle: 'Hizmet, araç ve saat seçimi' },
+    { id: 3 as const, title: 'Onay', subtitle: 'Kontrol ve gönderim' },
   ]
 
   return (
@@ -197,13 +200,13 @@ export default function Contact() {
                 marginBottom: '12px',
               }}
             >
-              Online Randevu Akisi
+              Online Randevu Akışı
             </div>
             <div style={{ fontSize: 'clamp(2rem, 4vw, 3.6rem)', fontWeight: 700, lineHeight: 1.05, color: '#fff', maxWidth: '820px' }}>
-              Servis randevunuzu adim adim olusturun
+              Servis randevunuzu adım adım oluşturun
             </div>
             <p style={{ marginTop: '12px', fontSize: '1rem', color: '#cbd5e1', maxWidth: '740px' }}>
-              Bilgilerinizi girin, uygun saatleri gorun ve son adimda tek tikla kaydinizi tamamlayin.
+              Bilgilerinizi girin, uygun saatleri görün ve son adımda tek tıkla kaydınızı tamamlayın.
             </p>
           </div>
 
@@ -231,34 +234,12 @@ export default function Contact() {
                     padding: '12px 14px',
                   }}
                 >
-                  <p style={{ fontSize: '0.72rem', letterSpacing: '0.12em', color: '#94a3b8', textTransform: 'uppercase' }}>Adim {item.id}</p>
+                  <p style={{ fontSize: '0.72rem', letterSpacing: '0.12em', color: '#94a3b8', textTransform: 'uppercase' }}>Adım {item.id}</p>
                   <p style={{ fontSize: '1.05rem', color: '#fff', fontWeight: 700, marginTop: '4px' }}>{item.title}</p>
                   <p style={{ fontSize: '0.82rem', color: '#cbd5e1' }}>{item.subtitle}</p>
                 </div>
               )
             })}
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
-            <div className="card-glass" style={{ padding: '18px' }}>
-              <p style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', marginBottom: '10px' }}>Iletisim Bilgileri</p>
-              <p style={{ color: '#d1d5db', fontSize: '0.95rem', marginBottom: '8px' }}>
-                <b style={{ color: '#fff' }}>Adres:</b><br />Sekerpinar Mahallesi Turgut Ozal Caddesi No 5/A Akpinar Plaza Cayirova / Kocaeli
-              </p>
-              <p style={{ color: '#d1d5db', fontSize: '0.95rem', marginBottom: '6px' }}>
-                <b style={{ color: '#fff' }}>Telefon:</b> <a href="tel:08503084641">0850 308 4641</a>
-              </p>
-              <p style={{ color: '#d1d5db', fontSize: '0.95rem' }}>
-                <b style={{ color: '#fff' }}>E-posta:</b> <a href="mailto:info@felsen.com.tr">info@felsen.com.tr</a>
-              </p>
-            </div>
-
-            <div className="card-glass" style={{ padding: '18px' }}>
-              <p style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', marginBottom: '10px' }}>Calisma Saatleri</p>
-              <p style={{ color: '#d1d5db', fontSize: '0.95rem' }}>Hafta ici 08:30 - 18:00</p>
-              <p style={{ color: '#d1d5db', fontSize: '0.95rem' }}>Cumartesi 08:30 - 14:00</p>
-              <p style={{ color: '#d1d5db', fontSize: '0.95rem' }}>Pazar kapali</p>
-            </div>
           </div>
 
           <div className="card-glass" style={{ padding: '22px' }}>
@@ -271,7 +252,7 @@ export default function Contact() {
               <form onSubmit={handleSubmit}>
                 {step === 1 ? (
                   <div>
-                    <p style={{ fontSize: '1.45rem', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>Adim 1 - Kisisel Bilgiler</p>
+                    <p style={{ fontSize: '1.45rem', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>Adım 1 - Kişisel Bilgiler</p>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                       <div>
                         <label style={{ display: 'block', marginBottom: '6px', color: '#d1d5db', fontSize: '0.94rem' }}>Ad Soyad</label>
@@ -310,11 +291,11 @@ export default function Contact() {
 
                 {step === 2 ? (
                   <div>
-                    <p style={{ fontSize: '1.45rem', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>Adim 2 - Arac ve Saat Secimi</p>
+                    <p style={{ fontSize: '1.45rem', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>Adım 2 - Hizmet, Araç ve Saat Seçimi</p>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                       <div>
-                        <label style={{ display: 'block', marginBottom: '6px', color: '#d1d5db', fontSize: '0.94rem' }}>Arac Plakasi</label>
+                        <label style={{ display: 'block', marginBottom: '6px', color: '#d1d5db', fontSize: '0.94rem' }}>Araç Plakası</label>
                         <input
                           required
                           value={formData.plate}
@@ -324,7 +305,7 @@ export default function Contact() {
                         />
                       </div>
                       <div>
-                        <label style={{ display: 'block', marginBottom: '6px', color: '#d1d5db', fontSize: '0.94rem' }}>Arac Modeli</label>
+                        <label style={{ display: 'block', marginBottom: '6px', color: '#d1d5db', fontSize: '0.94rem' }}>Araç Modeli</label>
                         <input
                           required
                           value={formData.carModel}
@@ -333,6 +314,24 @@ export default function Contact() {
                           style={{ padding: '12px 14px', fontSize: '0.98rem' }}
                         />
                       </div>
+                    </div>
+
+                    <div style={{ marginTop: '12px' }}>
+                      <label style={{ display: 'block', marginBottom: '6px', color: '#d1d5db', fontSize: '0.94rem' }}>Hizmet Türü</label>
+                      <select
+                        required
+                        value={formData.serviceType}
+                        onChange={(event) => setFormData((prev) => ({ ...prev, serviceType: event.target.value }))}
+                        className="form-select"
+                        style={{ padding: '12px 14px', fontSize: '0.98rem' }}
+                      >
+                        <option value="">Hizmet seçin</option>
+                        {APPOINTMENT_SERVICE_TYPES.map((serviceType) => (
+                          <option key={serviceType} value={serviceType}>
+                            {serviceType}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     <div style={{ marginTop: '12px' }}>
@@ -345,7 +344,7 @@ export default function Contact() {
                         onChange={(event) => {
                           const value = event.target.value
                           if (value && isSundayDate(value)) {
-                            setMessage({ type: 'error', text: 'Pazar gunu secilemez.' })
+                            setMessage({ type: 'error', text: 'Pazar günü seçilemez.' })
                             return
                           }
                           setMessage(null)
@@ -357,10 +356,10 @@ export default function Contact() {
                     </div>
 
                     <div style={{ marginTop: '14px' }}>
-                      <label style={{ display: 'block', marginBottom: '8px', color: '#d1d5db', fontSize: '0.94rem' }}>Saat Slotlari</label>
-                      {loadingSlots ? <p className="text-sm text-slate-400">Slotlar yukleniyor...</p> : null}
+                      <label style={{ display: 'block', marginBottom: '8px', color: '#d1d5db', fontSize: '0.94rem' }}>Saat Slotları</label>
+                      {loadingSlots ? <p className="text-sm text-slate-400">Slotlar yükleniyor...</p> : null}
                       {!loadingSlots && formData.date && slots.length === 0 ? (
-                        <p className="text-sm text-slate-400">Bu tarih icin uygun slot bulunamadi.</p>
+                        <p className="text-sm text-slate-400">Bu tarih için uygun slot bulunamadı.</p>
                       ) : null}
 
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: '8px' }}>
@@ -405,11 +404,11 @@ export default function Contact() {
 
                 {step === 3 ? (
                   <div>
-                    <p style={{ fontSize: '1.45rem', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>Adim 3 - Randevu Onayi</p>
+                    <p style={{ fontSize: '1.45rem', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>Adım 3 - Randevu Onayı</p>
                     <div style={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(8,8,8,0.5)', padding: '16px', color: '#e2e8f0' }}>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                         <p>
-                          <span className="block text-xs text-slate-400">Musteri</span>
+                          <span className="block text-xs text-slate-400">Müşteri</span>
                           {formData.name}
                         </p>
                         <p>
@@ -421,8 +420,12 @@ export default function Contact() {
                           {formData.email}
                         </p>
                         <p>
-                          <span className="block text-xs text-slate-400">Arac</span>
+                          <span className="block text-xs text-slate-400">Araç</span>
                           {formData.plate} - {formData.carModel}
+                        </p>
+                        <p>
+                          <span className="block text-xs text-slate-400">Hizmet Türü</span>
+                          {formData.serviceType}
                         </p>
                         <p>
                           <span className="block text-xs text-slate-400">Tarih</span>
@@ -435,8 +438,18 @@ export default function Contact() {
                       </div>
                     </div>
                     <p style={{ fontSize: '0.9rem', color: '#94a3b8', marginTop: '12px' }}>
-                      Randevu gonderildikten sonra onay bilgilendirmesi e-posta adresinize iletilecektir.
+                      Randevu gönderildikten sonra onay bilgilendirmesi e-posta adresinize iletilecektir.
                     </p>
+
+                    <label style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '14px', color: '#e5e7eb', fontSize: '0.92rem' }}>
+                      <input
+                        type="checkbox"
+                        checked={finalApproval}
+                        onChange={(event) => setFinalApproval(event.target.checked)}
+                        style={{ width: '16px', height: '16px', accentColor: '#ef4444' }}
+                      />
+                      Randevu bilgilerimi kontrol ettim ve onaylıyorum.
+                    </label>
                   </div>
                 ) : null}
 
@@ -456,13 +469,13 @@ export default function Contact() {
                       onClick={handleNext}
                       style={{ borderRadius: '10px', border: 'none', background: '#ef4444', color: '#fff', padding: '10px 18px', fontWeight: 700, cursor: 'pointer' }}
                     >
-                      Sonraki Adim
+                      Sonraki Adım
                     </button>
                   ) : (
                     <button
                       type="submit"
-                      disabled={submitting || !step2Valid}
-                      style={{ borderRadius: '10px', border: 'none', background: '#ef4444', color: '#fff', padding: '10px 18px', fontWeight: 700, opacity: submitting || !step2Valid ? 0.6 : 1, cursor: submitting || !step2Valid ? 'not-allowed' : 'pointer' }}
+                      disabled={submitting || !step2Valid || !finalApproval}
+                      style={{ borderRadius: '10px', border: 'none', background: '#ef4444', color: '#fff', padding: '10px 18px', fontWeight: 700, opacity: submitting || !step2Valid || !finalApproval ? 0.6 : 1, cursor: submitting || !step2Valid || !finalApproval ? 'not-allowed' : 'pointer' }}
                     >
                       {submitting ? 'Kaydediliyor...' : 'Randevuyu Tamamla'}
                     </button>
@@ -475,5 +488,3 @@ export default function Contact() {
     </>
   )
 }
-
-*/
