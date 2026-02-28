@@ -9,7 +9,7 @@ type MiddlewareRequest = {
 
 export default auth((request: MiddlewareRequest) => {
   const { nextUrl } = request;
-  const isLoggedIn = Boolean(request.auth);
+  const isLoggedIn = Boolean((request.auth as any)?.user);
   const isAdminRoute = nextUrl.pathname.startsWith("/admin");
   const isAdminLogin = nextUrl.pathname.startsWith("/admin/login");
 

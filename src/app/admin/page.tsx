@@ -1,6 +1,8 @@
+import { redirect } from "next/navigation";
+import Link from "next/link";
 import { auth } from "@/auth";
 import { deleteAppointment, logoutAdmin, updateAppointmentStatus, blockAppointmentSlot } from "@/app/admin/actions";
-import { formatDateToTr } from "@/lib/appointment-rules";
+import { formatDateToTr, generateSlotsForDate, nowInIstanbulParts, isSunday, validateAppointmentDateAndTime } from "@/lib/appointment-rules";
 import { prisma } from "@/lib/prisma";
 
 type AppointmentListItem = {
@@ -38,7 +40,7 @@ function getStatusLabel(status: AppointmentListItem["status"]) {
   return "Beklemede";
 }
 
-function buildAdminUrl(params: { date?: string; status?: string; page?: number }) {
+function buildAdminUrl(params: any) {
   const query = new URLSearchParams();
   if (params.date) query.set("date", params.date);
   if (params.status) query.set("status", params.status);
@@ -51,218 +53,301 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const session = await auth();
 
   if (!session?.user) {
-    return null;
+    redirect("/admin/login");
   }
 
   const params = await searchParams;
 
+  // Safe Istanbul Time
+  let todayString = "2024-01-01";
+  try {
+    const nowParts = nowInIstanbulParts();
+    todayString = `${nowParts.year}-${String(nowParts.month).padStart(2, "0")}-${String(nowParts.day).padStart(2, "0")}`;
+  } catch (e) {
+    console.error("Istanbul Time Error", e);
+  }
+
   const selectedDate = isValidDate(params?.date) ? (params?.date as string) : undefined;
+  const activeDate = selectedDate || todayString;
   const selectedStatus = isValidStatus(params?.status) ? params?.status : undefined;
+
   const requestedPage = Number(params?.page ?? "1");
   const pageSize = 10;
   const currentPage = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
 
   const where = {
-    ...(selectedDate
-      ? {
-        date: new Date(`${selectedDate}T00:00:00.000Z`),
-      }
-      : {}),
-    ...(selectedStatus
-      ? {
-        status: selectedStatus,
-      }
-      : {}),
+    ...(selectedDate ? { date: new Date(`${selectedDate}T00:00:00.000Z`) } : {}),
+    ...(selectedStatus ? { status: selectedStatus } : {}),
   };
 
-  const totalCount = await prisma.appointment.count({ where });
+  const whereForList = {
+    ...where,
+    name: { not: "Sistem Kaydı (Manuel Kapalı)" }
+  };
+
+  // Parallel Data Fetching for maximum performance
+  let appointments: AppointmentListItem[] = [];
+  let totalCount = 0;
+  let approvedCount = 0;
+  let pendingCount = 0;
+  let allAppointmentsOnActiveDate: AppointmentListItem[] = [];
+  let dbError = false;
+
+  try {
+    const activeDateObj = new Date(`${activeDate}T00:00:00.000Z`);
+    const [total, list, statusRes, slotsRes] = await Promise.all([
+      prisma.appointment.count({ where: whereForList }),
+      prisma.appointment.findMany({
+        where: whereForList,
+        orderBy: selectedDate
+          ? [{ time: "asc" }] // If looking at a specific day, show by time
+          : [{ createdAt: "desc" }], // If looking at all, show most recently submitted first
+        skip: (currentPage - 1) * pageSize,
+        take: pageSize,
+      }) as Promise<AppointmentListItem[]>,
+      prisma.appointment.groupBy({
+        by: ["status"],
+        where: selectedDate ? { date: activeDateObj } : undefined,
+        _count: { status: true },
+      }),
+      prisma.appointment.findMany({
+        where: { date: activeDateObj },
+      }) as Promise<AppointmentListItem[]>
+    ]);
+
+    totalCount = total;
+    appointments = list;
+    approvedCount = statusRes.find(item => item.status === "approved")?._count.status ?? 0;
+    pendingCount = statusRes.find(item => item.status === "pending")?._count.status ?? 0;
+    allAppointmentsOnActiveDate = slotsRes;
+  } catch (err) {
+    console.error("Prisma Error:", err);
+    dbError = true;
+  }
+
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
   const page = Math.min(currentPage, totalPages);
 
-  const statusCounts = await prisma.appointment.groupBy({
-    by: ["status"],
-    where: selectedDate
-      ? {
-        date: new Date(`${selectedDate}T00:00:00.000Z`),
-      }
-      : undefined,
-    _count: {
-      status: true,
-    },
+  // Slot grid calculation
+  const baseSlots = isSunday(activeDate) ? [] : generateSlotsForDate(activeDate);
+  const slotsData = baseSlots.map(time => {
+    try {
+      const existing = allAppointmentsOnActiveDate.find(app => app.time === time);
+      const isPast = activeDate === todayString && !validateAppointmentDateAndTime(activeDate, time).valid;
+      const isManualBlock = existing?.name === "Sistem Kaydı (Manuel Kapalı)";
+
+      return {
+        time,
+        isPast,
+        existing,
+        isManualBlock,
+        state: existing ? (isManualBlock ? "blocked" : "booked") : (isPast ? "past" : "available")
+      };
+    } catch {
+      return { time, state: "available" as const };
+    }
   });
 
-  const approvedCount = statusCounts.find((item: { status: AppointmentListItem["status"]; _count: { status: number } }) => item.status === "approved")?._count.status ?? 0;
-  const pendingCount = statusCounts.find((item: { status: AppointmentListItem["status"]; _count: { status: number } }) => item.status === "pending")?._count.status ?? 0;
+  const nextDay = new Date(`${activeDate}T12:00:00Z`);
+  nextDay.setDate(nextDay.getDate() + 1);
+  const nextDayStr = nextDay.toISOString().split("T")[0];
 
-  const appointments = (await prisma.appointment.findMany({
-    where,
-    orderBy: [{ date: "desc" }, { time: "asc" }, { createdAt: "asc" }],
-    skip: (page - 1) * pageSize,
-    take: pageSize,
-  })) as AppointmentListItem[];
+  const prevDay = new Date(`${activeDate}T12:00:00Z`);
+  prevDay.setDate(prevDay.getDate() - 1);
+  const prevDayStr = prevDay.toISOString().split("T")[0];
+
+  const PaginationControls = () => (
+    totalPages > 1 && (
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px", padding: "10px 0" }}>
+        <Link href={buildAdminUrl({ ...params, page: page - 1 })} style={{ padding: "8px 15px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", textDecoration: "none", color: "white", opacity: page > 1 ? 1 : 0.3, pointerEvents: page > 1 ? 'auto' : 'none' }}>
+          <i className="fas fa-arrow-left me-2"></i> Geri
+        </Link>
+        <span style={{ fontSize: "0.85rem", color: "#94a3b8" }}>Sayfa <strong>{page} / {totalPages}</strong></span>
+        <Link href={buildAdminUrl({ ...params, page: page + 1 })} style={{ padding: "8px 15px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", textDecoration: "none", color: "white", opacity: page < totalPages ? 1 : 0.3, pointerEvents: page < totalPages ? 'auto' : 'none' }}>
+          İleri <i className="fas fa-arrow-right ms-2"></i>
+        </Link>
+      </div>
+    )
+  );
 
   return (
-    <section className="section-padding" style={{ paddingTop: "185px", paddingBottom: "110px" }}>
-      <div className="container" style={{ maxWidth: "1220px" }}>
-        <div className="card-glass" style={{ padding: "22px", marginBottom: "14px", display: "flex", justifyContent: "space-between", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
+    <section className="section-padding" style={{ paddingTop: "185px", paddingBottom: "110px", minHeight: "100vh", background: "#0a0a0a", color: "white" }}>
+      <div className="container" style={{ maxWidth: "1400px" }}>
+
+        {dbError && (
+          <div style={{ background: "rgba(239,68,68,0.2)", border: "1px solid #ef4444", padding: "15px", borderRadius: "10px", marginBottom: "20px", color: "#fca5a5" }}>
+            <i className="fas fa-exclamation-triangle me-2"></i>
+            Veritabanı bağlantısında bir sorun oluştu. Lütfen bağlantı ayarlarını kontrol edin veya biraz sonra tekrar deneyin.
+          </div>
+        )}
+
+        {/* Header Section */}
+        <div className="card-glass" style={{ padding: "26px", marginBottom: "20px", display: "flex", justifyContent: "space-between", gap: "20px", alignItems: "center", flexWrap: "wrap", borderRadius: "20px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
           <div>
-            <p style={{ color: "#94a3b8", fontSize: "0.85rem", letterSpacing: "0.06em", textTransform: "uppercase" }}>Admin Panel</p>
-            <p style={{ color: "#fff", fontSize: "2rem", fontWeight: 700, lineHeight: 1.1 }}>Randevu Yonetimi</p>
-            <p style={{ marginTop: "4px", color: "#cbd5e1", fontSize: "0.92rem" }}>{session.user.email}</p>
-          </div>
-          <form action={logoutAdmin}>
-            <button style={{ borderRadius: "10px", border: "1px solid rgba(248,113,113,0.5)", background: "rgba(239,68,68,0.14)", color: "#fecaca", padding: "10px 16px", fontWeight: 600, cursor: "pointer" }}>
-              Cikis Yap
-            </button>
-          </form>
-        </div>
-
-        <div className="card-glass" style={{ padding: "16px", marginBottom: "14px" }}>
-          <form method="GET" style={{ display: "flex", alignItems: "end", gap: "10px", flexWrap: "wrap" }}>
-            <label style={{ color: "#d1d5db", fontSize: "0.92rem" }}>
-              Tarih Filtresi (Opsiyonel)
-              <input type="date" name="date" defaultValue={selectedDate ?? ""} className="form-input" style={{ marginTop: "6px", padding: "10px 12px" }} />
-            </label>
-            <label style={{ color: "#d1d5db", fontSize: "0.92rem" }}>
-              Durum Filtresi
-              <select name="status" defaultValue={selectedStatus ?? ""} className="form-select" style={{ marginTop: "6px", padding: "10px 12px", minWidth: "180px" }}>
-                <option value="">Tümü</option>
-                <option value="pending">Beklemede</option>
-                <option value="approved">Onaylandı</option>
-                <option value="cancelled">İptal Edildi</option>
-              </select>
-            </label>
-            <button style={{ borderRadius: "10px", border: "none", background: "#ef4444", color: "#fff", padding: "10px 14px", fontWeight: 700, cursor: "pointer" }}>
-              Filtrele
-            </button>
-            <a href="/admin" style={{ borderRadius: "10px", border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.04)", color: "#e5e7eb", padding: "10px 14px", fontWeight: 600, textDecoration: "none" }}>
-              Tümünü Göster
-            </a>
-          </form>
-        </div>
-
-        <div className="card-glass" style={{ padding: "16px", marginBottom: "14px", borderColor: "rgba(245,158,11,0.5)" }}>
-          <form action={blockAppointmentSlot} style={{ display: "flex", alignItems: "end", gap: "10px", flexWrap: "wrap" }}>
-            <div style={{ width: "100%", color: "#fcd34d", fontWeight: "bold", fontSize: "1.1rem", marginBottom: "4px" }}>
-              <i className="fas fa-lock me-2"></i> Manuel Randevu Saati Kapat
+            <div style={{ display: "inline-block", padding: "6px 14px", background: "rgba(255,255,255,0.05)", borderRadius: "999px", color: "#94a3b8", fontSize: "0.80rem", textTransform: "uppercase", marginBottom: "8px" }}>
+              <i className="fas fa-shield-alt me-2"></i> Yetkili Panel
             </div>
-            <label style={{ color: "#d1d5db", fontSize: "0.92rem" }}>
-              Tarih
-              <input type="date" name="date" required className="form-input" style={{ marginTop: "6px", padding: "10px 12px" }} />
-            </label>
-            <label style={{ color: "#d1d5db", fontSize: "0.92rem" }}>
-              Saat
-              <select name="time" required className="form-select" style={{ marginTop: "6px", padding: "10px 12px", minWidth: "180px" }}>
-                {["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"].map(t => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
-            </label>
-            <button style={{ borderRadius: "10px", border: "none", background: "#f59e0b", color: "#fff", padding: "10px 14px", fontWeight: 700, cursor: "pointer" }}>
-              Saati Kapat (Rezerve Et)
-            </button>
-          </form>
-        </div>
-
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: "12px", marginBottom: "14px" }}>
-          <div className="card-glass" style={{ padding: "16px" }}>
-            <p style={{ color: "#94a3b8", fontSize: "0.78rem" }}>Toplam</p>
-            <p style={{ color: "#fff", fontSize: "1.85rem", fontWeight: 700 }}>{totalCount}</p>
+            <h1 style={{ fontSize: "2.2rem", fontWeight: 800, margin: 0 }}>Randevu Yönetimi</h1>
+            <p style={{ marginTop: "4px", color: "#94a3b8" }}>{session.user.email}</p>
           </div>
-          <div className="card-glass" style={{ padding: "16px", borderColor: "rgba(16,185,129,0.5)" }}>
-            <p style={{ color: "#6ee7b7", fontSize: "0.78rem" }}>Onayli</p>
-            <p style={{ color: "#d1fae5", fontSize: "1.85rem", fontWeight: 700 }}>{approvedCount}</p>
-          </div>
-          <div className="card-glass" style={{ padding: "16px", borderColor: "rgba(245,158,11,0.45)" }}>
-            <p style={{ color: "#fcd34d", fontSize: "0.78rem" }}>Beklemede</p>
-            <p style={{ color: "#fef3c7", fontSize: "1.85rem", fontWeight: 700 }}>{pendingCount}</p>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Link href="/" target="_blank" style={{ borderRadius: "12px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.03)", color: "#e2e8f0", padding: "12px 20px", fontWeight: 600, cursor: "pointer", textDecoration: "none", display: "flex", alignItems: "center" }}>
+              <i className="fas fa-external-link-alt me-2"></i> Siteye Dön
+            </Link>
+            <form action={logoutAdmin}>
+              <button style={{ borderRadius: "12px", border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.15)", color: "#fecaca", padding: "12px 20px", fontWeight: 600, cursor: "pointer" }}>
+                Çıkış Yap
+              </button>
+            </form>
           </div>
         </div>
 
-        <div className="card-glass" style={{ padding: "12px" }}>
-          {appointments.length === 0 ? (
-            <div style={{ color: "#cbd5e1", textAlign: "center", padding: "26px 12px" }}>
-              {selectedDate
-                ? `${formatDateToTr(new Date(`${selectedDate}T00:00:00.000Z`))} için kayıt bulunmuyor.`
-                : "Henüz görüntülenecek randevu kaydı bulunmuyor."}
-            </div>
-          ) : (
-            appointments.map((appointment: AppointmentListItem) => (
-              <div key={appointment.id} style={{ border: appointment.status === "approved" ? "1px solid rgba(16,185,129,0.5)" : "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", padding: "14px", marginBottom: "10px", background: appointment.status === "approved" ? "rgba(16,185,129,0.1)" : "rgba(0,0,0,0.25)" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "120px 1fr 1fr", gap: "10px", marginBottom: "10px" }}>
-                  <div>
-                    <p style={{ color: "#94a3b8", fontSize: "0.75rem" }}>Saat</p>
-                    <p style={{ color: "#fff", fontWeight: 700 }}>{appointment.time}</p>
-                    <p style={{ color: "#94a3b8", fontSize: "0.75rem", marginTop: "4px" }}>{formatDateToTr(appointment.date)}</p>
-                  </div>
-                  <div>
-                    <p style={{ color: "#94a3b8", fontSize: "0.75rem" }}>Musteri</p>
-                    <p style={{ color: "#fff" }}>{appointment.name}</p>
-                    <p style={{ color: "#cbd5e1", fontSize: "0.82rem" }}>{appointment.email}</p>
-                  </div>
-                  <div>
-                    <p style={{ color: "#94a3b8", fontSize: "0.75rem" }}>Arac</p>
-                    <p style={{ color: "#fff" }}>{appointment.plate}</p>
-                    <p style={{ color: "#cbd5e1", fontSize: "0.82rem" }}>{appointment.carModel}</p>
-                  </div>
-                </div>
+        {/* Overview Stats */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px", marginBottom: "30px" }}>
+          <div className="card-glass" style={{ padding: "24px", borderRadius: "20px", background: "rgba(255,255,255,0.03)" }}>
+            <p style={{ color: "#94a3b8", fontSize: "0.85rem", textTransform: "uppercase" }}>Müşteri Randevuları</p>
+            <p style={{ fontSize: "2.2rem", fontWeight: 800, margin: "5px 0 0 0" }}>{totalCount}</p>
+          </div>
+          <div className="card-glass" style={{ padding: "24px", borderRadius: "20px", borderLeft: "4px solid #10b981", background: "rgba(16,185,129,0.05)" }}>
+            <p style={{ color: "#6ee7b7", fontSize: "0.85rem", textTransform: "uppercase" }}>Onaylanan</p>
+            <p style={{ color: "#d1fae5", fontSize: "2.2rem", fontWeight: 800, margin: "5px 0 0 0" }}>{approvedCount}</p>
+          </div>
+          <div className="card-glass" style={{ padding: "24px", borderRadius: "20px", borderLeft: "4px solid #f59e0b", background: "rgba(245,158,11,0.05)" }}>
+            <p style={{ color: "#fcd34d", fontSize: "0.85rem", textTransform: "uppercase" }}>Bekleyen</p>
+            <p style={{ color: "#fef3c7", fontSize: "2.2rem", fontWeight: 800, margin: "5px 0 0 0" }}>{pendingCount}</p>
+          </div>
+        </div>
 
-                <div style={{ marginBottom: "10px" }}>
-                  <p style={{ color: "#94a3b8", fontSize: "0.75rem" }}>Hizmet Türü</p>
-                  <p style={{ color: "#e2e8f0", fontSize: "0.86rem", marginTop: "2px" }}>{appointment.serviceType ?? "Belirtilmedi"}</p>
-                </div>
+        {/* Quick Filters */}
+        <div style={{ display: "flex", gap: "12px", marginBottom: "25px", flexWrap: "wrap", alignItems: "center" }}>
+          <span style={{ color: "#94a3b8", fontSize: "0.9rem", marginRight: "8px" }}><i className="fas fa-filter me-1"></i> Filtrele:</span>
 
-                <div style={{ marginBottom: "10px" }}>
-                  <span style={{ display: "inline-block", borderRadius: "999px", padding: "4px 10px", fontSize: "0.78rem", fontWeight: 700, background: appointment.status === "approved" ? "rgba(16,185,129,0.18)" : appointment.status === "cancelled" ? "rgba(239,68,68,0.18)" : "rgba(245,158,11,0.18)", color: appointment.status === "approved" ? "#6ee7b7" : appointment.status === "cancelled" ? "#fca5a5" : "#fcd34d", border: appointment.status === "approved" ? "1px solid rgba(16,185,129,0.45)" : appointment.status === "cancelled" ? "1px solid rgba(239,68,68,0.45)" : "1px solid rgba(245,158,11,0.45)" }}>
-                    {getStatusLabel(appointment.status)}
-                  </span>
-                </div>
+          <Link href="/admin" style={{ padding: "8px 16px", borderRadius: "10px", background: !selectedDate && !selectedStatus ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", color: "white", textDecoration: "none", fontSize: "0.9rem" }}>
+            Hepsi
+          </Link>
 
-                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-                  <form action={updateAppointmentStatus} style={{ display: "flex", gap: "8px", alignItems: "center", flex: 1 }}>
-                    <input type="hidden" name="appointmentId" value={appointment.id} />
-                    <select name="status" defaultValue={appointment.status} className="form-select" style={{ maxWidth: "220px", padding: "8px 10px" }}>
-                      <option value="pending">Beklemede</option>
-                      <option value="approved">Onaylandı</option>
-                      <option value="cancelled">İptal Edildi</option>
-                    </select>
-                    <button style={{ borderRadius: "8px", border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.07)", color: "#fff", padding: "8px 12px", fontWeight: 700, cursor: "pointer" }}>
-                      Kaydet
-                    </button>
-                  </form>
+          <Link href={buildAdminUrl({ date: todayString, page: 1 })} style={{ padding: "8px 16px", borderRadius: "10px", background: selectedDate === todayString ? "rgba(59,130,246,0.3)" : "rgba(255,255,255,0.03)", border: "1px solid rgba(59,130,246,0.3)", color: "white", textDecoration: "none", fontSize: "0.9rem" }}>
+            <i className="fas fa-calendar-day me-2"></i> Bugün
+          </Link>
 
-                  <form action={deleteAppointment}>
-                    <input type="hidden" name="appointmentId" value={appointment.id} />
-                    <button style={{ borderRadius: "8px", border: "1px solid rgba(248,113,113,0.5)", background: "rgba(239,68,68,0.15)", color: "#fecaca", padding: "8px 12px", fontWeight: 700, cursor: "pointer" }}>
-                      Sil
-                    </button>
-                  </form>
-                </div>
+          <div style={{ width: "1px", height: "24px", background: "rgba(255,255,255,0.1)", margin: "0 5px" }}></div>
+
+          <Link href={buildAdminUrl({ ...params, status: "pending", page: 1 })} style={{ padding: "8px 16px", borderRadius: "10px", background: selectedStatus === "pending" ? "rgba(245,158,11,0.3)" : "rgba(255,255,255,0.03)", border: "1px solid rgba(245,158,11,0.3)", color: "white", textDecoration: "none", fontSize: "0.9rem" }}>
+            Bekleyenler
+          </Link>
+
+          <Link href={buildAdminUrl({ ...params, status: "approved", page: 1 })} style={{ padding: "8px 16px", borderRadius: "10px", background: selectedStatus === "approved" ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.03)", border: "1px solid rgba(16,185,129,0.3)", color: "white", textDecoration: "none", fontSize: "0.9rem" }}>
+            Onaylılar
+          </Link>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "30px" }}>
+
+          {/* Slot Manager */}
+          <div className="card-glass" style={{ padding: "24px", borderRadius: "20px", background: "rgba(255,255,255,0.03)" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: "700", marginBottom: "20px" }}><i className="fas fa-th-large me-2"></i> Slot Durumu</h2>
+
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.3)", borderRadius: "12px", padding: "10px", marginBottom: "20px" }}>
+              <Link href={buildAdminUrl({ ...params, date: prevDayStr, page: 1 })} style={{ padding: "8px 12px", background: "rgba(255,255,255,0.05)", borderRadius: "8px", color: "white" }}>
+                <i className="fas fa-chevron-left"></i>
+              </Link>
+              <div style={{ textAlign: "center" }}>
+                <span style={{ display: "block", fontSize: "0.75rem", color: "#94a3b8" }}>{formatDateToTr(new Date(`${activeDate}T00:00:00Z`))}</span>
+                <span style={{ fontWeight: 700 }}>{activeDate}</span>
               </div>
-            ))
-          )}
-        </div>
-
-        {totalPages > 1 ? (
-          <div className="card-glass" style={{ marginTop: "12px", padding: "12px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-            <p style={{ color: "#cbd5e1", fontSize: "0.9rem" }}>
-              Sayfa {page} / {totalPages}
-            </p>
-            <div style={{ display: "flex", gap: "8px" }}>
-              {page > 1 ? (
-                <a href={buildAdminUrl({ date: selectedDate, status: selectedStatus, page: page - 1 })} style={{ borderRadius: "8px", border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.04)", color: "#fff", padding: "8px 12px", textDecoration: "none", fontWeight: 600 }}>
-                  Önceki
-                </a>
-              ) : null}
-              {page < totalPages ? (
-                <a href={buildAdminUrl({ date: selectedDate, status: selectedStatus, page: page + 1 })} style={{ borderRadius: "8px", border: "1px solid rgba(248,113,113,0.45)", background: "rgba(239,68,68,0.14)", color: "#fecaca", padding: "8px 12px", textDecoration: "none", fontWeight: 600 }}>
-                  Sonraki
-                </a>
-              ) : null}
+              <Link href={buildAdminUrl({ ...params, date: nextDayStr, page: 1 })} style={{ padding: "8px 12px", background: "rgba(255,255,255,0.05)", borderRadius: "8px", color: "white" }}>
+                <i className="fas fa-chevron-right"></i>
+              </Link>
             </div>
+
+            {isSunday(activeDate) ? (
+              <p style={{ textAlign: "center", padding: "20px", color: "#94a3b8" }}>Pazar Günleri Kapalı</p>
+            ) : (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(80px, 1fr))", gap: "8px" }}>
+                {slotsData.map((slot: any) => (
+                  <div key={slot.time}>
+                    {slot.state === "available" ? (
+                      <form action={blockAppointmentSlot}>
+                        <input type="hidden" name="date" value={activeDate} />
+                        <input type="hidden" name="time" value={slot.time} />
+                        <button style={{ width: "100%", padding: "10px 0", background: "rgba(16,185,129,0.1)", border: "1px solid #10b981", borderRadius: "8px", color: "#34d399", cursor: "pointer", fontSize: "0.85rem" }}>
+                          {slot.time}
+                        </button>
+                      </form>
+                    ) : slot.state === "blocked" ? (
+                      <form action={deleteAppointment}>
+                        <input type="hidden" name="appointmentId" value={slot.existing.id} />
+                        <button style={{ width: "100%", padding: "10px 0", background: "rgba(239,68,68,0.2)", border: "1px dashed #ef4444", borderRadius: "8px", color: "#fca5a5", cursor: "pointer", fontSize: "0.85rem" }}>
+                          KİLİTLİ
+                        </button>
+                      </form>
+                    ) : (
+                      <div style={{ width: "100%", padding: "10px 0", background: "rgba(59,130,246,0.15)", border: "1px solid #3b82f6", borderRadius: "8px", color: "#93c5fd", textAlign: "center", fontSize: "0.85rem", opacity: slot.state === "past" ? 0.4 : 1 }}>
+                        {slot.time}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        ) : null}
+
+          {/* List View */}
+          <div className="card-glass" style={{ padding: "24px", borderRadius: "20px", background: "rgba(255,255,255,0.03)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
+              <h2 style={{ fontSize: "1.3rem", fontWeight: "700", margin: 0 }}><i className="fas fa-list me-2"></i> Müşteri Listesi</h2>
+            </div>
+
+            <PaginationControls />
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px", margin: "10px 0" }}>
+              {appointments.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "60px 20px", color: "#64748b" }}>
+                  <i className="fas fa-search mb-3" style={{ fontSize: "2rem", opacity: 0.3 }}></i>
+                  <p>Aktif randevu bulunmuyor.</p>
+                </div>
+              ) : (
+                appointments.map((app) => (
+                  <div key={app.id} style={{ padding: "15px", background: "rgba(255,255,255,0.02)", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+                      <span style={{ fontWeight: 800, color: "#fff", fontSize: "1.1rem" }}>{app.time}</span>
+                      <span style={{ fontSize: "0.80rem", color: "#94a3b8", background: "rgba(255,255,255,0.05)", padding: "2px 8px", borderRadius: "4px" }}>
+                        {formatDateToTr(app.date)}
+                      </span>
+                    </div>
+                    <div style={{ marginBottom: "15px" }}>
+                      <p style={{ margin: "0 0 4px 0", fontWeight: 700, fontSize: "1rem" }}>{app.name}</p>
+                      <p style={{ margin: 0, fontSize: "0.85rem", color: "#94a3b8" }}>{app.plate} • {app.carModel}</p>
+                      <p style={{ margin: "4px 0 0 0", fontSize: "0.8rem", color: "#64748b" }}>{app.phone} • {app.serviceType}</p>
+                    </div>
+
+                    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                      <form action={updateAppointmentStatus} style={{ flex: 1, display: "flex", gap: "5px" }}>
+                        <input type="hidden" name="appointmentId" value={app.id} />
+                        <select name="status" defaultValue={app.status} style={{ flex: 1, background: "rgba(0,0,0,0.3)", color: "white", padding: "8px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.1)", fontSize: "0.85rem" }}>
+                          <option value="pending">Beklemede</option>
+                          <option value="approved">Onayla</option>
+                          <option value="cancelled">İptal</option>
+                        </select>
+                        <button style={{ padding: "8px 12px", background: "rgba(255,255,255,0.1)", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "0.85rem" }}>Kaydet</button>
+                      </form>
+
+                      <form action={deleteAppointment}>
+                        <input type="hidden" name="appointmentId" value={app.id} />
+                        <button style={{ padding: "8px 12px", background: "transparent", color: "#ef4444", border: "1px solid rgba(239,68,68,0.2)", borderRadius: "8px", cursor: "pointer" }} title="Sil">
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <PaginationControls />
+          </div>
+
+        </div>
       </div>
     </section>
   );
