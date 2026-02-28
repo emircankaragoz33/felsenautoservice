@@ -39,3 +39,33 @@ export async function deleteAppointment(formData: FormData) {
 export async function logoutAdmin() {
   await signOut({ redirectTo: "/admin/login" });
 }
+
+export async function blockAppointmentSlot(formData: FormData) {
+  const dateStr = String(formData.get("date") ?? "");
+  const timeStr = String(formData.get("time") ?? "");
+
+  if (!dateStr || !timeStr) {
+    throw new Error("Tarih ve saat gerekli.");
+  }
+
+  // Ensure unique constraint check or catch it
+  try {
+    await prisma.appointment.create({
+      data: {
+        name: "Sistem Kaydı (Manuel Kapalı)",
+        phone: "-",
+        email: "-",
+        plate: "KAPALI",
+        carModel: "KAPALI",
+        serviceType: "Manuel Kapatılan Randevu",
+        date: new Date(`${dateStr}T00:00:00.000Z`),
+        time: timeStr,
+        status: "approved",
+      },
+    });
+  } catch (error) {
+    throw new Error("Bu saat dilimi zaten dolu veya kapatılmış.");
+  }
+
+  revalidatePath("/admin");
+}

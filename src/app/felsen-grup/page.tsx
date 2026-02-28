@@ -79,14 +79,36 @@ export default function FelsenGrup() {
                             </div>
                         </div>
 
+                        {/* AutoWax Bölümü */}
+                        <div className="reveal" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '40px', background: 'rgba(255,255,255,0.02)', padding: '20px', borderRadius: '15px', border: '1px solid var(--glass-border)' }}>
+                            <div style={{ flex: 1, minWidth: '250px', textAlign: 'center' }}>
+                                <img src="/images/seramik.png" alt="AutoWax Araç Bakım ve Koruma" style={{ width: '100%', maxWidth: '400px', objectFit: 'contain', borderRadius: '10px' }} />
+                            </div>
+                            <div style={{ flex: 1.5, minWidth: '250px' }}>
+                                <h2 className="mb-4 text-gradient">AutoWax Uygulama Merkezi</h2>
+                                <p style={{ fontSize: '1.1rem', color: '#bbb', marginBottom: '20px' }}>
+                                    Aracınıza hak ettiği değeri verin. Profesyonel araç bakım, temizlik ve koruma hizmetleriyle aracınızın ilk günkü ışıltısını koruyoruz.
+                                </p>
+                                <ul style={{ marginBottom: '30px', color: '#aaa' }}>
+                                    <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Detaylı İç Dış Temizlik</li>
+                                    <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Seramik Kaplama ve Boya Koruma</li>
+                                    <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Pasta Cila Uygulamaları</li>
+                                    <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle text-primary me-2"></i> Cam Filmi ve Kaput Koruma</li>
+                                </ul>
+                                <a href="tel:08503084641" className="btn-custom">
+                                    <i className="fas fa-sparkles me-2"></i> Randevu Al: 0850 308 4641
+                                </a>
+                            </div>
+                        </div>
+
 
                     </div>
 
                     {/* Anlaşmalı Kurumlar Bölümü */}
                     <div className="reveal" style={{ marginTop: '80px', textAlign: 'center' }}>
-                        <h2 className="mb-4 text-gradient">Anlaşmalı Olduğumuz Sigorta Şirketleri</h2>
+                        <h2 className="mb-4 text-gradient">Anlaşmalı Olduğumuz Sigorta Acenteleri</h2>
                         <p style={{ fontSize: '1.1rem', color: '#bbb', marginBottom: '40px' }}>
-                            Türkiye'nin en güvenilir sigorta şirketleri ile çözüm ortağıyız.
+                            Türkiye'nin en güvenilir sigorta acenteleri ile çözüm ortağıyız.
                         </p>
 
                         <div style={{
@@ -142,6 +164,9 @@ export default function FelsenGrup() {
                             </a>
                             <a href="#" className="btn-custom btn-outline" style={{ minWidth: '200px' }}>
                                 <i className="fas fa-car me-2"></i> Felsen Rent A Car
+                            </a>
+                            <a href="#" className="btn-custom btn-outline" style={{ minWidth: '200px' }}>
+                                <i className="fas fa-spray-can me-2"></i> AutoWax
                             </a>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { deleteAppointment, logoutAdmin, updateAppointmentStatus } from "@/app/admin/actions";
+import { deleteAppointment, logoutAdmin, updateAppointmentStatus, blockAppointmentSlot } from "@/app/admin/actions";
 import { formatDateToTr } from "@/lib/appointment-rules";
 import { prisma } from "@/lib/prisma";
 
@@ -17,11 +17,11 @@ type AppointmentListItem = {
 };
 
 type AdminPageProps = {
-  searchParams?: {
+  searchParams: Promise<{
     date?: string;
     status?: string;
     page?: string;
-  };
+  }>;
 };
 
 function isValidDate(value?: string) {
@@ -54,22 +54,24 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     return null;
   }
 
-  const selectedDate = isValidDate(searchParams?.date) ? (searchParams?.date as string) : undefined;
-  const selectedStatus = isValidStatus(searchParams?.status) ? searchParams?.status : undefined;
-  const requestedPage = Number(searchParams?.page ?? "1");
+  const params = await searchParams;
+
+  const selectedDate = isValidDate(params?.date) ? (params?.date as string) : undefined;
+  const selectedStatus = isValidStatus(params?.status) ? params?.status : undefined;
+  const requestedPage = Number(params?.page ?? "1");
   const pageSize = 10;
   const currentPage = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
 
   const where = {
     ...(selectedDate
       ? {
-          date: new Date(`${selectedDate}T00:00:00.000Z`),
-        }
+        date: new Date(`${selectedDate}T00:00:00.000Z`),
+      }
       : {}),
     ...(selectedStatus
       ? {
-          status: selectedStatus,
-        }
+        status: selectedStatus,
+      }
       : {}),
   };
 
@@ -81,8 +83,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     by: ["status"],
     where: selectedDate
       ? {
-          date: new Date(`${selectedDate}T00:00:00.000Z`),
-        }
+        date: new Date(`${selectedDate}T00:00:00.000Z`),
+      }
       : undefined,
     _count: {
       status: true,
@@ -138,6 +140,30 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </a>
           </form>
         </div>
+
+        <div className="card-glass" style={{ padding: "16px", marginBottom: "14px", borderColor: "rgba(245,158,11,0.5)" }}>
+          <form action={blockAppointmentSlot} style={{ display: "flex", alignItems: "end", gap: "10px", flexWrap: "wrap" }}>
+            <div style={{ width: "100%", color: "#fcd34d", fontWeight: "bold", fontSize: "1.1rem", marginBottom: "4px" }}>
+              <i className="fas fa-lock me-2"></i> Manuel Randevu Saati Kapat
+            </div>
+            <label style={{ color: "#d1d5db", fontSize: "0.92rem" }}>
+              Tarih
+              <input type="date" name="date" required className="form-input" style={{ marginTop: "6px", padding: "10px 12px" }} />
+            </label>
+            <label style={{ color: "#d1d5db", fontSize: "0.92rem" }}>
+              Saat
+              <select name="time" required className="form-select" style={{ marginTop: "6px", padding: "10px 12px", minWidth: "180px" }}>
+                {["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"].map(t => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </label>
+            <button style={{ borderRadius: "10px", border: "none", background: "#f59e0b", color: "#fff", padding: "10px 14px", fontWeight: 700, cursor: "pointer" }}>
+              Saati Kapat (Rezerve Et)
+            </button>
+          </form>
+        </div>
+
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: "12px", marginBottom: "14px" }}>
           <div className="card-glass" style={{ padding: "16px" }}>
