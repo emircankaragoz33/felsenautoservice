@@ -108,38 +108,7 @@ KİŞİLİĞİN:
 
 const FALLBACK_REPLY = `Asistan servisi gecici olarak yogun. Size hemen yardimci olayim: Servis saatlerimiz hafta ici ${WORKING_HOURS.weekday.start}-${WORKING_HOURS.weekday.end}, cumartesi ${WORKING_HOURS.saturday.start}-${WORKING_HOURS.saturday.end}. Randevu icin /randevu sayfasini kullanabilir veya 0850 308 46 41 numarasindan bize ulasabilirsiniz.`;
 
-const GEMINI_MODELS = ["gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash"];
-
-let cachedDiscoveredModels: string[] | null = null;
-
-function isScopeRelated(message: string): boolean {
-  const lower = message.toLowerCase();
-  return SCOPE_KEYWORDS.some((keyword) => lower.includes(keyword));
-}
-
-async function discoverGeminiModels(apiKey: string): Promise<string[]> {
-  if (cachedDiscoveredModels && cachedDiscoveredModels.length > 0) {
-    return cachedDiscoveredModels;
-  }
-
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-  if (!response.ok) {
-    const reason = await response.text();
-    throw new Error(`ListModels failed: ${reason}`);
-  }
-
-  const payload = (await response.json()) as {
-    models?: Array<{ name?: string; supportedGenerationMethods?: string[] }>;
-  };
-
-  const discovered = (payload.models ?? [])
-    .filter((model) => Array.isArray(model.supportedGenerationMethods) && model.supportedGenerationMethods.includes("generateContent"))
-    .map((model) => model.name?.replace(/^models\//, "").trim())
-    .filter((name): name is string => Boolean(name));
-
-  cachedDiscoveredModels = discovered;
-  return discovered;
-}
+const GEMINI_MODELS = ["gemini-1.5-flash"];
 
 export async function POST(request: Request) {
   try {
