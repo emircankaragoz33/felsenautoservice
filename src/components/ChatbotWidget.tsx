@@ -133,10 +133,18 @@ export default function ChatbotWidget() {
         setMessages(prev => [...prev, { role: "user", text }, { role: "assistant", text: "Teşekkürler. Şimdi **Telefon Numaranızı** yazın:" }]);
       } else if (!booking.phone) {
         setBooking(prev => ({ ...prev, phone: text }));
-        setMessages(prev => [...prev, { role: "user", text }, { role: "assistant", text: "Aracınızın **Plakasını** yazın:" }]);
+        setMessages(prev => [...prev, { role: "user", text }, { role: "assistant", text: "Size onay e-postası gönderebilmemiz için **E-posta Adresinizi** yazın:" }]);
+      } else if (!booking.email) {
+        if (!text.includes("@")) {
+          setMessages(prev => [...prev, { role: "user", text }, { role: "assistant", text: "Geçersiz e-posta. Lütfen gerçek bir e-posta adresi yazın:" }]);
+          return;
+        }
+        setBooking(prev => ({ ...prev, email: text }));
+        setMessages(prev => [...prev, { role: "user", text }, { role: "assistant", text: "Aracınızın **Plakasını** yazın (Örn: 34ABC123):" }]);
       } else if (!booking.plate) {
-        setBooking(prev => ({ ...prev, plate: text }));
-        setMessages(prev => [...prev, { role: "user", text }, { role: "assistant", text: "Aracınızın **Marka ve Modelini** yazın (Örn: Golf 7):" }]);
+        const upPlate = text.toUpperCase().replace(/\s/g, "");
+        setBooking(prev => ({ ...prev, plate: upPlate }));
+        setMessages(prev => [...prev, { role: "user", text: upPlate }, { role: "assistant", text: "Aracınızın **Marka ve Modelini** yazın (Örn: Golf 7):" }]);
       } else if (!booking.model) {
         const finalBooking = { ...booking, model: text };
         setBooking({ ...finalBooking, step: "confirm" });
@@ -145,7 +153,7 @@ export default function ChatbotWidget() {
           { role: "user", text },
           {
             role: "assistant",
-            text: `Tüm bilgiler tamam! Randevunuzu onaylıyor musunuz? \n\n**Hizmet:** ${finalBooking.service}\n**Tarih:** ${finalBooking.date} / ${finalBooking.time}\n**Araç:** ${finalBooking.plate} (${finalBooking.model})`,
+            text: `Tüm bilgiler tamam! Randevunuzu onaylıyor musunuz? \n\n**Hizmet:** ${finalBooking.service}\n**Tarih:** ${finalBooking.date} / ${finalBooking.time}\n**İsim:** ${finalBooking.name}\n**Araç:** ${finalBooking.plate} (${finalBooking.model})`,
             type: "options",
             options: ["Onaylıyorum", "İptal Et"]
           }
@@ -165,12 +173,12 @@ export default function ChatbotWidget() {
         body: JSON.stringify({
           name: booking.name,
           phone: booking.phone,
-          email: `${booking.phone}@felsen.com.tr`, // fallback email
+          email: booking.email,
           serviceType: booking.service,
           date: booking.date,
           time: booking.time,
           plate: booking.plate,
-          vehicleModel: booking.model,
+          carModel: booking.model,
           notes: "Chatbot üzerinden oluşturuldu."
         }),
       });
@@ -413,7 +421,8 @@ export default function ChatbotWidget() {
                   color: "#fff",
                   padding: "12px 15px",
                   borderRadius: "15px",
-                  outline: "none"
+                  outline: "none",
+                  textTransform: (booking.step === "info" && booking.email && !booking.plate) ? "uppercase" : "none"
                 }}
               />
               <button
