@@ -243,7 +243,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <div style={{ flex: 1 }}></div>
 
           <a
-            href={`/api/admin/export?date=${activeDate}`}
+            href={`/api/admin/export?${new URLSearchParams({
+              ...(selectedDate ? { date: selectedDate } : {}),
+              ...(selectedStatus ? { status: selectedStatus } : {})
+            }).toString()}`}
             download
             style={{
               padding: "10px 20px",
@@ -260,7 +263,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             }}
           >
             <i className="fas fa-file-excel"></i>
-            Excel Olarak İndir ({activeDate})
+            Excel Olarak İndir {selectedDate ? `(${selectedDate})` : "(Hepsi)"}
           </a>
         </div>
 
