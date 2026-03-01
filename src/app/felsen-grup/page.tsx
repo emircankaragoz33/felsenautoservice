@@ -153,19 +153,19 @@ export default function FelsenGrup() {
                     </div>
 
                     {/* Grup Hizmetleri Navigasyon */}
-                    <div className="reveal" style={{ marginTop: '100px', padding: '40px', background: 'var(--darker)', borderRadius: '20px', textAlign: 'center' }}>
-                        <h3 className="mb-4 text-gradient">Felsen Grup Dünyası</h3>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '30px' }}>
-                            <a href="/hizmetlerimiz" className="btn-custom btn-outline" style={{ minWidth: '200px' }}>
+                    <div className="reveal" style={{ marginTop: '120px', padding: '60px 20px', background: 'rgba(5,5,5,0.85)', borderRadius: '30px', textAlign: 'center', border: '1px solid var(--glass-border)', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
+                        <h3 className="mb-5 text-gradient" style={{ fontSize: '2rem' }}>Felsen Grup Dünyası</h3>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '40px' }}>
+                            <a href="/hizmetlerimiz" className="btn-custom btn-outline" style={{ minWidth: '220px', padding: '15px 30px' }}>
                                 <i className="fas fa-tools me-2"></i> Felsen Servis
                             </a>
-                            <a href="#" className="btn-custom btn-outline" style={{ minWidth: '200px' }}>
+                            <a href="#" className="btn-custom btn-outline" style={{ minWidth: '220px', padding: '15px 30px' }}>
                                 <i className="fas fa-shield-alt me-2"></i> Felsen Sigorta
                             </a>
-                            <a href="#" className="btn-custom btn-outline" style={{ minWidth: '200px' }}>
+                            <a href="#" className="btn-custom btn-outline" style={{ minWidth: '220px', padding: '15px 30px' }}>
                                 <i className="fas fa-car me-2"></i> Felsen Rent A Car
                             </a>
-                            <a href="#" className="btn-custom btn-outline" style={{ minWidth: '200px' }}>
+                            <a href="#" className="btn-custom btn-outline" style={{ minWidth: '220px', padding: '15px 30px' }}>
                                 <i className="fas fa-spray-can me-2"></i> AutoWax
                             </a>
                         </div>
