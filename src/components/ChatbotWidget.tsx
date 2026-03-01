@@ -93,22 +93,32 @@ export default function ChatbotWidget() {
     try {
       const res = await fetch(`/api/appointments/slots?date=${date}`);
       const data = await res.json();
-      const slots = (data.slots || [])
+
+      // Handle the data safely
+      const rawSlots = data.slots || [];
+      const slots = rawSlots
         .filter((s: any) => s.state === "available")
         .map((s: any) => s.time);
+
       setAvailableSlots(slots);
 
       setMessages(prev => [
         ...prev.slice(0, -1),
         {
           role: "assistant",
-          text: slots.length > 0 ? "Lütfen size uygun bir saat seçin:" : "Üzgünüm, seçtiğiniz günde müsait saat kalmamış. Lütfen başka bir gün seçin.",
+          text: slots.length > 0
+            ? "Lütfen size uygun bir saat seçin (Doluluğa göre listelenmiştir):"
+            : (data.message || "Üzgünüm, seçtiğiniz günde müsait saat kalmamış veya servis kapalı. Lütfen başka bir gün seçin."),
           type: slots.length > 0 ? "slots" : "date",
           options: slots
         }
       ]);
     } catch (err) {
-      setMessages(prev => [...prev, { role: "assistant", text: "Sistem hatası oluştu, lütfen daha sonra tekrar deneyin." }]);
+      console.error("Slot fetch error:", err);
+      setMessages(prev => [
+        ...prev.slice(0, -1),
+        { role: "assistant", text: "Müsait saatleri alırken bir hata oluştu. Lütfen tekrar deneyin veya 0850 308 46 41 numarasından bize ulaşın." }
+      ]);
     } finally {
       setSending(false);
     }
@@ -183,20 +193,32 @@ export default function ChatbotWidget() {
         }),
       });
 
-      if (!res.ok) throw new Error("Booking failed");
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Randevu oluşturulamadı");
+      }
 
       setMessages(prev => [
         ...prev,
         { role: "user", text: "Onaylıyorum" },
         {
           role: "assistant",
-          text: "Randevunuz başarıyla oluşturuldu! Sizi sabırsızlıkla bekliyoruz. Detaylar telefonunuza iletilecektir.",
+          text: data.message || "Randevunuz başarıyla oluşturuldu! Sizi sabırsızlıkla bekliyoruz. Detaylar e-posta adresinize iletilecektir.",
           type: "success"
         }
       ]);
       setBooking({ step: "idle" });
-    } catch (err) {
-      setMessages(prev => [...prev, { role: "assistant", text: "Onay işlemi sırasında bir hata oluştu. Lütfen 0850 308 46 41 numarasından bize ulaşın." }]);
+    } catch (err: any) {
+      console.error("Booking error:", err);
+      setMessages(prev => [
+        ...prev,
+        { role: "user", text: "Onaylıyorum" },
+        {
+          role: "assistant",
+          text: `Hata: ${err.message || "Onay işlemi sırasında bir hata oluştu."} \n\nLütfen 0850 308 46 41 numarasından bize ulaşarak randevunuzu kesinleştirin.`
+        }
+      ]);
     } finally {
       setSending(false);
     }
