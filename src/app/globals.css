@@ -324,11 +324,10 @@ ul {
   padding: 5px 0;
   position: relative;
   z-index: 1002;
-  margin-left: -150px;
 }
 
 .brand-logo img {
-  height: 180px;
+  height: 80px;
   width: auto;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
   transition: all 0.3s ease;
@@ -336,7 +335,7 @@ ul {
 }
 
 .header-scrolled .brand-logo img {
-  height: 170px;
+  height: 70px;
   margin-top: 0;
 }
 
@@ -575,7 +574,7 @@ ul {
 /* Eurorepar Logo Styles */
 .eurorepar-logo-mobile {
   display: none;
-  height: 120px;
+  height: 40px;
   object-fit: contain;
 }
 
@@ -586,7 +585,7 @@ ul {
 }
 
 .eurorepar-logo-desktop img {
-  height: 140px;
+  height: 50px;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
@@ -653,13 +652,13 @@ ul {
   }
 
   .brand-logo img {
-    height: 100px;
+    height: 60px;
     margin-top: 0;
     margin-left: 0;
   }
 
   .header-scrolled .brand-logo img {
-    height: 100px;
+    height: 55px;
     margin-top: 0;
   }
 
