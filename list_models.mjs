@@ -1,5 +1,5 @@
 
-const API_KEY = "AIzaSyCQ6Esmo7rIeFNH9smtz8TcFvNYlfqMArY";
+const API_KEY = "AIzaSyCfsy9niImHL7AmGoDyRPpdHmCtMdRi8D4";
 
 async function listAll() {
     const versions = ["v1", "v1beta"];
