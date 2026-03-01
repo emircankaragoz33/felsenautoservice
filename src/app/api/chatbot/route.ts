@@ -12,40 +12,47 @@ const chatbotBodySchema = z.object({
 export const runtime = "nodejs";
 
 const SITE_KNOWLEDGE_BASE = `
-MARKASI VE KURULUŞU:
-- İsim: Felsen Servis (Felsen Motorlu Araçlar). "Felsen" Almanca'da "Kaya" demektir.
-- Kurucu: Mehmet Kaya (Otomotiv sektörüne 1991'de çıraklıkla başladı, 29 yıllık Renault/Karen tecrübesinden sonra Ekim 2025'te Felsen'i kurdu).
-- Vizyon: Profesyonel, teknolojik ve şeffaf hizmet. 9 Şubat 2026'da Eurorepar Car Service ailesine katıldı.
+FELSEN SERVİS (FELSEN MOTORLU ARAÇLAR) KURUMSAL:
+- İsim: Felsen Servis. "Felsen" Almanca'da "Kaya" anlamına gelir.
+- Kurucu: Mehmet Kaya. Sektöre 1991'de Bostancı Oto Sanayi'de BMW çıraklığı ile başladı. 25 Haziran 1995'te Renault ile tanıştı. 29 yıllık Karen Renault/Yetkili Servis tecrübesinden sonra Ekim 2025'te Felsen'i kurdu.
+- Vizyon: "Kaliteyi yaşamak kaliteyi satın almakla başlar." Vizyonuyla şeffaf ve teknolojik hizmet sunar.
+- Ortaklık: 9 Şubat 2026'dan beri küresel Eurorepar Car Service ağının bir üyesidir.
 
-İLETİŞİM VE KONUM:
-- Telefon: 0850 308 46 41
-- E-posta: info@felsen.com.tr / servis@felsen.com.tr
-- Adres: Şekerpınar Mahallesi, Turgut Özal Caddesi, No: 5/A Akpınar Plaza, Çayırova / Kocaeli (Gebze yakınları).
+İLETİŞİM BİLGİLERİ:
+- Telefon: 0850 308 46 41 (Randevu ve bilgi hattı).
+- E-posta: info@felsen.com.tr
+- Adres: Sekerpinar Mahallesi Turgut Ozal Caddesi No 5/A Akpinar Plaza Cayirova / Kocaeli. (Gebze ve Çayırova bölgesine hizmet verir).
 
 ÇALIŞMA SAATLERİ:
 - Hafta içi: 08:30 - 18:00
 - Cumartesi: 08:30 - 14:00
-- Pazar: Kapalı.
+- Pazar: Kapalı (Acil durumlar için özel yol yardım hattı mevcuttur).
 
-HİZMETLERİMİZ (FELSEN SERVİS):
-- Periyodik Bakım: Yağ ve filtre değişimi (ortalama 1.5 - 2 saat sürer).
-- Arıza Teşhis (Diagnostic): Bilgisayarlı kontrol. Onarım bizde yapılırsa tespit ücretsizdir.
-- Mekanik: Fren sistemleri, Ön takım ve süspansiyon, Klima bakım/onarım/temizliği.
-- Muayene Hazırlat: Fenni muayene öncesi eksiksiz kontrol.
-- Lastik ve Akü: Lastik satışı, değişimi ve Rot-Balans hizmeti. Mutlu Akü yetkili bayiliği.
-- Garanti: Orijinal/OEM parça kullanımı. 2 yıl Eurorepar parça garantisi ve 1 yıl/10.000 km işçilik garantisi.
+DETAYLI HİZMETLERİMİZ:
+1. Periyodik Bakım: Yağ, filtre değişimleri ve genel kontroller (Ortalama 1.5 - 2 saat sürer).
+2. Arıza Teshis (Diagnostic): Yeni nesil cihazlarla hata tespiti. Onarım servisimizde yapılırsa tespit ücretsizdir.
+3. Mekanik onarım: Fren sistemleri (balata, disk, ABS), ön takım, süspansiyon (amortisör, salıncak), klima kompresör tamiri.
+4. Klima Servisi: Gaz dolumu, kaçak testi ve Ozonla dezenfeksiyon/kokuları giderme.
+5. Muayene Hazırlık: TÜVTÜRK öncesi fren, far ve alt takım kontrolleri.
+6. Lastik & Rot Balans: Bilgisayarlı rot ayarı, balans, jant düzeltme ve lastik oteli hizmeti.
+7. Akü: Mutlu Akü bayiliği. Voltaj testi ve garantili değişim.
+8. Garanti: 2 yıl Eurorepar parça garantisi ve Felsen bünyesinde 1 yıl/10.000 km işçilik garantisi.
 
-AUTOWAX UYGULAMA MERKEZİ:
-- Seramik kaplama, Boya Koruma (PPF), Pasta Cila, Detaylı İç Temizlik & Kuaför, Motor Temizliği, Cam Filmi.
+AUTOWAX UYGULAMA MERKEZİ HİZMETLERİ:
+- Seramik Kaplama: Derin parlaklık ve su iticilik.
+- Boya Koruma & PPF: Çizilmez yüzey ve şeffaf koruma filmi.
+- Detaylı İç Temizlik: Koltuk yıkama, leke çıkarma ve antibakteriyel kuaför hizmeti.
+- Motor Temizliği: Özel solüsyonlarla yağ ve kir arındırma.
+- Cam Filmi: UV korumalı, ısı kontrolü sağlayan profesyonel uygulamalar.
 
-FELSEN GRUP DİĞER HİZMETLER:
-- Felsen Sigorta: Kasko, Trafik, Sağlık, Konut Sigortası. Türkiye'nin önde gelen 19 sigorta şirketiyle (Allianz, Axa vb.) anlaşmalı.
-- Felsen Rent A Car: Günlük ve filo kiralama. Alman grubu (VW, Audi, BMW) ve ekonomik segment araçlar. 7/24 yol yardım.
+FELSEN GRUP (SİGORTA VE KİRALAMA):
+- Felsen Sigorta: Allianz, Axa, Ak Sigorta dahil 19 acente ile kasko, trafik, sağlık sigortası çözümleri.
+- Felsen Rent A Car: VW Polo, Golf, Audi A4, BMW 5 gibi Alman grubu ve Egea, Clio gibi ekonomik araç kiralama. 7/24 yol yardım desteği.
 
-SIKÇA SORULAN SORULAR:
-- Ödeme: Nakit, kredi kartı (taksit), havale.
-- Araç Markaları: Her marka ve model araca profesyonel hizmet veriyoruz (Yetkili servis kalitesinde özel servis).
-- Randevu kuralları: Aynı gün randevusu saat 13:00'e kadar alınabilir.
+SIKÇA SORULAN SORULAR (SSS):
+- Ödeme: Nakit, Kredi Kartı (Taksit imkanı), Havale/EFT.
+- Marka Desteği: Her marka ve model araca (Audi, BMW, VW, Renault, Fiat, Opel vb.) hizmet verilmektedir.
+- Randevu: Randevu almak için chatbot üzerindeki butonları kullanabilir veya /randevu sayfasını ziyaret edebilirsiniz.
 `;
 
 const SCOPE_KEYWORDS = [
@@ -85,16 +92,18 @@ const OUT_OF_SCOPE_REPLY =
   "Ben yalnizca Felsen Servis'in hizmetleri, randevu sureci ve iletisim bilgileri konusunda yardimci olabilirim. Bu konu disinda bilgi veremiyorum.";
 
 const systemPrompt = `
-Sen Felsen Servis'in resmi akıllı asistanısın. Kullanıcılara yardımcı olmak için Bilgi Bankası'nı (Knowledge Base) kullan.
+Sen Felsen Servis'in tüm site bilgilerine hakim, zeki ve samimi bir yapay zeka asistanısın. 
 
-KURALLAR:
-1. Nazik, profesyonel ve samimi bir ton kullan.
-2. Bilgi Bankası'ndaki verilere sadık kal. Mehmet Kaya'dan, Eurorepar iş birliğinden, sigorta ve rent a car hizmetlerinden bahset.
-3. Sorulara net ve kısa cevaplar ver.
-4. Randevu almak isteyenlere chatbot üzerindeki randevu butonlarını kullanmalarını söyle veya onları /randevu sayfasına yönlendir.
-5. Kullanıcı "Selam", "Yardımcı ol" gibi şeyler yazarsa servislerini özetle ve neye ihtiyacı olduğunu sor.
-6. Konum sorulursa Çayırova/Kocaeli olduğunu belirt.
-7. Bilmediğin bir şey olursa uydurma, 0850 308 46 41 numaramıza yönlendir.
+HEDEFLERİN:
+1. Kullanıcılara nazik, profesyonel ve sıcak bir dille yardımcı ol.
+2. Bilgi Bankası'nı kullanarak detaylı cevaplar ver (Kurucu Mehmet Kaya'nın tecrübesi, Eurorepar garantisi, servis saatleri vb.).
+3. Kullanıcıyı randevu almaya (chatbot butonları veya /randevu sayfası üzerinden) teşvik et.
+4. Eğer kullanıcı servis dışı (siyaset, genel kültür vb.) sorarsa, nazikçe bu konulara giremeyeceğini ve Felsen Servis hakkında bilgi verebileceğini söyle.
+5. Konum, telefon ve çalışma saati gibi bilgileri net bir şekilde paylaş.
+
+KİŞİLİĞİN:
+- Yardımsever, güven veren ve "jilet gibi" profesyonel ama samimi bir üslup.
+- Bir asistan değil, servisin bir parçasıymış gibi konuş (Örn: "Bizim servisimizde...", "Size yardımcı olalım...").
 `;
 
 const FALLBACK_REPLY = `Asistan servisi gecici olarak yogun. Size hemen yardimci olayim: Servis saatlerimiz hafta ici ${WORKING_HOURS.weekday.start}-${WORKING_HOURS.weekday.end}, cumartesi ${WORKING_HOURS.saturday.start}-${WORKING_HOURS.saturday.end}. Randevu icin /randevu sayfasini kullanabilir veya 0850 308 46 41 numarasindan bize ulasabilirsiniz.`;
