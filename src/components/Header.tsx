@@ -39,12 +39,7 @@ export default function Header() {
                         <img src="/images/logo.png" alt="Felsen Servis Logo" />
                     </Link>
 
-                    {/* Eurorepar Logo - Mobile (between brand and menu toggle) */}
-                    <img
-                        src="/images/eurorepar-navbar.png"
-                        alt="Eurorepar Car Service"
-                        className="eurorepar-logo-mobile"
-                    />
+
 
                     <div className="mobile-nav-toggle" id="navToggle" onClick={toggleMobileMenu}>
                         <i className="fas fa-bars"></i>
@@ -97,13 +92,7 @@ export default function Header() {
                                 Randevu Al
                             </Link>
                         </li>
-                        {/* Eurorepar Logo - Desktop (next to Randevu Al) */}
-                        <li className="eurorepar-logo-desktop">
-                            <img
-                                src="/images/eurorepar-navbar.png"
-                                alt="Eurorepar Car Service"
-                            />
-                        </li>
+
                     </ul>
                 </nav>
             </div>
