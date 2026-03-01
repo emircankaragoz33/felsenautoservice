@@ -152,45 +152,53 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Geçersiz mesaj." }, { status: 400 });
     }
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: systemPrompt }],
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    console.log("--- CHATBOT DEBUG ---");
+    console.log("Using API v1beta with gemini-1.5-flash");
+    console.log("Request Message:", parsed.data.message);
+    console.log("API URL:", `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=***${apiKey.slice(-4)}`);
+
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        systemInstruction: {
+          parts: [{ text: systemPrompt }],
+        },
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: parsed.data.message }],
           },
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: parsed.data.message }],
-            },
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 800,
-          },
-        }),
-      }
-    );
+        ],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 800,
+        },
+      }),
+    });
+
+    console.log("Response Status:", response.status);
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("Gemini API Error:", errorData);
-      throw new Error("API call failed");
+      console.error("Gemini API Error Detail:", JSON.stringify(errorData, null, 2));
+      throw new Error(`API returned ${response.status}`);
     }
 
     const data = await response.json();
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
-      throw new Error("Empty response from Gemini");
+      console.error("Gemini Response Structure:", JSON.stringify(data, null, 2));
+      throw new Error("Empty response or wrong structure");
     }
 
+    console.log("✅ Success! Response generated.");
     return NextResponse.json({ reply: text });
   } catch (error) {
-    console.error("Chatbot Error:", error);
+    console.error("Chatbot Fatal Error:", error);
     return NextResponse.json({
       reply: "Şu an bağlantıda bir sorun yaşıyorum ama size 0850 308 46 41 numaramızdan veya /randevu sayfamızdan her zaman yardımcı olabiliriz."
     });
