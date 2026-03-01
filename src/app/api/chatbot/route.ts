@@ -152,72 +152,47 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Geçersiz mesaj." }, { status: 400 });
     }
 
-    const userMessage = parsed.data.message;
-
-    let data: any = null;
-    let dynamicModels: string[] = [];
-
-    try {
-      dynamicModels = await discoverGeminiModels(apiKey);
-    } catch (error) {
-      console.error("Gemini model discovery error", error);
-    }
-
-    // Comprehensive list of models to increase success rate
-    const staticModels = ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-2.0-flash-exp"];
-    const modelCandidates = Array.from(new Set([...staticModels, ...dynamicModels, ...GEMINI_MODELS]));
-
-    for (const model of modelCandidates) {
-      try {
-        const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              systemInstruction: {
-                parts: [{ text: systemPrompt }],
-              },
-              contents: [
-                {
-                  role: "user",
-                  parts: [{ text: userMessage }],
-                },
-              ],
-              generationConfig: {
-                temperature: 0.7,
-                maxOutputTokens: 600,
-              },
-            }),
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [{ text: systemPrompt }],
           },
-        );
-
-        if (response.ok) {
-          data = await response.json();
-          if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-            break; // Success!
-          }
-        } else {
-          const errText = await response.text();
-          console.warn(`Gemini API error for model ${model}:`, errText);
-        }
-      } catch (err) {
-        console.error(`Fetch failed for model ${model}:`, err);
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: parsed.data.message }],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 800,
+          },
+        }),
       }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Gemini API Error:", errorData);
+      throw new Error("API call failed");
     }
 
+    const data = await response.json();
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
-      return NextResponse.json({
-        reply: "Şu an servislerimde kısa süreli bir yoğunluk var, ama size yardımcı olabilirim: Felsen Servis hafta içi 08:30-18:00, Cumartesi 08:30-14:00 arası Çayırova'da hizmet veriyor. Randevu için /randevu sayfamızı kullanabilir veya 0850 308 46 41'i arayabilirsiniz.",
-        degraded: true
-      });
+      throw new Error("Empty response from Gemini");
     }
 
     return NextResponse.json({ reply: text });
   } catch (error) {
-    console.error("Chatbot root error", error);
-    return NextResponse.json({ message: "Sistemde bir hata oluştu." }, { status: 500 });
+    console.error("Chatbot Error:", error);
+    return NextResponse.json({
+      reply: "Şu an bağlantıda bir sorun yaşıyorum ama size 0850 308 46 41 numaramızdan veya /randevu sayfamızdan her zaman yardımcı olabiliriz."
+    });
   }
 }
