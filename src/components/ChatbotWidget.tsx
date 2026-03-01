@@ -135,9 +135,8 @@ export default function ChatbotWidget() {
       } else if (!booking.plate) {
         setBooking(prev => ({ ...prev, plate: text }));
         setMessages(prev => [...prev, { role: "user", text }, { role: "assistant", text: "Aracınızın **Marka ve Modelini** yazın (Örn: Golf 7):" }]);
-      } else if (!booking.model) {
         const finalBooking = { ...booking, model: text };
-        setBooking({ step: "confirm", ...finalBooking });
+        setBooking({ ...finalBooking, step: "confirm" });
         setMessages(prev => [
           ...prev,
           { role: "user", text },

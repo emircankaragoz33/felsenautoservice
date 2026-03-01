@@ -120,9 +120,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Gecersiz mesaj." }, { status: 400 });
     }
 
-    if (!isScopeRelated(parsed.data.message)) {
-      return NextResponse.json({ reply: OUT_OF_SCOPE_REPLY, scoped: true });
-    }
+    // Strict scope check removed to allow for more natural conversations
+    const userMessage = parsed.data.message.toLowerCase();
 
     let data: any = null;
     let dynamicModels: string[] = [];
@@ -154,8 +153,8 @@ export async function POST(request: Request) {
               },
             ],
             generationConfig: {
-              temperature: 0.4,
-              maxOutputTokens: 350,
+              temperature: 0.7, // Slightly higher for more natural tone
+              maxOutputTokens: 500,
             },
           }),
         },
