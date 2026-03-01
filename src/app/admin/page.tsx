@@ -239,6 +239,29 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <Link href={buildAdminUrl({ ...params, status: "approved", page: 1 })} style={{ padding: "8px 16px", borderRadius: "10px", background: selectedStatus === "approved" ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.03)", border: "1px solid rgba(16,185,129,0.3)", color: "white", textDecoration: "none", fontSize: "0.9rem" }}>
             Onaylılar
           </Link>
+
+          <div style={{ flex: 1 }}></div>
+
+          <a
+            href={`/api/admin/export?date=${activeDate}`}
+            download
+            style={{
+              padding: "10px 20px",
+              borderRadius: "12px",
+              background: "linear-gradient(135deg, #10b981, #059669)",
+              color: "white",
+              textDecoration: "none",
+              fontSize: "0.9rem",
+              fontWeight: 700,
+              boxShadow: "0 4px 15px rgba(16, 185, 129, 0.3)",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px"
+            }}
+          >
+            <i className="fas fa-file-excel"></i>
+            Excel Olarak İndir ({activeDate})
+          </a>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "30px" }}>
