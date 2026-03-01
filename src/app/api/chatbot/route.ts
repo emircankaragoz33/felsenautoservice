@@ -123,11 +123,6 @@ export async function POST(request: Request) {
 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-    console.log("--- CHATBOT DEBUG ---");
-    console.log("Using API v1beta with gemini-1.5-flash");
-    console.log("Request Message:", parsed.data.message);
-    console.log("API URL:", `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=***${apiKey.slice(-4)}`);
-
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
