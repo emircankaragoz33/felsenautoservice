@@ -286,14 +286,16 @@ export default function ChatbotWidget() {
               <div key={idx} style={{ display: "flex", flexDirection: "column", alignItems: msg.role === "user" ? "flex-end" : "flex-start", gap: "8px" }}>
                 <div style={{
                   maxWidth: "85%",
-                  padding: "12px 18px",
-                  borderRadius: msg.role === "user" ? "20px 20px 4px 20px" : "20px 20px 20px 4px",
+                  padding: "14px 20px",
+                  borderRadius: msg.role === "user" ? "20px 20px 5px 20px" : "20px 20px 20px 5px",
                   background: msg.role === "user" ? "var(--primary)" : "rgba(255,255,255,0.08)",
                   border: msg.role === "user" ? "none" : "1px solid rgba(255,255,255,0.1)",
                   color: "#fff",
-                  fontSize: "14px",
-                  lineHeight: "1.5",
-                  whiteSpace: "pre-wrap"
+                  fontSize: "14.5px",
+                  lineHeight: "1.6",
+                  whiteSpace: "pre-wrap",
+                  boxShadow: msg.role === "user" ? "0 4px 15px rgba(255,62,62,0.2)" : "0 4px 15px rgba(0,0,0,0.1)",
+                  marginBottom: "5px"
                 }}>
                   {msg.text}
                 </div>
