@@ -93,7 +93,9 @@ export default function ChatbotWidget() {
     try {
       const res = await fetch(`/api/appointments/slots?date=${date}`);
       const data = await res.json();
-      const slots = data.availableSlots || [];
+      const slots = (data.slots || [])
+        .filter((s: any) => s.state === "available")
+        .map((s: any) => s.time);
       setAvailableSlots(slots);
 
       setMessages(prev => [
@@ -135,6 +137,7 @@ export default function ChatbotWidget() {
       } else if (!booking.plate) {
         setBooking(prev => ({ ...prev, plate: text }));
         setMessages(prev => [...prev, { role: "user", text }, { role: "assistant", text: "Aracınızın **Marka ve Modelini** yazın (Örn: Golf 7):" }]);
+      } else if (!booking.model) {
         const finalBooking = { ...booking, model: text };
         setBooking({ ...finalBooking, step: "confirm" });
         setMessages(prev => [
