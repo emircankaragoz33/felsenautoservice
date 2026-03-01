@@ -327,15 +327,18 @@ ul {
 }
 
 .brand-logo img {
-  height: 80px;
+  height: 130px;
   width: auto;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.6));
   transition: all 0.3s ease;
   margin-top: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .header-scrolled .brand-logo img {
-  height: 70px;
+  height: 110px;
   margin-top: 0;
 }
 
@@ -652,13 +655,16 @@ ul {
   }
 
   .brand-logo img {
-    height: 60px;
+    height: 90px;
     margin-top: 0;
     margin-left: 0;
+    position: relative;
+    top: auto;
+    transform: none;
   }
 
   .header-scrolled .brand-logo img {
-    height: 55px;
+    height: 80px;
     margin-top: 0;
   }
 
