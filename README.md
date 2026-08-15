@@ -7,7 +7,7 @@ Next.js App Router tabanli, tek uygulamada (backend ayrica yok) calisan oto serv
 - Next.js 16 (App Router)
 - Route Handlers (`app/api`)
 - Prisma ORM
-- Supabase Postgres
+- Postgres (Supabase uzerinden, ama herhangi bir Postgres de olur)
 - TailwindCSS (v4)
 - NextAuth Credentials (admin auth)
 - Resend (e-posta)
@@ -45,62 +45,129 @@ Next.js App Router tabanli, tek uygulamada (backend ayrica yok) calisan oto serv
 - `/api/chatbot` route'u ile Gemini istekleri server-side yapilir
 - API key frontend'e acilmaz
 
-## Environment Variables
+---
 
-`.env.example` dosyasini `.env.local` olarak kopyalayin ve doldurun:
+## Kurulum Kilavuzu (Sifirdan, Adim Adim)
 
-```env
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DB_NAME?schema=public"
-RESEND_API_KEY="re_xxx"
-RESEND_FROM="Felsen Servis <servis@felsen.com.tr>"
-APPOINTMENT_REMINDER_SECRET="replace-with-random-secret"
-ADMIN_EMAIL="admin@felsen.com.tr"
-ADMIN_PASSWORD="replace-with-strong-password"
-AUTH_SECRET="replace-with-long-random-secret"
-GEMINI_API_KEY="your-gemini-api-key"
+Bu bolum projeyi hic gormemis biri icin yazildi. Sirayla takip edin.
+
+### 0) Gereken Araclar
+
+- **Node.js** 20 veya uzeri ([nodejs.org](https://nodejs.org) adresinden indirilir)
+- **Git**
+- Bir kod editoru (VS Code onerilir)
+
+Kurulumu dogrulamak icin terminalde:
+
+```bash
+node -v
+npm -v
+git --version
 ```
 
-## Kurulum
+### 1) Projeyi Indirin
+
+```bash
+git clone <repo-linki>
+cd felsenautoservice
+```
+
+### 2) Paketleri Kurun
 
 ```bash
 npm install
 ```
 
-## Prisma / Veritabani
+### 3) Veritabani Olusturun (Supabase - ucretsiz)
 
-1. Supabase projesi olusturun ve Postgres connection string alin.
-2. `DATABASE_URL` degiskenine ekleyin.
-3. Migration olusturun ve calistirin:
+1. [supabase.com](https://supabase.com) adresinden hesap acin.
+2. **New Project** deyin, bir isim + bolge secin, guclu bir **veritabani sifresi** belirleyin (bu sifreyi bir yere not edin).
+3. Proje acildiktan sonra sol menuden **Project Settings > Database** kismina girin.
+4. **Connection string** bolumunde iki adet baglanti stringi var:
+   - **Transaction pooler** (port `6543`) → bu `DATABASE_URL` olacak.
+   - **Session pooler / Direct connection** (port `5432`) → bu `DIRECT_URL` olacak.
+5. Her ikisindeki `[YOUR-PASSWORD]` yazan yeri, 2. adimda belirledginiz sifreyle degistirin.
+
+> Not: Supabase zorunlu degil, herhangi bir Postgres veritabani (Railway, Neon, kendi sunucunuz vb.) da calisir. Onemli olan Postgres baglanti stringini elde etmek.
+
+### 4) E-posta Gonderimi Icin Resend Hesabi
+
+1. [resend.com](https://resend.com) adresinden hesap acin (ucretsiz planla baslanabilir).
+2. **API Keys** kismindan yeni bir key olusturun → `RESEND_API_KEY`.
+3. Kendi domaininizi (ornegin `felsen.com.tr`) Resend'e ekleyip DNS kayitlarini (SPF/DKIM) domain saglayicinizda tanimlayin ki mailler spam'e dusmesin. Domain eklemeden de test amacli calisir ama gercek kullanimda domain dogrulamasi sart.
+
+### 5) Chatbot Icin Gemini API Key
+
+1. [aistudio.google.com/apikey](https://aistudio.google.com/apikey) adresine gidin, Google hesabinizla girin.
+2. **Create API key** deyip olusan anahtari kopyalayin → `GEMINI_API_KEY`.
+
+### 6) `.env` Dosyasini Olusturun
+
+> **Onemli:** Repo'da ornek olarak duran `.env` dosyasi varsa **silin** ve asagidaki gibi kendi bilgilerinizle sifirdan bir tane olusturun. Baskasina ait eski/test bilgileri kullanmayin.
+
+Proje ana klasorunde `.env` adinda bir dosya olusturun, icine:
+
+```env
+# 3. adimda aldiginiz Supabase baglanti stringleri
+DATABASE_URL="postgresql://...pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true&connection_limit=1"
+DIRECT_URL="postgresql://...pooler.supabase.com:5432/postgres?sslmode=require"
+
+# 4. adimda aldiginiz Resend bilgileri
+RESEND_API_KEY="re_xxx"
+RESEND_FROM="Felsen Servis <servis@felsen.com.tr>"
+
+# Hatirlatma cron endpoint'ini korumak icin rastgele bir metin (asagida uretme komutu var)
+APPOINTMENT_REMINDER_SECRET="buraya-rastgele-uzun-bir-metin"
+
+# Admin paneline giris bilgileri - kendiniz belirleyin
+ADMIN_EMAIL="admin@felsen.com.tr"
+ADMIN_PASSWORD="guclu-bir-sifre-belirleyin"
+
+# Oturum guvenligi icin rastgele bir anahtar (asagida uretme komutu var)
+AUTH_SECRET="buraya-rastgele-uzun-bir-metin"
+
+# 5. adimda aldiginiz Gemini key
+GEMINI_API_KEY="AIzaSy..."
+```
+
+`APPOINTMENT_REMINDER_SECRET` ve `AUTH_SECRET` icin rastgele guclu bir deger uretmek isterseniz terminalde:
 
 ```bash
-npx prisma migrate dev --name add-reminder-sent-at
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+komutunu iki kere calistirip ciktilari sirayla bu iki degere yapistirin.
+
+### 7) Veritabani Tablolarini Olusturun
+
+`.env` dosyasi hazir oldugunda:
+
+```bash
+npx prisma migrate deploy
 npm run prisma:generate
 ```
 
-Production'da:
+Bu komut Supabase'deki bos veritabaninda gerekli tablolari otomatik olusturur.
 
-```bash
-npm run prisma:migrate
-```
-
-## Gelistirme
+### 8) Yerelde Calistirip Test Edin
 
 ```bash
 npm run dev
 ```
 
-## Build
+Tarayicida [http://localhost:3000](http://localhost:3000) acilir. Randevu formunu test edin, ardindan [http://localhost:3000/admin/login](http://localhost:3000/admin/login) adresinden `.env`'deki `ADMIN_EMAIL` / `ADMIN_PASSWORD` ile giris yapip paneli kontrol edin.
 
-```bash
-npm run build
-npm run start
-```
+### 9) Canliya Alma (Vercel)
 
-## Vercel Deploy
+1. [vercel.com](https://vercel.com) adresinden hesap acin, GitHub hesabinizi baglayin.
+2. **Add New... > Project** deyip bu repo'yu secin.
+3. **Environment Variables** kismina, 6. adimdaki `.env` dosyasindaki tum satirlari **tek tek** (isim = deger) girin.
+4. **Deploy** butonuna basin, birkac dakika icinde site yayinda olur.
+5. Kendi domaininizi baglamak icin Vercel proje ayarlarindan **Domains** kismina girip domaininizi ekleyin, sizden istenen DNS kaydini domain saglayicinizda (Natro, GoDaddy vb.) tanimlayin.
 
-Vercel proje ayarlarina tum env degiskenlerini ekleyin.
+### 10) Otomatik Hatirlatma Maili (Cron)
 
-`vercel.json` icinde saatlik cron tanimlidir:
+`vercel.json` icinde saatlik calisan bir cron zaten tanimli, ek bir islem gerekmez:
 
 ```json
 {
@@ -113,13 +180,28 @@ Vercel proje ayarlarina tum env degiskenlerini ekleyin.
 }
 ```
 
-Bu endpoint `Authorization: Bearer <APPOINTMENT_REMINDER_SECRET>` ile korunur.
-Vercel cron kullanacaksaniz `CRON_SECRET` de ayni degerde tanimlanabilir.
+Bu endpoint `Authorization: Bearer <APPOINTMENT_REMINDER_SECRET>` ile korunur, Vercel bunu otomatik gonderir.
 
-Ek olarak Build Command sonrasi Prisma migration icin istege bagli komut:
+---
+
+## Gelistirme Komutlari
 
 ```bash
-npm run prisma:migrate && npm run build
+npm run dev      # yerel gelistirme sunucusu
+npm run build    # production build
+npm run start    # build'i calistir
+```
+
+Veritabani semasinda degisiklik yaptiginizda (yeni alan/tablo vb.):
+
+```bash
+npx prisma migrate dev --name aciklayici-isim
+```
+
+Production'da (Vercel deploy sirasinda) migration'lari uygulamak icin:
+
+```bash
+npm run prisma:migrate
 ```
 
 > Not: Var olan sayfalarda eski lint hatalari bulunabilir; yeni randevu/admin/chatbot akislarinin build'i basarili sekilde calismaktadir.
