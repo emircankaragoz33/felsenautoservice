@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/images/logo.png" alt="Felsen Auto Service" width="360">
+</p>
+
 # Felsen Auto - Randevu ve Yonetim Sistemi
 
 Next.js App Router tabanli, tek uygulamada (backend ayrica yok) calisan oto servis randevu + admin yonetim sistemidir.
