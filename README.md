@@ -161,30 +161,91 @@ npm run dev
 
 Tarayicida [http://localhost:3000](http://localhost:3000) acilir. Randevu formunu test edin, ardindan [http://localhost:3000/admin/login](http://localhost:3000/admin/login) adresinden `.env`'deki `ADMIN_EMAIL` / `ADMIN_PASSWORD` ile giris yapip paneli kontrol edin.
 
-### 9) Canliya Alma (Vercel)
+### 9) Canliya Alma (Kendi Sunucunuzda - Windows/IIS veya Linux/nginx)
 
-1. [vercel.com](https://vercel.com) adresinden hesap acin, GitHub hesabinizi baglayin.
-2. **Add New... > Project** deyip bu repo'yu secin.
-3. **Environment Variables** kismina, 6. adimdaki `.env` dosyasindaki tum satirlari **tek tek** (isim = deger) girin.
-4. **Deploy** butonuna basin, birkac dakika icinde site yayinda olur.
-5. Kendi domaininizi baglamak icin Vercel proje ayarlarindan **Domains** kismina girip domaininizi ekleyin, sizden istenen DNS kaydini domain saglayicinizda (Natro, GoDaddy vb.) tanimlayin.
+Next.js uygulamasi Node.js calistirabilen her sunucuda ayaga kaldirilabilir, ozel bir platforma bagimlilik yok.
+
+#### Linux + nginx
+
+1. Sunucuya Node.js 20+ kurun.
+2. Projeyi sunucuya `git clone` yapin, `npm install` ve `npm run build` calistirin.
+3. `.env` dosyasini sunucuda olusturun (6. adimdaki gibi).
+4. Uygulamayi surekli ayakta tutmak icin PM2 kullanin:
+   ```bash
+   npm install -g pm2
+   pm2 start npm --name felsen-auto -- start
+   pm2 save
+   pm2 startup
+   ```
+   Uygulama varsayilan olarak `3000` portunda calisir.
+5. nginx'i reverse proxy olarak ayarlayin (`/etc/nginx/sites-available/felsen`):
+   ```nginx
+   server {
+       listen 80;
+       server_name felsen.com.tr www.felsen.com.tr;
+
+       location / {
+           proxy_pass http://localhost:3000;
+           proxy_http_version 1.1;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection 'upgrade';
+           proxy_set_header Host $host;
+           proxy_cache_bypass $http_upgrade;
+       }
+   }
+   ```
+   ```bash
+   sudo ln -s /etc/nginx/sites-available/felsen /etc/nginx/sites-enabled/
+   sudo nginx -t && sudo systemctl reload nginx
+   ```
+6. HTTPS icin ucretsiz sertifika:
+   ```bash
+   sudo certbot --nginx -d felsen.com.tr -d www.felsen.com.tr
+   ```
+
+#### Windows + IIS
+
+1. Sunucuya Node.js 20+ kurun.
+2. IIS'e **URL Rewrite** ve **Application Request Routing (ARR)** modullerini kurun (reverse proxy icin gerekli).
+3. Projeyi sunucuya kopyalayin, `npm install` ve `npm run build` calistirin.
+4. `.env` dosyasini olusturun.
+5. Uygulamayi arka planda calisir tutmak icin PM2 (yukaridaki gibi) veya NSSM (Node'u Windows servisi olarak calistirir) kullanin:
+   ```powershell
+   npm install -g pm2
+   pm2 start npm --name felsen-auto -- start
+   pm2 save
+   ```
+6. IIS'te yeni bir site olusturup, ARR ile gelen istekleri `http://localhost:3000` adresine yonlendiren bir reverse proxy kurali tanimlayin (**URL Rewrite > Add Rule(s) > Reverse Proxy**).
+7. Domaini bu IIS sitesine baglayip, SSL sertifikasini IIS uzerinden (Win-ACME / Let's Encrypt) tanimlayin.
+
+> Hangi sunucu olursa olsun mantik ayni: `npm run build` ile derlenen uygulama bir process olarak (PM2/NSSM) 3000 portunda calisir, nginx veya IIS bunun onune gecip 80/443'ten disariya acar.
 
 ### 10) Otomatik Hatirlatma Maili (Cron)
 
-`vercel.json` icinde saatlik calisan bir cron zaten tanimli, ek bir islem gerekmez:
+Hatirlatma endpoint'ini (`/api/appointments/reminders`) saatte bir tetiklemeniz gerekir.
 
-```json
-{
-  "crons": [
-    {
-      "path": "/api/appointments/reminders",
-      "schedule": "0 * * * *"
-    }
-  ]
-}
+**Linux (crontab):**
+
+```bash
+crontab -e
 ```
 
-Bu endpoint `Authorization: Bearer <APPOINTMENT_REMINDER_SECRET>` ile korunur, Vercel bunu otomatik gonderir.
+asagidaki satiri ekleyin (her saat basi calisir):
+
+```
+0 * * * * curl -s -X GET -H "Authorization: Bearer <APPOINTMENT_REMINDER_SECRET>" https://felsen.com.tr/api/appointments/reminders
+```
+
+**Windows (Task Scheduler):**
+
+1. **Task Scheduler**'i acin, **Create Basic Task**.
+2. Tetikleyici olarak **Daily**, tekrar araligini **1 saat** secin.
+3. Eylem olarak `curl.exe` calistirin (Windows 10/11'de hazir gelir), argumanlar:
+   ```
+   -s -X GET -H "Authorization: Bearer <APPOINTMENT_REMINDER_SECRET>" https://felsen.com.tr/api/appointments/reminders
+   ```
+
+`APPOINTMENT_REMINDER_SECRET` degerini `.env`'e yazdiginiz degerle ayni tutun.
 
 ---
 
@@ -202,7 +263,7 @@ Veritabani semasinda degisiklik yaptiginizda (yeni alan/tablo vb.):
 npx prisma migrate dev --name aciklayici-isim
 ```
 
-Production'da (Vercel deploy sirasinda) migration'lari uygulamak icin:
+Production'da (sunucuda `npm run build` oncesi) migration'lari uygulamak icin:
 
 ```bash
 npm run prisma:migrate
